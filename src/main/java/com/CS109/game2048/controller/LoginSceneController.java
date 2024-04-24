@@ -51,8 +51,10 @@ public class LoginSceneController {
             stage.show();
 
         } else {
+
             passwordField.setText("");
             topLabel.setText("ERROR,TRY AGAIN.");
+
         }
 
     }
@@ -111,12 +113,15 @@ public class LoginSceneController {
 
 
     public void switchToSignupScene(ActionEvent event) throws IOException {
+
         root = FXMLLoader.load(getClass().getResource("/FXML/signup.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        
         stage.setTitle("2048/signup");
         scene.getStylesheets().add(getClass().getResource("/css/signup.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
+
     }
 }
