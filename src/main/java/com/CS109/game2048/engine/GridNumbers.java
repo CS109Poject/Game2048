@@ -6,6 +6,8 @@ public class GridNumbers {
     private int[][] numbers = new int[4][4];
     private int step = 0;
     private int score = 0;
+    private int goal = 2048;
+    private boolean ifGameEnd = false;
 
     public GridNumbers() {
     }
@@ -22,10 +24,6 @@ public class GridNumbers {
         this.numbers = numbers;
     }
 
-    public void initGridNumbers() {
-        this.numbers = generateANumber(this.numbers);
-    }
-
     public int getStep() {
         return step;
     }
@@ -38,9 +36,26 @@ public class GridNumbers {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScore(int score){
+        this.score=score;
     }
+
+    public int getGoal(){
+        return this.goal;
+    }
+
+    public boolean getIfTheGameEnd() {
+        return this.ifGameEnd;
+    }
+
+    public void setGoal(int goal) {
+        this.goal = goal;
+    }
+
+    public void initGridNumbers() {
+        this.numbers = generateANumber(this.numbers);
+    }
+
 
     public static int[][] generateANumber(int[][] numbers) {
 
@@ -63,176 +78,185 @@ public class GridNumbers {
 
     public void right() {
 
-        int[][] initialNumbers = generateInitialNumbers();
+        if (!ifGameEnd) {
 
-        for (int row = 0; row < 4; row++) {
-            for (int col = 3; col >= 0; col--) {
-                for (int i = col - 1; i >= 0; i--) {
+            int[][] initialNumbers = generateInitialNumbers();
 
-                    boolean ifOrtherNumbers = false;
-                    if (numbers[row][i] != 0 && numbers[row][i] != numbers[row][col]) {
-                        break;
-                    }
-
-                    if (!ifOrtherNumbers && numbers[row][col] == numbers[row][i]) {
-                        numbers[row][col] = 2 * numbers[row][col];
-                        this.score += numbers[row][col];
-                        numbers[row][i] = 0;
-                        break;
-                    }
-                }
-            }
-        }
-
-        for (int row = 0; row < 4; row++) {
-            for (int col = 3; col >= 0; col--) {
-                if (numbers[row][col] == 0) {
+            for (int row = 0; row < 4; row++) {
+                for (int col = 3; col >= 0; col--) {
                     for (int i = col - 1; i >= 0; i--) {
-                        if (numbers[row][i] != 0) {
-                            numbers[row][col] = numbers[row][i];
+
+                        boolean ifOrtherNumbers = false;
+                        if (numbers[row][i] != 0 && numbers[row][i] != numbers[row][col]) {
+                            break;
+                        }
+
+                        if (!ifOrtherNumbers && numbers[row][col] == numbers[row][i]) {
+                            numbers[row][col] = 2 * numbers[row][col];
+                            this.score += numbers[row][col];
                             numbers[row][i] = 0;
                             break;
                         }
                     }
                 }
             }
-        }
 
-        if (ifMove(initialNumbers, this.numbers)) {
-            this.numbers = generateANumber(this.numbers);
-            this.step++;
-        }
+            for (int row = 0; row < 4; row++) {
+                for (int col = 3; col >= 0; col--) {
+                    if (numbers[row][col] == 0) {
+                        for (int i = col - 1; i >= 0; i--) {
+                            if (numbers[row][i] != 0) {
+                                numbers[row][col] = numbers[row][i];
+                                numbers[row][i] = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
+            if (ifMove(initialNumbers, this.numbers)) {
+                this.numbers = generateANumber(this.numbers);
+                this.step++;
+            }
+        }
     }
 
     public void left() {
 
-        int[][] initialNumbers = generateInitialNumbers();
+        if (!ifGameEnd) {
 
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                for (int i = col + 1; i < 4; i++) {
+            int[][] initialNumbers = generateInitialNumbers();
 
-                    boolean ifOrtherNumbers = false;
-                    if (numbers[row][i] != 0 && numbers[row][i] != numbers[row][col]) {
-                        break;
-                    }
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                    for (int i = col + 1; i < 4; i++) {
 
-                    if (!ifOrtherNumbers && numbers[row][col] == numbers[row][i]) {
-                        numbers[row][col] = 2 * numbers[row][col];
-                        this.score += numbers[row][col];
-                        numbers[row][i] = 0;
-                        break;
-                    }
-                }
-            }
-        }
+                        boolean ifOrtherNumbers = false;
+                        if (numbers[row][i] != 0 && numbers[row][i] != numbers[row][col]) {
+                            break;
+                        }
 
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                if (numbers[row][col] == 0) {
-                    for (int i = col; i < 4; i++) {
-                        if (numbers[row][i] != 0) {
-                            numbers[row][col] = numbers[row][i];
+                        if (!ifOrtherNumbers && numbers[row][col] == numbers[row][i]) {
+                            numbers[row][col] = 2 * numbers[row][col];
+                            this.score += numbers[row][col];
                             numbers[row][i] = 0;
                             break;
                         }
                     }
                 }
             }
-        }
 
-        if (ifMove(initialNumbers, this.numbers)) {
-            this.numbers = generateANumber(this.numbers);
-            this.step++;
-        }
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                    if (numbers[row][col] == 0) {
+                        for (int i = col; i < 4; i++) {
+                            if (numbers[row][i] != 0) {
+                                numbers[row][col] = numbers[row][i];
+                                numbers[row][i] = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
+            if (ifMove(initialNumbers, this.numbers)) {
+                this.numbers = generateANumber(this.numbers);
+                this.step++;
+            }
+        }
     }
 
     public void down() {
 
-        int[][] initialNumbers = generateInitialNumbers();
+        if (!ifGameEnd) {
 
-        for (int col = 0; col < 4; col++) {
-            for (int row = 3; row >= 0; row--) {
-                for (int i = row - 1; i >= 0; i--) {
+            int[][] initialNumbers = generateInitialNumbers();
 
-                    boolean ifOrtherNumbers = false;
-                    if (numbers[i][col] != 0 && numbers[i][col] != numbers[row][col]) {
-                        break;
-                    }
+            for (int col = 0; col < 4; col++) {
+                for (int row = 3; row >= 0; row--) {
+                    for (int i = row - 1; i >= 0; i--) {
 
-                    if (!ifOrtherNumbers && numbers[row][col] == numbers[i][col]) {
-                        numbers[row][col] = 2 * numbers[row][col];
-                        this.score += numbers[row][col];
-                        numbers[i][col] = 0;
-                        break;
-                    }
-                }
-            }
-        }
+                        boolean ifOrtherNumbers = false;
+                        if (numbers[i][col] != 0 && numbers[i][col] != numbers[row][col]) {
+                            break;
+                        }
 
-        for (int col = 0; col < 4; col++) {
-            for (int row = 3; row >= 0; row--) {
-                if (numbers[row][col] == 0) {
-                    for (int i = row; i >= 0; i--) {
-                        if (numbers[i][col] != 0) {
-                            numbers[row][col] = numbers[i][col];
+                        if (!ifOrtherNumbers && numbers[row][col] == numbers[i][col]) {
+                            numbers[row][col] = 2 * numbers[row][col];
+                            this.score += numbers[row][col];
                             numbers[i][col] = 0;
                             break;
                         }
                     }
                 }
             }
-        }
 
-        if (ifMove(initialNumbers, this.numbers)) {
-            this.numbers = generateANumber(this.numbers);
-            this.step++;
-        }
+            for (int col = 0; col < 4; col++) {
+                for (int row = 3; row >= 0; row--) {
+                    if (numbers[row][col] == 0) {
+                        for (int i = row; i >= 0; i--) {
+                            if (numbers[i][col] != 0) {
+                                numbers[row][col] = numbers[i][col];
+                                numbers[i][col] = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
+            if (ifMove(initialNumbers, this.numbers)) {
+                this.numbers = generateANumber(this.numbers);
+                this.step++;
+            }
+        }
     }
 
     public void up() {
 
-        int[][] initialNumbers = generateInitialNumbers();
+        if (!ifGameEnd) {
 
-        for (int col = 0; col < 4; col++) {
-            for (int row = 0; row < 4; row++) {
-                for (int i = row + 1; i < 4; i++) {
+            int[][] initialNumbers = generateInitialNumbers();
 
-                    boolean ifOrtherNumbers = false;
-                    if (numbers[i][col] != 0 && numbers[i][col] != numbers[row][col]) {
-                        break;
-                    }
+            for (int col = 0; col < 4; col++) {
+                for (int row = 0; row < 4; row++) {
+                    for (int i = row + 1; i < 4; i++) {
 
-                    if (!ifOrtherNumbers && numbers[row][col] == numbers[i][col]) {
-                        numbers[row][col] = 2 * numbers[row][col];
-                        this.score += numbers[row][col];
-                        numbers[i][col] = 0;
-                        break;
-                    }
-                }
-            }
-        }
+                        boolean ifOrtherNumbers = false;
+                        if (numbers[i][col] != 0 && numbers[i][col] != numbers[row][col]) {
+                            break;
+                        }
 
-        for (int col = 0; col < 4; col++) {
-            for (int row = 0; row < 4; row++) {
-                if (numbers[row][col] == 0) {
-                    for (int i = row; i < 4; i++) {
-                        if (numbers[i][col] != 0) {
-                            numbers[row][col] = numbers[i][col];
+                        if (!ifOrtherNumbers && numbers[row][col] == numbers[i][col]) {
+                            numbers[row][col] = 2 * numbers[row][col];
+                            this.score += numbers[row][col];
                             numbers[i][col] = 0;
                             break;
                         }
                     }
                 }
             }
-        }
 
-        if (ifMove(initialNumbers, this.numbers)) {
-            this.numbers = generateANumber(this.numbers);
-            this.step++;
+            for (int col = 0; col < 4; col++) {
+                for (int row = 0; row < 4; row++) {
+                    if (numbers[row][col] == 0) {
+                        for (int i = row; i < 4; i++) {
+                            if (numbers[i][col] != 0) {
+                                numbers[row][col] = numbers[i][col];
+                                numbers[i][col] = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (ifMove(initialNumbers, this.numbers)) {
+                this.numbers = generateANumber(this.numbers);
+                this.step++;
+            }
         }
 
     }
@@ -260,6 +284,52 @@ public class GridNumbers {
             }
         }
         return result;
+
+    }
+
+    public boolean loseTheGame() {
+
+        boolean result = true;
+
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                if (this.numbers[row][col] == 0) {
+                    return false;
+                }
+            }
+        }
+
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 4; col++) {
+                if (this.numbers[row][col] == this.numbers[row + 1][col]) {
+                    return false;
+                }
+            }
+        }
+
+        for (int col = 0; col < 3; col++) {
+            for (int row = 0; row < 4; row++) {
+                if (this.numbers[row][col] == this.numbers[row][col + 1]) {
+                    return false;
+                }
+            }
+        }
+        this.ifGameEnd = true;
+        return result;
+
+    }
+
+    public boolean win() {
+
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                if (this.numbers[row][col] >= this.goal) {
+                    this.ifGameEnd = true;
+                    return true;
+                }
+            }
+        }
+        return false;
 
     }
 

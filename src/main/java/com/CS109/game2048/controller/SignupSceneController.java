@@ -6,17 +6,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
 
 public class SignupSceneController {
-    private String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private String DB_URL = "jdbc:mysql://localhost:3306/test?" +
+    private final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private final String DB_URL = "jdbc:mysql://localhost:3306/test?" +
             "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
     static final String PASS = "MySQL190504";
@@ -63,19 +61,13 @@ public class SignupSceneController {
             sql = "SELECT username FROM new_table";
             ResultSet rs = stmt.executeQuery(sql);
 
-            boolean ifEmpty = false;
-            if (password.equals("") || confirm.equals("") || username.equals("")) {
-                ifEmpty = true;
-            }
+            boolean ifEmpty = password.isEmpty() || confirm.isEmpty() || username.isEmpty();
             if (ifEmpty) {
                 topLabel.setText("The Field can't be empty!");
                 return;
             }
 
-            boolean ifTwoPasswordsEquals = false;
-            if (password.equals(confirm)) {
-                ifTwoPasswordsEquals = true;
-            }
+            boolean ifTwoPasswordsEquals = password.equals(confirm);
             if (!ifTwoPasswordsEquals) {
                 passwordField.setText("");
                 confirmField.setText("");
@@ -107,19 +99,16 @@ public class SignupSceneController {
                 conn.close();
 
             } else {
-                topLabel.setText("The username existsr!");
-                return;
+                topLabel.setText("The username existed!");
             }
 
-        } catch (SQLException se) {
-            se.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (SQLException se2) {
-
+                se2.printStackTrace();
             }
             try {
                 if (conn != null) conn.close();

@@ -11,6 +11,8 @@ module com.CS109.game2048.main {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires javafx.media;
+    requires mysql.connector.j;
 
     //opens com.CS109.game2048 to javafx.fxml;
     //exports com.CS109.game2048;

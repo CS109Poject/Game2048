@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.SignupSceneController">
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.SignupSceneController">
    <style>
       -fx-background-color:white;
    </style>
@@ -30,7 +30,7 @@
       <TextField fx:id="usernameField" layoutX="297.0" layoutY="153.0" />
       <PasswordField fx:id="passwordField" layoutX="297.0" layoutY="203.0" />
       <PasswordField fx:id="confirmField" layoutX="297.0" layoutY="253.0" />
-      <Button fx:id="signupButton" layoutX="268.0" layoutY="302.0" mnemonicParsing="false" onAction="#signup" text="sign up" />
+      <Button fx:id="signupButton" layoutX="163.0" layoutY="301.0" mnemonicParsing="false" onAction="#signup" prefHeight="23.0" prefWidth="274.0" style="-fx-background-color: #FFD700; -fx-border-color: black;" text="Sign Up" />
       <Button fx:id="backButton" layoutX="319.0" layoutY="350.0" mnemonicParsing="false" onAction="#switchToLoginScene" text="here">
       <style>
          -fx-underline:true;

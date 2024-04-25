@@ -1,6 +1,7 @@
 package com.CS109.game2048.controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -46,8 +48,13 @@ public class LoginSceneController {
             root = FXMLLoader.load(getClass().getResource("/FXML/game.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
+
+            Label label = (Label) scene.lookup("#usernameLabel");
+            label.setText(username);
+
             stage.setTitle("2048");
             stage.setScene(scene);
+
             stage.show();
 
         } else {
@@ -56,6 +63,18 @@ public class LoginSceneController {
             topLabel.setText("ERROR,TRY AGAIN.");
 
         }
+
+    }
+
+    public void guestMode(ActionEvent event)throws IOException{
+
+        root = FXMLLoader.load(getClass().getResource("/FXML/game.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setTitle("2048");
+        stage.setScene(scene);
+        stage.show();
 
     }
 

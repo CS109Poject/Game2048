@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.LoginSceneController">
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.LoginSceneController">
    <style>-fx-background-color: white;</style>
    <children>
       <Label fx:id="topLabel" alignment="CENTER" layoutX="3.0" layoutY="55.0" prefHeight="15.0" prefWidth="594.0" text="Welcome!">
@@ -27,13 +27,18 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="loginButton" layoutX="212.0" layoutY="289.0" mnemonicParsing="false" onAction="#switchToGameScene" prefHeight="30.0" prefWidth="70.0" text="log in">
+      <Button fx:id="loginButton" layoutX="164.0" layoutY="266.0" mnemonicParsing="false" onAction="#switchToGameScene" prefHeight="30.0" prefWidth="272.0" style="-fx-background-color: #FFD700; -fx-border-color: black;" text="Log In">
          <font>
             <Font size="14.0" />
          </font>
 
       </Button>
-      <Button fx:id="signupButton" layoutX="335.0" layoutY="289.0" mnemonicParsing="false" onAction="#switchToSignupScene" prefHeight="30.0" prefWidth="70.0" text="sign up">
+      <Button fx:id="signupButton" layoutX="366.0" layoutY="349.0" mnemonicParsing="false" onAction="#switchToSignupScene" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: white; -fx-underline: true;" text="sign up">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="guestButton" layoutX="164.0" layoutY="307.0" mnemonicParsing="false" onAction="#guestMode" prefHeight="30.0" prefWidth="272.0" style="-fx-background-color: #7FFF00; -fx-border-color: black;" text="Guest Mode">
          <font>
             <Font size="14.0" />
          </font>
