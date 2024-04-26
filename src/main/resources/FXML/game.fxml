@@ -9,73 +9,71 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Arc?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="810.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.GameSceneController">
-   <style>
-      -fx-background-color:white;
-   </style>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.GameSceneController">
    <children>
-      <ImageView fx:id="background" fitHeight="780.0" fitWidth="780.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" />
-      <Arc fill="WHITE" layoutX="683.0" layoutY="88.0" length="270.0" radiusX="70.0" radiusY="70.0" rotate="270.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: transparent;" />
-      <MenuBar layoutY="-2.0" maxHeight="30.0" maxWidth="780.0" prefHeight="30.0" prefWidth="780.0" style="-fx-background-color: white; -fx-border-color: black;">
-        <menus>
-          <Menu mnemonicParsing="false" text="User">
-            <items>
+      <ImageView fx:id="background" fitHeight="780.0" fitWidth="780.0" pickOnBounds="true" preserveRatio="true" />
+      <Arc fill="WHITE" layoutX="676.0" layoutY="79.0" length="270.0" radiusX="70.0" radiusY="70.0" startAngle="135.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: transparent;" />
+      <MenuBar maxHeight="30.0" maxWidth="780.0" prefHeight="30.0" prefWidth="780.0" style="-fx-background-color: transparent; -fx-border-color: black;">
+         <menus>
+            <Menu mnemonicParsing="false" text="User">
+               <items>
                   <MenuItem mnemonicParsing="false" text="Profile" />
-              <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log Out" />
+                  <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log Out" />
                   <MenuItem mnemonicParsing="false" text="Ranking List" />
-            </items>
-          </Menu>
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Mode">
-              <items>
+               <items>
                   <Menu mnemonicParsing="false" onAction="#setGoal" text="Unlimit time">
-                    <items>
-                      <MenuItem fx:id="easyButton" mnemonicParsing="false" onAction="#setGoal" text="EASY: 1024" />
+                     <items>
+                        <MenuItem fx:id="easyButton" mnemonicParsing="false" onAction="#setGoal" text="EASY: 1024" />
                         <MenuItem fx:id="normalButton" mnemonicParsing="false" onAction="#setGoal" text="NORMAL: 2048" />
                         <MenuItem fx:id="hardButton" mnemonicParsing="false" onAction="#setGoal" text="HARD: 4096" />
                         <MenuItem fx:id="hellButton" mnemonicParsing="false" onAction="#setGoal" text="HELL: 8192" />
                         <MenuItem fx:id="insaneButton" mnemonicParsing="false" onAction="#setGoal" text="INSANE: 16384" />
-                    </items>
+                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Limit time">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="EASY: 10min" />
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="EASY: 10min" />
                         <MenuItem mnemonicParsing="false" text="NORMAL: 5min" />
                         <MenuItem mnemonicParsing="false" text="HARD: 3min" />
                         <MenuItem mnemonicParsing="false" text="HELL: 1min" />
                         <MenuItem mnemonicParsing="false" text="INSANE: 30s" />
-                    </items>
+                     </items>
                   </Menu>
-              </items>
+               </items>
             </Menu>
-          <Menu mnemonicParsing="false" onAction="#setBackground" text="Background">
-            <items>
+            <Menu mnemonicParsing="false" onAction="#setBackground" text="Background">
+               <items>
                   <MenuItem fx:id="emptyBackground" mnemonicParsing="false" onAction="#setBackground" text="Empty" />
-              <MenuItem fx:id="brotherBackground" mnemonicParsing="false" onAction="#setBackground" text="Brother" />
+                  <MenuItem fx:id="brotherBackground" mnemonicParsing="false" onAction="#setBackground" text="Brother" />
                   <MenuItem fx:id="windowsXPBackground" mnemonicParsing="false" onAction="#setBackground" text="WindowsXP" />
                   <MenuItem fx:id="seaBackground" mnemonicParsing="false" onAction="#setBackground" text="Sea" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" onAction="#setMusic" text="Music">
-            <items>
-              <MenuItem fx:id="turnOff" mnemonicParsing="false" onAction="#setMusic" text="Turn Off Music" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" onAction="#setMusic" text="Music">
+               <items>
+                  <MenuItem fx:id="turnOff" mnemonicParsing="false" onAction="#setMusic" text="Turn Off Music" />
                   <MenuItem fx:id="mirage" mnemonicParsing="false" onAction="#setMusic" text="Mirage" />
                   <MenuItem fx:id="touchedByTheSky" mnemonicParsing="false" onAction="#setMusic" text="Touched by the sky" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="About Us">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
+               </items>
             </Menu>
-        </menus>
+            <Menu mnemonicParsing="false" text="About Us">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#aboutUs" text="About Us" />
+               </items>
+            </Menu>
+         </menus>
       </MenuBar>
-      <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="62.0" layoutY="334.0" prefHeight="400.0" prefWidth="400.0">
+      <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="62.0" layoutY="336.0" prefHeight="400.0" prefWidth="400.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
@@ -171,50 +169,50 @@
             </Label>
          </children>
       </GridPane>
-      <Label layoutX="88.0" layoutY="94.0" text="Step: ">
+      <Label layoutX="88.0" layoutY="96.0" text="Step: ">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="stepLabel" layoutX="182.0" layoutY="94.0" text="0">
+      <Label fx:id="stepLabel" layoutX="182.0" layoutY="96.0" text="0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="88.0" layoutY="126.0" text="Score:">
+      <Label layoutX="88.0" layoutY="128.0" text="Score:">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="scoreLabel" layoutX="182.0" layoutY="128.0" text="0">
+      <Label fx:id="scoreLabel" layoutX="182.0" layoutY="130.0" text="0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="usernameLabel" layoutX="87.0" layoutY="60.0" text="Guest">
+      <Label fx:id="usernameLabel" layoutX="87.0" layoutY="62.0" text="Guest">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Circle fill="#fff01f" layoutX="70.0" layoutY="110.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#ff2a21" layoutX="70.0" layoutY="144.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#44ff21" layoutX="70.0" layoutY="76.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-    <Button fx:id="start" layoutX="62.0" layoutY="182.0" mnemonicParsing="false" onAction="#initGridPane" onKeyPressed="#onKeyPressed" prefHeight="48.0" prefWidth="145.0" style="-fx-background-color: #DEB887;" text="Start">
+      <Circle fill="#fff01f" layoutX="70.0" layoutY="112.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#ff2a21" layoutX="70.0" layoutY="146.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#44ff21" layoutX="70.0" layoutY="78.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+      <Button fx:id="start" layoutX="62.0" layoutY="184.0" mnemonicParsing="false" onAction="#initGridPane" onKeyPressed="#onKeyPressed" prefHeight="48.0" prefWidth="145.0" style="-fx-background-color: #DEB887;" text="Start">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <GridPane layoutX="562.0" layoutY="571.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
+      <GridPane layoutX="566.0" layoutY="445.0">
+         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <Button fx:id="right" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#rightStep" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #FFFAF0; -fx-border-color: black;" text="right" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
@@ -238,7 +236,7 @@
             </Button>
          </children>
       </GridPane>
-      <AnchorPane fx:id="endPane" layoutX="62.0" layoutY="334.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" visible="false">
+      <AnchorPane fx:id="endPane" layoutX="62.0" layoutY="336.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" visible="false">
          <children>
             <Label fx:id="endLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="200.0" prefWidth="400.0" style="-fx-text-fill: red;" text="Game Over!">
                <font>
@@ -247,19 +245,19 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="621.0" layoutY="28.0" prefHeight="47.0" prefWidth="110.0" style="-fx-text-fill: red;" text="GOAL">
+      <Label layoutX="621.0" layoutY="42.0" prefHeight="47.0" prefWidth="110.0" style="-fx-text-fill: red;" text="GOAL">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="goal" layoutX="620.0" layoutY="71.0" text="2048">
+      <Label fx:id="goal" layoutX="634.0" layoutY="78.0" text="2048">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Line endX="300.0" layoutX="162.0" layoutY="331.0" startX="-100.0" strokeWidth="5.0" />
-      <Line endX="-100.0" endY="400.0" layoutX="564.0" layoutY="334.0" startX="-100.0" startY="-3.0" strokeWidth="5.0" />
-      <Line endX="300.0" layoutX="162.0" layoutY="734.0" startX="-100.0" strokeWidth="5.0" />
-      <Line endX="-100.0" endY="403.0" layoutX="159.0" layoutY="331.0" startX="-100.0" strokeWidth="5.0" />
+      <Line endX="300.0" layoutX="162.0" layoutY="333.0" startX="-100.0" strokeWidth="5.0" />
+      <Line endX="-100.0" endY="400.0" layoutX="564.0" layoutY="336.0" startX="-100.0" startY="-3.0" strokeWidth="5.0" />
+      <Line endX="300.0" layoutX="162.0" layoutY="736.0" startX="-100.0" strokeWidth="5.0" />
+      <Line endX="-100.0" endY="403.0" layoutX="159.0" layoutY="333.0" startX="-100.0" strokeWidth="5.0" />
    </children>
-</AnchorPane>
+</Pane>

@@ -30,7 +30,7 @@ public class GameSceneController {
     @FXML
     private GridPane gridPane;
     @FXML
-    private Label stepLabel, scoreLabel, endLabel,goal;
+    private Label stepLabel, scoreLabel, endLabel, goal;
     @FXML
     private AnchorPane endPane;
     @FXML
@@ -336,6 +336,21 @@ public class GameSceneController {
         scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("2048/login");
+        stage.show();
+
+    }
+
+    public void aboutUs() throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/aboutUs.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        Image logo = new Image(getClass().getResourceAsStream("/image/logo.png"));
+
+        stage.getIcons().add(logo);
+        stage.setTitle("About Us");
+        stage.setScene(scene);
         stage.show();
 
     }

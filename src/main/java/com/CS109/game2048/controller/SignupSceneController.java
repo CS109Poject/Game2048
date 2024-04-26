@@ -63,7 +63,7 @@ public class SignupSceneController {
 
             boolean ifEmpty = password.isEmpty() || confirm.isEmpty() || username.isEmpty();
             if (ifEmpty) {
-                topLabel.setText("The Field can't be empty!");
+                topLabel.setText("The Field can't\n    be empty!");
                 return;
             }
 
@@ -71,7 +71,7 @@ public class SignupSceneController {
             if (!ifTwoPasswordsEquals) {
                 passwordField.setText("");
                 confirmField.setText("");
-                topLabel.setText("Passwords are different!");
+                topLabel.setText("Passwords are\n    different!");
                 return;
             }
 
@@ -99,7 +99,10 @@ public class SignupSceneController {
                 conn.close();
 
             } else {
-                topLabel.setText("The username existed!");
+                topLabel.setText("The username\n     existed!");
+                usernameField.setText("");
+                passwordField.setText("");
+                confirmField.setText("");
             }
 
         } catch (Exception e) {
