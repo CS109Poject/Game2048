@@ -4,44 +4,63 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.LoginSceneController">
-   <style>-fx-background-color: white;</style>
-   <children>
-      <Label fx:id="topLabel" alignment="CENTER" layoutX="3.0" layoutY="55.0" prefHeight="15.0" prefWidth="594.0" text="Welcome!">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Label>
-      <TextField fx:id="usernameField" layoutX="275.0" layoutY="178.0" />
-      <PasswordField fx:id="passwordField" layoutX="275.0" layoutY="228.0" />
-      <Label layoutX="163.0" layoutY="177.0" prefHeight="24.0" prefWidth="97.0" text="Username:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="168.0" layoutY="228.0" text="Password:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="loginButton" layoutX="164.0" layoutY="266.0" mnemonicParsing="false" onAction="#switchToGameScene" prefHeight="30.0" prefWidth="272.0" style="-fx-background-color: #FFD700; -fx-border-color: black;" text="Log In">
-         <font>
-            <Font size="14.0" />
-         </font>
 
-      </Button>
-      <Button fx:id="signupButton" layoutX="366.0" layoutY="349.0" mnemonicParsing="false" onAction="#switchToSignupScene" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: white; -fx-underline: true;" text="sign up">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="guestButton" layoutX="164.0" layoutY="307.0" mnemonicParsing="false" onAction="#guestMode" prefHeight="30.0" prefWidth="272.0" style="-fx-background-color: #7FFF00; -fx-border-color: black;" text="Guest Mode">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.LoginSceneController">
+   <children>
+      <ImageView fitHeight="780.0" fitWidth="780.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/mountains.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="200.0" layoutY="200.0" prefHeight="400.0" prefWidth="400.0" style="-fx-border-radius: 25px; -fx-background-color: rgba(0,0,0,0.1); -fx-background-radius: 25px; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+         <children>
+            <Label fx:id="topLabel" alignment="CENTER" layoutY="61.0" prefHeight="61.0" prefWidth="400.0" text="Welcome!">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+            <TextField fx:id="usernameField" layoutX="92.0" layoutY="157.0" prefHeight="41.0" prefWidth="243.0" promptText="username">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="passwordField" layoutX="92.0" layoutY="216.0" prefHeight="41.0" prefWidth="243.0" promptText="password">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </PasswordField>
+            <Button fx:id="loginButton" layoutX="64.0" layoutY="274.0" mnemonicParsing="false" onAction="#switchToGameScene" prefHeight="30.0" prefWidth="272.0" style="-fx-background-color: lightblue;" text="Log In" textFill="#a67514">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="signupButton" layoutX="266.0" layoutY="356.0" mnemonicParsing="false" onAction="#switchToSignupScene" prefHeight="30.0" prefWidth="70.0" style="-fx-underline: true; -fx-background-color: transparent;" text="sign up" textFill="#a67514">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="guestButton" layoutX="64.0" layoutY="317.0" mnemonicParsing="false" onAction="#guestMode" prefHeight="30.0" prefWidth="272.0" style="-fx-background-color: lightgreen;" text="Guest Mode" textFill="#a67514">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="23.0" fitWidth="29.0" layoutX="64.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/user.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="19.0" layoutX="66.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/password.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</Pane>

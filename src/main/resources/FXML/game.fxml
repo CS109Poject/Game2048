@@ -20,8 +20,8 @@
       -fx-background-color:white;
    </style>
    <children>
-      <ImageView fx:id="background" fitHeight="780.0" fitWidth="780.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" />
-      <Arc fill="WHITE" layoutX="683.0" layoutY="88.0" length="270.0" radiusX="70.0" radiusY="70.0" rotate="270.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fx:id="background" fitHeight="780.0" fitWidth="780.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" />
+      <Arc fill="WHITE" layoutX="683.0" layoutY="88.0" length="270.0" radiusX="70.0" radiusY="70.0" rotate="270.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: transparent;" />
       <MenuBar layoutY="-2.0" maxHeight="30.0" maxWidth="780.0" prefHeight="30.0" prefWidth="780.0" style="-fx-background-color: white; -fx-border-color: black;">
         <menus>
           <Menu mnemonicParsing="false" text="User">

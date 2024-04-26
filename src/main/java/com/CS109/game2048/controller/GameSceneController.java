@@ -113,7 +113,7 @@ public class GameSceneController {
                         label.setStyle("-fx-background-color:blue;-fx-border-color:black;-fx-border-width:5px;");
                         break;
                     case 64:
-                        label.setStyle("-fx-background-color:black;-fx-border-color:black;-fx-border-width:5px;");
+                        label.setStyle("-fx-background-color:#4B0082;-fx-border-color:black;-fx-border-width:5px;");
                         break;
                     case 128:
                         label.setStyle("-fx-background-color:pink;-fx-border-color:black;-fx-border-width:5px;");
