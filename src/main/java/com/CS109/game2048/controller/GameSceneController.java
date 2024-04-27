@@ -454,5 +454,21 @@ public class GameSceneController {
             }
         }
     }
+
+    public void rankingList() throws IOException{
+
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/rankingList.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        Image logo = new Image(getClass().getResourceAsStream("/image/logo.png"));
+
+        stage.getIcons().add(logo);
+        stage.setTitle("Ranking List");
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
 }
 

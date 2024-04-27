@@ -25,8 +25,8 @@
             <Menu mnemonicParsing="false" text="User">
                <items>
                   <MenuItem mnemonicParsing="false" text="Profile" />
+                  <MenuItem mnemonicParsing="false" onAction="#rankingList" text="Ranking List" />
                   <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log Out" />
-                  <MenuItem mnemonicParsing="false" text="Ranking List" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Mode">
