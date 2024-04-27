@@ -8,6 +8,7 @@ public class GridNumbers {
     private int score = 0;
     private int goal = 2048;
     private boolean ifGameEnd = false;
+    private int highestScore = 0;
 
     public GridNumbers() {
     }
@@ -42,6 +43,14 @@ public class GridNumbers {
 
     public int getGoal(){
         return this.goal;
+    }
+
+    public void setHighestScore(int highestScore) {
+        this.highestScore = highestScore;
+    }
+
+    public int getHighestScore() {
+        return highestScore;
     }
 
     public boolean getIfTheGameEnd() {

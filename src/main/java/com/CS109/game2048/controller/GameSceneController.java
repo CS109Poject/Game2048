@@ -1,12 +1,8 @@
 package com.CS109.game2048.controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,18 +15,16 @@ import javafx.scene.layout.GridPane;
 import com.CS109.game2048.engine.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class GameSceneController {
     @FXML
     private GridPane gridPane;
     @FXML
-    private Label stepLabel, scoreLabel, endLabel, goal;
+    private Label stepLabel, scoreLabel, endLabel, goal, usernameLabel, highestScoreLabel;
     @FXML
     private AnchorPane endPane;
     @FXML
@@ -42,14 +36,23 @@ public class GameSceneController {
     @FXML
     private MenuItem turnOff, mirage, touchedByTheSky;
 
+    private String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private String DB_URL = "jdbc:mysql://localhost:3306/test?" +
+            "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    static final String USER = "root";
+    static final String PASS = "MySQL190504";
+
     private static final int GRID_SIZE = 4;
-    boolean ifGameEnd = false;
-    GridNumbers gridNumbers = new GridNumbers();
+    private GridNumbers gridNumbers = new GridNumbers();
+    private int highestScore = 0;
 
     private MediaPlayer mediaPlayer;
     private Media media;
 
     public void initialize() {
+
+        setHighestScoreLabel();
+
     }
 
     public void initGridPane() {
@@ -61,6 +64,7 @@ public class GameSceneController {
         gridNumbers.setScore(0);
         stepLabel.setText(String.valueOf(gridNumbers.getStep()));
         scoreLabel.setText(String.valueOf(gridNumbers.getScore()));
+        setHighestScoreLabel();
 
         endPane.setVisible(false);
         gridPane.setOpacity(1.0);
@@ -223,6 +227,7 @@ public class GameSceneController {
         endPane.setVisible(true);
         endPane.setOpacity(1);
         gridPane.setOpacity(0.2);
+        updateHighestScore();
 
     }
 
@@ -232,6 +237,7 @@ public class GameSceneController {
         endPane.setVisible(true);
         endPane.setOpacity(1);
         gridPane.setOpacity(0.2);
+        updateHighestScore();
 
     }
 
@@ -355,5 +361,98 @@ public class GameSceneController {
 
     }
 
+    public void setHighestScoreLabel() {
+
+        Connection connection = null;
+        Statement stmt = null;
+        String user = usernameLabel.getText();
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = connection.createStatement();
+            String sql = "SELECT username, highestScore FROM new_table";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                int highestScore = rs.getInt("highestScore");
+                if (username.equals(user)) {
+                    gridNumbers.setHighestScore(highestScore);
+                    highestScoreLabel.setText(String.valueOf(highestScore));
+
+                    //rs.close();
+                    //stmt.close();
+                    //connection.close();
+                }
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void updateHighestScore() {
+
+        int score = Integer.valueOf(scoreLabel.getText());
+
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet rs = null;
+
+        String user = usernameLabel.getText();
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            String selectQuery = "SELECT username, highestScore FROM new_table";
+            selectStmt = connection.prepareStatement(selectQuery);
+
+            rs = selectStmt.executeQuery();
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                int highestScore = rs.getInt("highestScore");
+                if (username.equals(user)) {
+                    if (score > highestScore) {
+                        String updateQuery = "UPDATE new_table SET highestScore = ? WHERE username = ?";
+                        PreparedStatement updateStmt=connection.prepareStatement(updateQuery);
+                        updateStmt = connection.prepareStatement(updateQuery);
+                        updateStmt.setInt(1, score);
+                        updateStmt.setString(2, username);
+                        updateStmt.executeUpdate();
+                        gridNumbers.setHighestScore(score);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+            try {
+                if (selectStmt != null) selectStmt.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+            try {
+                if (connection != null) connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
 }
 
