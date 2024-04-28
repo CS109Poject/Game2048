@@ -80,7 +80,7 @@ public class SignupSceneController {
 
             if (!ifUsernameExits) {
 
-                String sql2 = "INSERT INTO new_table (username, password,highestScore) VALUES (?, ?,0)";
+                String sql2 = "INSERT INTO new_table (username, password, highestScore) VALUES (?, ?,0)";
                 PreparedStatement pstmt = conn.prepareStatement(sql2);
                 pstmt.setString(1,username);
                 pstmt.setString(2,password);
