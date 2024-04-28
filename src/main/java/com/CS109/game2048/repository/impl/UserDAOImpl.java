@@ -48,11 +48,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean ifPasswordCorrect(String username, String password) {
 
-        String sql = "SELECT password From new_table WHERE username = ?";
+        String sql = "SELECT password FROM new_table WHERE username = ?";
         Object[] params = {username};
-        try{
-            ResultSet rs = ConnectionUtil.executeQuery(sql,params);
-            if(rs.next()){
+        try {
+            ResultSet rs = ConnectionUtil.executeQuery(sql, params);
+            if (rs.next()) {
                 String pass = rs.getString("password");
                 return password.equals(pass);
             }
@@ -66,12 +66,34 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateHighestScore(String Username, int highestScore) {
+    public void updateHighestScore(String username, int highestScore) {
 
+        String sql = "UPDATE new_table SET highestScore = ? WHERE username = ?";
+        Object[] params = {highestScore, username};
+        try{
+            ConnectionUtil.executeUpdate(sql,params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int getHighestScore(String username) {
+
+        String sql = "SELECT highestScore FROM new_table WHERE username = ?";
+        Object[] params = {username};
+        try {
+            ResultSet rs = ConnectionUtil.executeQuery(sql, params);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return 0;
     }
 
