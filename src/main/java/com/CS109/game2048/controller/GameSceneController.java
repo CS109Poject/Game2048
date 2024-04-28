@@ -3,6 +3,7 @@ package com.CS109.game2048.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -469,6 +470,8 @@ public class GameSceneController {
         stage.show();
 
     }
+
+
 
 }
 

@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -36,7 +38,13 @@ public class LoginSceneController {
     private TextField usernameField;
     @FXML
     private Label topLabel;
+    @FXML
+    private ImageView closeButton;
     private String password;
+
+    public void initialize(){
+
+    }
 
     public void switchToGameScene(ActionEvent event) throws IOException {
 
@@ -136,11 +144,17 @@ public class LoginSceneController {
         root = FXMLLoader.load(getClass().getResource("/FXML/signup.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        
-        stage.setTitle("2048/signup");
         scene.getStylesheets().add(getClass().getResource("/css/signup.css").toExternalForm());
+
+        stage.setTitle("2048/signup");
         stage.setScene(scene);
         stage.show();
 
     }
+
+    public void handleCloseButtonClicked() {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
 }

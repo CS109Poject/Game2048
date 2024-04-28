@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class RankingListController {
-    private String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private String DB_URL = "jdbc:mysql://localhost:3306/test?" +
+    private final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private final String DB_URL = "jdbc:mysql://localhost:3306/test?" +
             "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
     static final String PASS = "MySQL190504";
@@ -38,7 +38,7 @@ public class RankingListController {
 
         Connection connection = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             Class.forName(JDBC_DRIVER);
 
@@ -54,14 +54,12 @@ public class RankingListController {
                 allHighestScores.add(highestScore);
 
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         } finally {
             try {
                 if (stmt != null) stmt.close();
-            } catch (SQLException se2) {
+            } catch (SQLException ignored) {
             }
             try {
                 if (connection != null) connection.close();
