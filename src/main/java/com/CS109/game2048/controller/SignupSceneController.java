@@ -1,5 +1,6 @@
 package com.CS109.game2048.controller;
 
+import com.CS109.game2048.main.Main;
 import javafx.scene.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,9 +20,7 @@ public class SignupSceneController {
     static final String USER = "root";
     static final String PASS = "MySQL190504";
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+    private Stage stage= Main.stage;
 
     @FXML
     private PasswordField passwordField;
@@ -32,15 +31,11 @@ public class SignupSceneController {
     @FXML
     private Label topLabel;
 
-    public void switchToLoginScene(ActionEvent event) throws IOException {
+    public void switchToLoginScene() throws IOException {
 
-        root = FXMLLoader.load(getClass().getResource("/FXML/login.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
-        stage.setScene(scene);
+       Main.changeView("/FXML/login.fxml");
+
         stage.setTitle("2048/login");
-        stage.show();
 
     }
 
@@ -91,7 +86,7 @@ public class SignupSceneController {
                 pstmt.setString(2,password);
                 pstmt.executeUpdate();
 
-                switchToLoginScene(event);
+                switchToLoginScene();
 
                 rs.close();
                 stmt.close();

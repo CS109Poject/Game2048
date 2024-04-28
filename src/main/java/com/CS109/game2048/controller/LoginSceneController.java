@@ -1,22 +1,22 @@
 package com.CS109.game2048.controller;
 
+import com.CS109.game2048.main.Main;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+
+import static com.CS109.game2048.main.Main.changeView;
 
 public class LoginSceneController {
 
@@ -27,7 +27,7 @@ public class LoginSceneController {
     static final String PASS = "MySQL190504";
 
 
-    private Stage stage;
+    private Stage stage = Main.stage;
     private Scene scene;
     private Parent root;
 
@@ -40,28 +40,28 @@ public class LoginSceneController {
     private Label topLabel;
     @FXML
     private ImageView closeButton;
+
+    private String username;
     private String password;
 
-    public void initialize(){
+    public void initialize() {
 
     }
 
-    public void switchToGameScene(ActionEvent event) throws IOException {
+    public void switchToGameScene() throws IOException {
 
-        password = passwordField.getText();
         username = usernameField.getText();
+        password = passwordField.getText();
 
         if (ifLogin(username, password)) {
 
-            root = FXMLLoader.load(getClass().getResource("/FXML/game.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
+            changeView("/fxml/game.fxml");
+            scene = stage.getScene();
 
             Label label = (Label) scene.lookup("#usernameLabel");
             label.setText(username);
 
             stage.setTitle("2048");
-            stage.setScene(scene);
 
             stage.show();
 
@@ -74,15 +74,11 @@ public class LoginSceneController {
 
     }
 
-    public void guestMode(ActionEvent event)throws IOException{
+    public void guestMode() throws IOException {
 
-        root = FXMLLoader.load(getClass().getResource("/FXML/game.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Main.changeView("/FXML/game.fxml");
 
         stage.setTitle("2048");
-        stage.setScene(scene);
-        stage.show();
 
     }
 
@@ -136,19 +132,11 @@ public class LoginSceneController {
 
     }
 
-    private String username;
-
-
     public void switchToSignupScene(ActionEvent event) throws IOException {
 
-        root = FXMLLoader.load(getClass().getResource("/FXML/signup.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/css/signup.css").toExternalForm());
+        Main.changeView("/FXML/signup.fxml");
 
         stage.setTitle("2048/signup");
-        stage.setScene(scene);
-        stage.show();
 
     }
 

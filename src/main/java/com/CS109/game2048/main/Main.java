@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    private static Stage stage;
+    public static Stage stage;
 
     public static void main(String[] args) {
         launch();
@@ -26,26 +26,36 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
 
         Main.stage = stage;
-        FXMLLoader login = new FXMLLoader(getClass().getResource("/FXML/login.fxml"));
-        Scene loginScene = new Scene(login.load());
-        Image logo = new Image(getClass().getResourceAsStream("/image/logo.png"));
+
+        changeView("/FXML/login.fxml");
 
         stage.setTitle("2048/login");
-        stage.setScene(loginScene);
-        stage.getIcons().add(logo);
+
+    }
+
+    public static void changeView(String fxml) throws IOException {
+
+        Parent root = FXMLLoader.load(Main.class.getResource(fxml));
+        Scene scene = new Scene(root);
+        Image logo = new Image(Main.class.getResourceAsStream("/image/logo.png"));
+
+        Main.stage.setScene(scene);
+        Main.stage.getIcons().add(logo);
 
         stage.show();
 
     }
 
-    public void changeView(String fxml) throws IOException {
+    public static void addView(String fxml,String title) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(Main.class.getResource(fxml));
         Scene scene = new Scene(root);
-        Image logo = new Image(getClass().getResourceAsStream("/image/logo.png"));
+        Image logo = new Image(Main.class.getResourceAsStream("/image/logo.png"));
 
-        Main.stage.setScene(scene);
-        Main.stage.getIcons().add(logo);
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.getIcons().add(logo);
 
         stage.show();
 

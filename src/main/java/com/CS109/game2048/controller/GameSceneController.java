@@ -1,11 +1,9 @@
 package com.CS109.game2048.controller;
 
+import com.CS109.game2048.main.Main;
+import com.CS109.game2048.service.GridNumbers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,10 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
-import com.CS109.game2048.engine.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
@@ -146,51 +142,32 @@ public class GameSceneController {
     public void rightStep() {
 
         gridNumbers.right();
-        fillNumbersIntoGridPane();
-        stepLabel.setText(String.valueOf(gridNumbers.getStep()));
-        scoreLabel.setText(String.valueOf(gridNumbers.getScore()));
-        if (gridNumbers.loseTheGame()) {
-            loseTheGame();
-        }
-        if (gridNumbers.win()) {
-            win();
-        }
+        afterStep();
 
     }
 
     public void leftStep() {
 
         gridNumbers.left();
-        fillNumbersIntoGridPane();
-        stepLabel.setText(String.valueOf(gridNumbers.getStep()));
-        scoreLabel.setText(String.valueOf(gridNumbers.getScore()));
-        if (gridNumbers.loseTheGame()) {
-            loseTheGame();
-        }
-        if (gridNumbers.win()) {
-            win();
-        }
+        afterStep();
 
     }
 
     public void downStep() {
 
         gridNumbers.down();
-        fillNumbersIntoGridPane();
-        stepLabel.setText(String.valueOf(gridNumbers.getStep()));
-        scoreLabel.setText(String.valueOf(gridNumbers.getScore()));
-        if (gridNumbers.loseTheGame()) {
-            loseTheGame();
-        }
-        if (gridNumbers.win()) {
-            win();
-        }
+        afterStep();
 
     }
 
     public void upStep() {
 
         gridNumbers.up();
+        afterStep();
+
+    }
+
+    public void afterStep(){
         fillNumbersIntoGridPane();
         stepLabel.setText(String.valueOf(gridNumbers.getStep()));
         scoreLabel.setText(String.valueOf(gridNumbers.getScore()));
@@ -200,7 +177,6 @@ public class GameSceneController {
         if (gridNumbers.win()) {
             win();
         }
-
     }
 
     public void onKeyPressed(KeyEvent event) {
@@ -225,6 +201,7 @@ public class GameSceneController {
 
     public void loseTheGame() {
 
+        endLabel.setText("Game Over!");
         endPane.setVisible(true);
         endPane.setOpacity(1);
         gridPane.setOpacity(0.2);
@@ -332,34 +309,14 @@ public class GameSceneController {
 
     public void logOut(ActionEvent event) throws IOException {
 
-        Parent root;
-        Stage stage;
-        Scene scene;
+        Main.changeView("/FXML/login.fxml");
 
-        root = FXMLLoader.load(getClass().getResource("/FXML/login.fxml"));
-        stage = (Stage) stepLabel.getScene().getWindow();
-        scene = new Scene(root);
-
-        scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setTitle("2048/login");
-        stage.show();
+        Main.stage.setTitle("2048/login");
 
     }
 
     public void aboutUs() throws IOException {
-
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/aboutUs.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        Image logo = new Image(getClass().getResourceAsStream("/image/logo.png"));
-
-        stage.getIcons().add(logo);
-        stage.setTitle("About Us");
-        stage.setScene(scene);
-        stage.show();
-
+        Main.addView("/FXML/aboutUs.fxml","About Us");
     }
 
     public void setHighestScoreLabel() {
@@ -457,21 +414,8 @@ public class GameSceneController {
     }
 
     public void rankingList() throws IOException{
-
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/rankingList.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        Image logo = new Image(getClass().getResourceAsStream("/image/logo.png"));
-
-        stage.getIcons().add(logo);
-        stage.setTitle("Ranking List");
-        stage.setScene(scene);
-        stage.show();
-
+        Main.addView("/FXML/rankingList.fxml","Ranking List");
     }
-
-
 
 }
 

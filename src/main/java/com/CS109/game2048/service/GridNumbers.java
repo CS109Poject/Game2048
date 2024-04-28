@@ -1,4 +1,4 @@
-package com.CS109.game2048.engine;
+package com.CS109.game2048.service;
 
 import java.util.Random;
 
