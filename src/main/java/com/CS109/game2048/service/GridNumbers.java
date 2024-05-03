@@ -8,13 +8,8 @@ public class GridNumbers {
     private int score = 0;
     private int goal = 2048;
     private boolean ifGameEnd = false;
-    private int highestScore = 0;
 
     public GridNumbers() {
-    }
-
-    public GridNumbers(int[][] numbers) {
-        this.numbers = numbers;
     }
 
     public int[][] getNumbers() {
@@ -45,16 +40,13 @@ public class GridNumbers {
         return this.goal;
     }
 
-    public void setHighestScore(int highestScore) {
-        this.highestScore = highestScore;
-    }
-
-    public int getHighestScore() {
-        return highestScore;
-    }
-
-    public boolean getIfTheGameEnd() {
+    public boolean getIfGameEnd() {
         return this.ifGameEnd;
+    }
+
+    public void setIfGameEnd(boolean ifGameEnd){
+        this.ifGameEnd = ifGameEnd;
+
     }
 
     public void setGoal(int goal) {
@@ -62,11 +54,11 @@ public class GridNumbers {
     }
 
     public void initGridNumbers() {
-        this.numbers = generateANumber(this.numbers);
+        generateANumber(this.numbers);
     }
 
 
-    public static int[][] generateANumber(int[][] numbers) {
+    public static void generateANumber(int[][] numbers) {
 
         Random random = new Random();
         int num = random.nextInt(1, 3) * 2;
@@ -82,7 +74,6 @@ public class GridNumbers {
 
             }
         }
-        return numbers;
     }
 
     public void right() {
@@ -125,7 +116,7 @@ public class GridNumbers {
             }
 
             if (ifMove(initialNumbers, this.numbers)) {
-                this.numbers = generateANumber(this.numbers);
+                generateANumber(this.numbers);
                 this.step++;
             }
         }
@@ -171,7 +162,7 @@ public class GridNumbers {
             }
 
             if (ifMove(initialNumbers, this.numbers)) {
-                this.numbers = generateANumber(this.numbers);
+                generateANumber(this.numbers);
                 this.step++;
             }
         }
@@ -217,7 +208,7 @@ public class GridNumbers {
             }
 
             if (ifMove(initialNumbers, this.numbers)) {
-                this.numbers = generateANumber(this.numbers);
+                generateANumber(this.numbers);
                 this.step++;
             }
         }
@@ -263,7 +254,7 @@ public class GridNumbers {
             }
 
             if (ifMove(initialNumbers, this.numbers)) {
-                this.numbers = generateANumber(this.numbers);
+                generateANumber(this.numbers);
                 this.step++;
             }
         }

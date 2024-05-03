@@ -1,16 +1,11 @@
 package com.CS109.game2048.main;
 
-import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 
 import java.io.IOException;
 
@@ -28,8 +23,8 @@ public class Main extends Application {
         Main.stage = stage;
 
         changeView("/FXML/login.fxml");
-
         stage.setTitle("2048/login");
+        stage.setFullScreen(true);
 
     }
 

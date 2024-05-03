@@ -5,9 +5,4 @@ public class StringUtil {
     public static boolean ifEmpty(String string) {
         return string == null || string.trim().isEmpty();
     }
-
-    public static boolean ifContainSpace(String string){
-        return string.contains(" ");
-    }
-
 }

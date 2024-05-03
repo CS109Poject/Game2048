@@ -1,7 +1,10 @@
 package com.CS109.game2048.util;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class ConnectionUtil {
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost:3306/test?" +
@@ -11,7 +14,7 @@ public class ConnectionUtil {
 
     static {
         try {
-            Class.forName(DB_URL);
+            Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -41,28 +44,27 @@ public class ConnectionUtil {
         }
     }
 
-    public static int executeUpdate(String sql, Object[] params) throws ClassNotFoundException, SQLException {
+    public static void executeUpdate(String sql, Object[] params) throws ClassNotFoundException, SQLException {
 
         Connection conn = null;
         PreparedStatement pstmt = null;
-        int rowsAffected = 0;
 
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             setParameters(pstmt, params);
-            rowsAffected = pstmt.executeUpdate();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             closeAll(conn, pstmt, null);
         }
 
-        return rowsAffected;
     }
 
-    public static ResultSet executeQuery(String sql, Object[] params) throws ClassNotFoundException, SQLException {
+    public static List<String> executeQuery(String sql, Object[] params, String column) throws ClassNotFoundException, SQLException {
 
+        List<String> data = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -72,7 +74,12 @@ public class ConnectionUtil {
             pstmt = conn.prepareStatement(sql);
             setParameters(pstmt, params);
             rs = pstmt.executeQuery();
-            return rs;
+            while (rs.next()) {
+                String value = rs.getString(column);
+                data.add(value);
+            }
+            return data;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

@@ -1,15 +1,50 @@
-.button{
-    -fx-background-radius: 25px;
-    -fx-border-radius: 5px;
+#loginButton{
+    -fx-background-color:skyblue;
 }
+#guestButton{
+    -fx-background-color:#7FFFD4;
+}
+
+#signupButton{
+    -fx-background-color:#FFF5EE;
+}
+
+#slideButton{
+    -fx-background-color: #B5D9EA;
+}
+
 #loginButton:hover{
-    -fx-background-color:#DAA520;
-    -fx-text-fill:#00FFFF;
+    -fx-background-color:#797979;
 }
+
 #guestButton:hover{
-    -fx-background-color:#228B22;
-    -fx-text-fill:#00FFFF;
+    -fx-background-color:#797979;
 }
+
 #signupButton:hover{
-    -fx-text-fill:#00FFFF;
+    -fx-background-color:#797979;
+}
+
+#slideButton:hover{
+    -fx-background-color:#797979;
+}
+
+#pane{
+    -fx-background-color:linear-gradient(to right,#fff1eb,#ace0f9);
+}
+
+#loginPane{
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 3, 0);
+    -fx-background-color: #B5D9EA;
+}
+
+#signupPane{
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 3, 0);
+    -fx-background-color: #E6E3E2;
+
+}
+
+#slidePane{
+    -fx-background-color:#E6E3E2;
+     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 3, 0);
 }

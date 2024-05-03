@@ -1,4 +1,4 @@
-module com.CS109.game2048.main {
+module com.CS.game.main {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -14,8 +14,6 @@ module com.CS109.game2048.main {
     requires javafx.media;
     requires mysql.connector.j;
 
-    //opens com.CS109.game2048 to javafx.fxml;
-    //exports com.CS109.game2048;
     exports com.CS109.game2048.main;
     opens com.CS109.game2048.main to javafx.fxml;
     exports com.CS109.game2048.controller;

@@ -1,77 +1,62 @@
 package com.CS109.game2048.controller;
 
 import com.CS109.game2048.main.Main;
-import javafx.event.ActionEvent;
+import com.CS109.game2048.model.User;
+import com.CS109.game2048.repository.impl.UserDAOImpl;
+import com.CS109.game2048.util.StringUtil;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import javafx.util.Duration;
 import java.io.IOException;
-import java.sql.*;
-
-import static com.CS109.game2048.main.Main.changeView;
 
 public class LoginSceneController {
 
-    private String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private String DB_URL = "jdbc:mysql://localhost:3306/test?" +
-            "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    static final String USER = "root";
-    static final String PASS = "MySQL190504";
+    private final UserDAOImpl userDAO = new UserDAOImpl();
+    private final Stage stage = Main.stage;
 
-
-    private Stage stage = Main.stage;
-    private Scene scene;
-    private Parent root;
+    private boolean ifLoginScene = true;
 
 
     @FXML
-    private PasswordField passwordField;
+    private PasswordField loginPassword, signupPassword, signupConfirm;
     @FXML
-    private TextField usernameField;
+    private TextField loginUsername, signupUsername;
     @FXML
-    private Label topLabel;
+    private Label loginError, signupError;
     @FXML
-    private ImageView closeButton;
-
-    private String username;
-    private String password;
-
+    private Button slideButton;
+    @FXML
+    private Pane slidePane,pane;
+    @FXML
+    private VBox vbox;
     public void initialize() {
-
+        vbox.prefHeightProperty().bind(pane.heightProperty());
+        vbox.prefWidthProperty().bind(pane.widthProperty());
     }
 
     public void switchToGameScene() throws IOException {
 
-        username = usernameField.getText();
-        password = passwordField.getText();
+        String username = loginUsername.getText();
+        String password = loginPassword.getText();
 
         if (ifLogin(username, password)) {
 
-            changeView("/fxml/game.fxml");
-            scene = stage.getScene();
+            Main.changeView("/fxml/game.fxml");
+            Scene scene = stage.getScene();
 
             Label label = (Label) scene.lookup("#usernameLabel");
             label.setText(username);
 
             stage.setTitle("2048");
-
-            stage.show();
-
-        } else {
-
-            passwordField.setText("");
-            topLabel.setText("ERROR,TRY AGAIN.");
-
         }
-
     }
 
     public void guestMode() throws IOException {
@@ -84,65 +69,83 @@ public class LoginSceneController {
 
     public boolean ifLogin(String username, String password) {
 
-        Connection conn = null;
-        Statement stmt = null;
-        boolean result = false;
-
-        try {
-
-            Class.forName(JDBC_DRIVER);
-
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT username, password FROM new_table";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                String name = rs.getString("username");
-                String passwd = rs.getString("password");
-                if (name.equals(username)) {
-                    if (passwd.equals(password)) {
-                        result = true;
-                    }
-                }
-            }
-
-            rs.close();
-            stmt.close();
-            conn.close();
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException se2) {
-
-            }
-            try {
-                if (conn != null) conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+        if(StringUtil.ifEmpty(username)||StringUtil.ifEmpty(password)){
+            loginError.setText("The fields can't be empty!");
         }
-        return result;
+        if (!userDAO.ifUsernameExist(username)) {
+            loginError.setText("Username doesn't exist!");
+            loginUsername.setText("");
+            loginPassword.setText("");
+            return false;
+        }
+        if (userDAO.ifPasswordCorrect(username, password)) {
+            return true;
+        } else {
+            loginError.setText("Password Error!");
+            loginPassword.setText("");
+            return false;
+        }
 
     }
 
-    public void switchToSignupScene(ActionEvent event) throws IOException {
+    public void slide() {
 
-        Main.changeView("/FXML/signup.fxml");
+        TranslateTransition transition = new TranslateTransition(Duration.seconds(1), slidePane);
 
-        stage.setTitle("2048/signup");
+        if (ifLoginScene) {
 
+            transition.setToX(400);
+            transition.playFromStart();
+
+            slidePane.setStyle("-fx-background-color:#B5D9EA;");
+            slideButton.setText("Log In");
+            slideButton.setStyle("-fx-background-color:#E6E3E2;");
+
+            ifLoginScene = false;
+        } else {
+
+            transition.setToX(0);
+            transition.playFromStart();
+
+            slidePane.setStyle("-fx-background-color:#E6E3E2;");
+            slideButton.setText("Sign Up");
+            slideButton.setStyle("-fx-background-color:#B5D9EA;");
+
+            ifLoginScene = true;
+        }
     }
 
-    public void handleCloseButtonClicked() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+    public void signup() {
+
+        String password = signupPassword.getText();
+        String confirm = signupConfirm.getText();
+        String username = signupUsername.getText();
+
+        if (userDAO.ifUsernameExist(username)) {
+            signupUsername.setText("");
+            signupPassword.setText("");
+            signupConfirm.setText("");
+            signupError.setText("The username existed!");
+            return;
+        }
+
+        if (StringUtil.ifEmpty(username) || StringUtil.ifEmpty(password) || StringUtil.ifEmpty(confirm)) {
+            signupError.setText("The field can't be empty!");
+            return;
+        }
+
+        if (!confirm.equals(password)) {
+            signupPassword.setText("");
+            signupConfirm.setText("");
+            signupError.setText("Passwords are different!");
+            return;
+        }
+
+        User user = new User(0,username,password,0);
+        userDAO.createUser(user);
+
+        signupError.setText("Successfully Sign Up!");
+
     }
 
 }

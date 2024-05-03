@@ -1,24 +1,23 @@
 package com.CS109.game2048.controller;
 
+import com.CS109.game2048.repository.impl.UserDAOImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class RankingListController {
-    private final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private final String DB_URL = "jdbc:mysql://localhost:3306/test?" +
-            "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    static final String USER = "root";
-    static final String PASS = "MySQL190504";
+
+    private final UserDAOImpl userDAO = new UserDAOImpl();
 
     @FXML
     private Label firstUsernameLabel, secondUsernameLabel, thirdUsernameLabel, firstScoreLabel, secondScoreLabel, thirdScoreLabel;
 
-    private ArrayList<Integer> allHighestScores;
-    private ArrayList<String> allUsernames;
+    private List<Integer> allHighestScores;
+    private List<String> allUsernames;
 
     public void initialize() {
         initializeScores();
@@ -33,51 +32,20 @@ public class RankingListController {
 
     public void initializeScores() {
 
-        allHighestScores = new ArrayList<>();
-        allUsernames = new ArrayList<>();
+        allHighestScores = userDAO.getAllHighestScores();
+        allUsernames = userDAO.getAllUsernames();
 
-        Connection connection = null;
-        Statement stmt = null;
-        ResultSet rs;
-        try {
-            Class.forName(JDBC_DRIVER);
-
-            connection = DriverManager.getConnection(DB_URL, USER, PASS);
-            String selectQuery = "SELECT username, highestScore FROM new_table";
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery(selectQuery);
-
-            while (rs.next()) {
-                String username = rs.getString("username");
-                int highestScore = rs.getInt("highestScore");
-                allUsernames.add(username);
-                allHighestScores.add(highestScore);
-
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException ignored) {
-            }
-            try {
-                if (connection != null) connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
     }
 
     public void rank() {
 
-        ArrayList rankedUsername = new ArrayList(allUsernames);
-        ArrayList rankedScores = new ArrayList<>(allHighestScores);
+        List<String> rankedUsername = new ArrayList<>();
+        List<Integer> rankedScores = new ArrayList<>(allHighestScores);
         rankedScores.sort(Collections.reverseOrder());
 
-        for (int i = 0; i < rankedScores.size(); i++) {
+        for (Integer rankedScore : rankedScores) {
             for (int j = 0; j < allHighestScores.size(); j++) {
-                if (rankedScores.get(i) == allHighestScores.get(j) && !rankedUsername.contains(allUsernames.get(j))) {
+                if (Objects.equals(rankedScore, allHighestScores.get(j)) && !rankedUsername.contains(allUsernames.get(j))) {
                     rankedUsername.add(allUsernames.get(j));
                     break;
                 }

@@ -9,5 +9,8 @@ public interface UserDAO {
     boolean ifUsernameExist(String username);
     boolean ifPasswordCorrect(String username,String password);
     void updateHighestScore(String Username,int highestScore);
-    int getHighestScore(String username);
+    int getHighestScoreByUsername(String username);
+    void changePassword(String username,String newPassword);
+    List<String> getAllUsernames();
+    List<Integer> getAllHighestScores();
 }

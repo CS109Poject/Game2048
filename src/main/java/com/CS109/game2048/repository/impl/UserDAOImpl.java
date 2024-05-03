@@ -4,22 +4,21 @@ import com.CS109.game2048.model.User;
 import com.CS109.game2048.repository.dao.UserDAO;
 import com.CS109.game2048.util.ConnectionUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
+
 
     @Override
     public void createUser(User user) {
 
-        String sql = "INSERT INTO new_table (username, password, highestScore) VALUES (?, ?, 0)";
-        Object[] params = {user.getUsername(), user.getPassword()};
+        String sql = "INSERT INTO new_table (username, password, highestScore) VALUES (?, ?, ?)";
+        Object[] params = {user.getUsername(), user.getPassword(), 0};
 
         try {
             ConnectionUtil.executeUpdate(sql, params);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -27,22 +26,16 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean ifUsernameExist(String username) {
 
-        String sql = "SELECT COUNT(*) FROM new_table WHERE username = ?";
+        String sql = "SELECT username FROM new_table WHERE username = ?";
         Object[] params = {username};
 
         try {
-            ResultSet rs = ConnectionUtil.executeQuery(sql, params);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                return count > 0;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+            List<String> usernames = ConnectionUtil.executeQuery(sql, params, "username");
+            return !usernames.isEmpty();
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        return false;
     }
 
     @Override
@@ -51,18 +44,16 @@ public class UserDAOImpl implements UserDAO {
         String sql = "SELECT password FROM new_table WHERE username = ?";
         Object[] params = {username};
         try {
-            ResultSet rs = ConnectionUtil.executeQuery(sql, params);
-            if (rs.next()) {
-                String pass = rs.getString("password");
-                return password.equals(pass);
+            List<String> passwords = ConnectionUtil.executeQuery(sql, params, "password");
+            if (!passwords.isEmpty()) {
+                return password.equals(passwords.get(0));
+            } else {
+                return false;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        return false;
     }
 
     @Override
@@ -70,32 +61,64 @@ public class UserDAOImpl implements UserDAO {
 
         String sql = "UPDATE new_table SET highestScore = ? WHERE username = ?";
         Object[] params = {highestScore, username};
-        try{
-            ConnectionUtil.executeUpdate(sql,params);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        try {
+            ConnectionUtil.executeUpdate(sql, params);
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public int getHighestScore(String username) {
+    public int getHighestScoreByUsername(String username) {
 
         String sql = "SELECT highestScore FROM new_table WHERE username = ?";
         Object[] params = {username};
         try {
-            ResultSet rs = ConnectionUtil.executeQuery(sql, params);
-            if (rs.next()) {
-                return rs.getInt(1);
+            List<String> highestScores = ConnectionUtil.executeQuery(sql, params, "highestScore");
+            if (!highestScores.isEmpty()) {
+                return Integer.parseInt(highestScores.get(0));
+            } else {
+                return 0;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return 0;
     }
 
+    @Override
+    public void changePassword(String username, String newPassword) {
 
+        String sql = "UPDATE new_table SET password = ? WHERE username = ?";
+        Object[] params = {newPassword, username};
+        try {
+            ConnectionUtil.executeUpdate(sql, params);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public List<String> getAllUsernames() {
+
+        String sql = "SELECT username FROM new_table";
+        try {
+            return ConnectionUtil.executeQuery(sql, null, "username");
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public List<Integer> getAllHighestScores() {
+
+        String sql = "SELECT highestScore FROM new_table";
+        try {
+            List<String> strings = ConnectionUtil.executeQuery(sql, null, "highestScore");
+            return strings.stream().map(Integer::parseInt).toList();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
