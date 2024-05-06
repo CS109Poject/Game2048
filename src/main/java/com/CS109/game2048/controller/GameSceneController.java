@@ -2,10 +2,15 @@ package com.CS109.game2048.controller;
 
 import com.CS109.game2048.main.Main;
 import com.CS109.game2048.repository.impl.UserDAOImpl;
-import com.CS109.game2048.service.GridNumbers;
+import com.CS109.game2048.service.AI.AI;
+import com.CS109.game2048.service.Grid;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -18,6 +23,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.sql.Time;
 
 public class GameSceneController {
     @FXML
@@ -42,16 +48,18 @@ public class GameSceneController {
     private VBox vBox;
     @FXML
     private MenuBar menuBar;
+    @FXML
+    private Button AIButton;
 
     private final UserDAOImpl userDAO = new UserDAOImpl();
 
     private static final int GRID_SIZE = 4;
-    private GridNumbers gridNumbers = new GridNumbers();
+    private Grid grid = new Grid();
 
     private MediaPlayer mediaPlayer;
     private Media media;
 
-    private Timeline timeline;
+    private Timeline timeline, AITimeline;
     private int timeSeconds;
     private boolean ifRunning = false;
     private Mode mode = Mode.NORMAL_GOAL;
@@ -65,33 +73,37 @@ public class GameSceneController {
 
     public void initGridPane() {
 
-        this.gridNumbers = new GridNumbers();
-        gridNumbers.initGridNumbers();
+        if (usernameLabel.getText().equals("AI")){
+            AIButton.setVisible(true);
+        }
+
+        this.grid = new Grid();
+        grid.initGridNumbers();
         fillNumbersIntoGridPane();
 
-        stepLabel.setText(String.valueOf(gridNumbers.getStep()));
-        scoreLabel.setText(String.valueOf(gridNumbers.getScore()));
+        stepLabel.setText(String.valueOf(grid.getStep()));
+        scoreLabel.setText(String.valueOf(grid.getScore()));
         setHighestScoreLabel();
 
-        switch (mode){
+        switch (mode) {
             case EASY_GOAL:
-                gridNumbers.setGoal(1024);
+                grid.setGoal(1024);
                 goalMode();
                 break;
             case NORMAL_GOAL:
-                gridNumbers.setGoal(2048);
+                grid.setGoal(2048);
                 goalMode();
                 break;
             case HARD_GOAL:
-                gridNumbers.setGoal(4096);
+                grid.setGoal(4096);
                 goalMode();
                 break;
             case HELL_GOAL:
-                gridNumbers.setGoal(8192);
+                grid.setGoal(8192);
                 goalMode();
                 break;
             case INSANE_GOAL:
-                gridNumbers.setGoal(16384);
+                grid.setGoal(16384);
                 goalMode();
                 break;
             case EASY_TIME:
@@ -123,7 +135,7 @@ public class GameSceneController {
 
     public void fillNumbersIntoGridPane() {
 
-        int[][] numbers = this.gridNumbers.getNumbers();
+        int[][] numbers = this.grid.getMatrix();
 
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
@@ -179,13 +191,13 @@ public class GameSceneController {
                         label.setStyle("-fx-background-color:#E6C851;-fx-text-fill:#F8F6F2;-fx-border-width:5px;");
                         break;
                     case 1024:
-                        label.setStyle("-fx-background-color:#E5C441;-fx-text-fill:#F8F6F2;-fx-border-width:5px;");
+                        label.setStyle("-fx-background-color:#E5C441;-fx-text-fill:#F8F6F2;-fx-border-width:5px;-fx-font-size:28px;-fx-font-weight:Bold;");
                         break;
                     case 2048:
-                        label.setStyle("-fx-background-color:#ECC400;-fx-text-fill:#F8F6F2;-fx-border-width:5px;");
+                        label.setStyle("-fx-background-color:#ECC400;-fx-text-fill:#F8F6F2;-fx-border-width:5px;-fx-font-size:28px;-fx-font-weight:Bold;");
                         break;
                     default:
-                        label.setStyle("-fx-background-color:#FF2021;-fx-text-fill:#F8F6F2;");
+                        label.setStyle("-fx-background-color:#FF2021;-fx-text-fill:#F8F6F2;-fx-border-width:5px;-fx-font-size:28px;-fx-font-weight:Bold;");
                 }
 
             }
@@ -193,34 +205,34 @@ public class GameSceneController {
     }
 
     public void rightStep() {
-        gridNumbers.right();
+        grid.right();
         afterStep();
     }
 
     public void leftStep() {
-        gridNumbers.left();
+        grid.left();
         afterStep();
     }
 
     public void downStep() {
-        gridNumbers.down();
+        grid.down();
         afterStep();
     }
 
     public void upStep() {
-        gridNumbers.up();
+        grid.up();
         afterStep();
     }
 
     public void afterStep() {
         fillNumbersIntoGridPane();
-        stepLabel.setText(String.valueOf(gridNumbers.getStep()));
-        scoreLabel.setText(String.valueOf(gridNumbers.getScore()));
+        stepLabel.setText(String.valueOf(grid.getStep()));
+        scoreLabel.setText(String.valueOf(grid.getScore()));
         setHighestScoreLabel();
-        if (gridNumbers.loseTheGame()) {
+        if (grid.loseTheGame()) {
             loseTheGame();
         }
-        if (gridNumbers.win()) {
+        if (grid.win()) {
             win();
         }
     }
@@ -320,7 +332,7 @@ public class GameSceneController {
             timeline.stop();
         }
         modeLabel.setText("GOAL");
-        goal.setText(String.valueOf(gridNumbers.getGoal()));
+        goal.setText(String.valueOf(grid.getGoal()));
 
     }
 
@@ -360,11 +372,11 @@ public class GameSceneController {
                 new KeyFrame(Duration.seconds(1), e -> {
                     timeSeconds--;
                     goal.setText(String.valueOf(timeSeconds));
-                    if (timeSeconds <= 0 || gridNumbers.loseTheGame()) {
+                    if (timeSeconds <= 0 || grid.loseTheGame()) {
                         timeline.stop();
                         ifRunning = false;
                         loseTheGame();
-                        gridNumbers.setIfGameEnd(true);
+                        grid.setIfGameEnd(true);
                     }
                 })
         );
@@ -422,6 +434,41 @@ public class GameSceneController {
 
     public void rankingList() throws IOException {
         Main.addView("/FXML/rankingList.fxml", "Ranking List");
+    }
+
+    public void AI() {
+        AI ai = new AI(grid);
+        int move = ai.getBestMove(5);
+        switch (move) {
+            case 0:
+                upStep();
+                break;
+            case 1:
+                rightStep();
+                break;
+            case 2:
+                downStep();
+                break;
+            case 3:
+                leftStep();
+                break;
+        }
+    }
+
+    public void AIMode() {
+        if (AITimeline != null && AITimeline.getStatus() == Animation.Status.RUNNING) {
+            AITimeline.pause();
+            return;
+        }
+        AITimeline = new Timeline(new KeyFrame(Duration.seconds(0.05), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                AI();
+            }
+        }));
+        AITimeline.setCycleCount(Animation.INDEFINITE);
+        //AITimeline.setCycleCount(1);
+        AITimeline.play();
     }
 
 }

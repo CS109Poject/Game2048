@@ -24,7 +24,7 @@ public class Main extends Application {
 
         changeView("/FXML/login.fxml");
         stage.setTitle("2048/login");
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
 
     }
 

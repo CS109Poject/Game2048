@@ -1,23 +1,30 @@
 package com.CS109.game2048.service;
 
+import com.CS109.game2048.util.ArrayUtil;
+
 import java.util.Random;
 
-public class GridNumbers {
-    private int[][] numbers = new int[4][4];
+public class Grid {
+    private int[][] matrix = new int[4][4];
     private int step = 0;
     private int score = 0;
     private int goal = 2048;
     private boolean ifGameEnd = false;
 
-    public GridNumbers() {
+    public Grid() {
     }
 
-    public int[][] getNumbers() {
-        return numbers;
+    public Grid(int[][] matrix){
+        this.matrix = new int[4][4];
+        ArrayUtil.copyMatrix(matrix,this.matrix,4,4);
     }
 
-    public void setNumbers(int[][] numbers) {
-        this.numbers = numbers;
+    public int[][] getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(int[][] matrix) {
+        this.matrix = matrix;
     }
 
     public int getStep() {
@@ -54,7 +61,7 @@ public class GridNumbers {
     }
 
     public void initGridNumbers() {
-        generateANumber(this.numbers);
+        generateANumber(this.matrix);
     }
 
 
@@ -80,21 +87,22 @@ public class GridNumbers {
 
         if (!ifGameEnd) {
 
-            int[][] initialNumbers = generateInitialNumbers();
+            int[][] preMatrix = new int[4][4];
+            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 3; col >= 0; col--) {
                     for (int i = col - 1; i >= 0; i--) {
 
                         boolean ifOrtherNumbers = false;
-                        if (numbers[row][i] != 0 && numbers[row][i] != numbers[row][col]) {
+                        if (matrix[row][i] != 0 && matrix[row][i] != matrix[row][col]) {
                             break;
                         }
 
-                        if (!ifOrtherNumbers && numbers[row][col] == numbers[row][i]) {
-                            numbers[row][col] = 2 * numbers[row][col];
-                            this.score += numbers[row][col];
-                            numbers[row][i] = 0;
+                        if (!ifOrtherNumbers && matrix[row][col] == matrix[row][i]) {
+                            matrix[row][col] = 2 * matrix[row][col];
+                            this.score += matrix[row][col];
+                            matrix[row][i] = 0;
                             break;
                         }
                     }
@@ -103,11 +111,11 @@ public class GridNumbers {
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 3; col >= 0; col--) {
-                    if (numbers[row][col] == 0) {
+                    if (matrix[row][col] == 0) {
                         for (int i = col - 1; i >= 0; i--) {
-                            if (numbers[row][i] != 0) {
-                                numbers[row][col] = numbers[row][i];
-                                numbers[row][i] = 0;
+                            if (matrix[row][i] != 0) {
+                                matrix[row][col] = matrix[row][i];
+                                matrix[row][i] = 0;
                                 break;
                             }
                         }
@@ -115,8 +123,8 @@ public class GridNumbers {
                 }
             }
 
-            if (ifMove(initialNumbers, this.numbers)) {
-                generateANumber(this.numbers);
+            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
+                generateANumber(this.matrix);
                 this.step++;
             }
         }
@@ -126,21 +134,22 @@ public class GridNumbers {
 
         if (!ifGameEnd) {
 
-            int[][] initialNumbers = generateInitialNumbers();
+            int[][] preMatrix = new int[4][4];
+            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 0; col < 4; col++) {
                     for (int i = col + 1; i < 4; i++) {
 
                         boolean ifOrtherNumbers = false;
-                        if (numbers[row][i] != 0 && numbers[row][i] != numbers[row][col]) {
+                        if (matrix[row][i] != 0 && matrix[row][i] != matrix[row][col]) {
                             break;
                         }
 
-                        if (!ifOrtherNumbers && numbers[row][col] == numbers[row][i]) {
-                            numbers[row][col] = 2 * numbers[row][col];
-                            this.score += numbers[row][col];
-                            numbers[row][i] = 0;
+                        if (!ifOrtherNumbers && matrix[row][col] == matrix[row][i]) {
+                            matrix[row][col] = 2 * matrix[row][col];
+                            this.score += matrix[row][col];
+                            matrix[row][i] = 0;
                             break;
                         }
                     }
@@ -149,11 +158,11 @@ public class GridNumbers {
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 0; col < 4; col++) {
-                    if (numbers[row][col] == 0) {
+                    if (matrix[row][col] == 0) {
                         for (int i = col; i < 4; i++) {
-                            if (numbers[row][i] != 0) {
-                                numbers[row][col] = numbers[row][i];
-                                numbers[row][i] = 0;
+                            if (matrix[row][i] != 0) {
+                                matrix[row][col] = matrix[row][i];
+                                matrix[row][i] = 0;
                                 break;
                             }
                         }
@@ -161,8 +170,8 @@ public class GridNumbers {
                 }
             }
 
-            if (ifMove(initialNumbers, this.numbers)) {
-                generateANumber(this.numbers);
+            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
+                generateANumber(this.matrix);
                 this.step++;
             }
         }
@@ -172,21 +181,22 @@ public class GridNumbers {
 
         if (!ifGameEnd) {
 
-            int[][] initialNumbers = generateInitialNumbers();
+            int[][] preMatrix = new int[4][4];
+            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 3; row >= 0; row--) {
                     for (int i = row - 1; i >= 0; i--) {
 
                         boolean ifOrtherNumbers = false;
-                        if (numbers[i][col] != 0 && numbers[i][col] != numbers[row][col]) {
+                        if (matrix[i][col] != 0 && matrix[i][col] != matrix[row][col]) {
                             break;
                         }
 
-                        if (!ifOrtherNumbers && numbers[row][col] == numbers[i][col]) {
-                            numbers[row][col] = 2 * numbers[row][col];
-                            this.score += numbers[row][col];
-                            numbers[i][col] = 0;
+                        if (!ifOrtherNumbers && matrix[row][col] == matrix[i][col]) {
+                            matrix[row][col] = 2 * matrix[row][col];
+                            this.score += matrix[row][col];
+                            matrix[i][col] = 0;
                             break;
                         }
                     }
@@ -195,11 +205,11 @@ public class GridNumbers {
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 3; row >= 0; row--) {
-                    if (numbers[row][col] == 0) {
+                    if (matrix[row][col] == 0) {
                         for (int i = row; i >= 0; i--) {
-                            if (numbers[i][col] != 0) {
-                                numbers[row][col] = numbers[i][col];
-                                numbers[i][col] = 0;
+                            if (matrix[i][col] != 0) {
+                                matrix[row][col] = matrix[i][col];
+                                matrix[i][col] = 0;
                                 break;
                             }
                         }
@@ -207,8 +217,8 @@ public class GridNumbers {
                 }
             }
 
-            if (ifMove(initialNumbers, this.numbers)) {
-                generateANumber(this.numbers);
+            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
+                generateANumber(this.matrix);
                 this.step++;
             }
         }
@@ -218,21 +228,22 @@ public class GridNumbers {
 
         if (!ifGameEnd) {
 
-            int[][] initialNumbers = generateInitialNumbers();
+            int[][] preMatrix = new int[4][4];
+            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 0; row < 4; row++) {
                     for (int i = row + 1; i < 4; i++) {
 
                         boolean ifOrtherNumbers = false;
-                        if (numbers[i][col] != 0 && numbers[i][col] != numbers[row][col]) {
+                        if (matrix[i][col] != 0 && matrix[i][col] != matrix[row][col]) {
                             break;
                         }
 
-                        if (!ifOrtherNumbers && numbers[row][col] == numbers[i][col]) {
-                            numbers[row][col] = 2 * numbers[row][col];
-                            this.score += numbers[row][col];
-                            numbers[i][col] = 0;
+                        if (!ifOrtherNumbers && matrix[row][col] == matrix[i][col]) {
+                            matrix[row][col] = 2 * matrix[row][col];
+                            this.score += matrix[row][col];
+                            matrix[i][col] = 0;
                             break;
                         }
                     }
@@ -241,11 +252,11 @@ public class GridNumbers {
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 0; row < 4; row++) {
-                    if (numbers[row][col] == 0) {
+                    if (matrix[row][col] == 0) {
                         for (int i = row; i < 4; i++) {
-                            if (numbers[i][col] != 0) {
-                                numbers[row][col] = numbers[i][col];
-                                numbers[i][col] = 0;
+                            if (matrix[i][col] != 0) {
+                                matrix[row][col] = matrix[i][col];
+                                matrix[i][col] = 0;
                                 break;
                             }
                         }
@@ -253,39 +264,14 @@ public class GridNumbers {
                 }
             }
 
-            if (ifMove(initialNumbers, this.numbers)) {
-                generateANumber(this.numbers);
+            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
+                generateANumber(this.matrix);
                 this.step++;
             }
         }
 
     }
 
-    public int[][] generateInitialNumbers() {
-
-        int[][] initialNumbers = new int[4][4];
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                initialNumbers[row][col] = this.numbers[row][col];
-            }
-        }
-        return initialNumbers;
-
-    }
-
-    public boolean ifMove(int[][] initialNumbers, int[][] finalNumbers) {
-
-        boolean result = false;
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                if (initialNumbers[row][col] != finalNumbers[row][col]) {
-                    result = true;
-                }
-            }
-        }
-        return result;
-
-    }
 
     public boolean loseTheGame() {
 
@@ -293,7 +279,7 @@ public class GridNumbers {
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
-                if (this.numbers[row][col] == 0) {
+                if (this.matrix[row][col] == 0) {
                     return false;
                 }
             }
@@ -301,7 +287,7 @@ public class GridNumbers {
 
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 4; col++) {
-                if (this.numbers[row][col] == this.numbers[row + 1][col]) {
+                if (this.matrix[row][col] == this.matrix[row + 1][col]) {
                     return false;
                 }
             }
@@ -309,7 +295,7 @@ public class GridNumbers {
 
         for (int col = 0; col < 3; col++) {
             for (int row = 0; row < 4; row++) {
-                if (this.numbers[row][col] == this.numbers[row][col + 1]) {
+                if (this.matrix[row][col] == this.matrix[row][col + 1]) {
                     return false;
                 }
             }
@@ -323,7 +309,7 @@ public class GridNumbers {
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
-                if (this.numbers[row][col] >= this.goal) {
+                if (this.matrix[row][col] >= this.goal) {
                     this.ifGameEnd = true;
                     return true;
                 }
