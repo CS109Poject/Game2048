@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface UserDAO {
     void createUser(User user);
-    boolean ifUsernameExist(String username);
-    boolean ifPasswordCorrect(String username,String password);
-    void updateHighestScore(String Username,int highestScore);
-    int getHighestScoreByUsername(String username);
-    void changePassword(String username,String newPassword);
-    List<String> getAllUsernames();
+    boolean ifEmailExist(String email);
+    boolean ifPasswordCorrect(String email,String password);
+    void updateHighestScore(String email,int highestScore);
+    int getHighestScoreByEmail(String email);
+    void changePassword(String email,String newPassword);
+    List<String> getAllEmails();
     List<Integer> getAllHighestScores();
 }

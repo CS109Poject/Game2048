@@ -24,29 +24,29 @@
                               <Font name="System Bold Italic" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="loginUsername" layoutX="106.0" layoutY="149.0" prefHeight="30.0" prefWidth="243.0" promptText="username">
+                        <TextField fx:id="loginEmail" layoutX="106.0" layoutY="149.0" prefHeight="30.0" prefWidth="243.0" promptText="Email">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <PasswordField fx:id="loginPassword" layoutX="106.0" layoutY="208.0" prefHeight="30.0" prefWidth="243.0" promptText="password">
+                        <PasswordField fx:id="loginPassword" layoutX="106.0" layoutY="208.0" prefHeight="30.0" prefWidth="243.0" promptText="Password">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </PasswordField>
-                        <Button fx:id="loginButton" layoutX="62.0" layoutY="284.0" mnemonicParsing="false" onAction="#switchToGameScene" prefHeight="30.0" prefWidth="290.0" stylesheets="@../css/login.css" text="Log In" textFill="WHITE">
+                        <Button fx:id="loginButton" layoutX="55.0" layoutY="269.0" mnemonicParsing="false" onAction="#switchToGameScene" prefHeight="30.0" prefWidth="290.0" stylesheets="@../css/login.css" text="Log In" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="guestButton" layoutX="62.0" layoutY="332.0" mnemonicParsing="false" onAction="#guestMode" prefHeight="30.0" prefWidth="290.0" stylesheets="@../css/login.css" text="Guest Mode" textFill="WHITE">
+                        <Button fx:id="guestButton" layoutX="55.0" layoutY="318.0" mnemonicParsing="false" onAction="#guestMode" prefHeight="30.0" prefWidth="290.0" stylesheets="@../css/login.css" text="Guest Mode" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <ImageView fitHeight="30.0" fitWidth="41.0" layoutX="65.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="41.0" layoutX="64.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/user.png" />
+                              <Image url="@../image/email.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="67.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
@@ -54,63 +54,75 @@
                               <Image url="@../image/password.jpg" />
                            </image>
                         </ImageView>
-                        <Label layoutX="150.0" layoutY="50.0" text="Log In" textFill="WHITE">
+                        <Label layoutX="150.0" layoutY="50.0" text="Log In" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="36.0" />
                            </font>
                         </Label>
+                        <Button fx:id="changePasswordButton" layoutX="234.0" layoutY="363.0" mnemonicParsing="false" onAction="#switchToChangePasswordScene" stylesheets="@../css/login.css" text="Forget Password?" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="signupPane" layoutX="1.0" layoutY="4.0" prefHeight="400.0" prefWidth="400.0">
                      <children>
-                        <Label layoutX="130.0" layoutY="50.0" text="Sign UP" textFill="WHITE">
+                        <Label layoutX="130.0" layoutY="50.0" text="Sign UP" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="36.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="signupUsername" layoutX="114.0" layoutY="158.0" prefHeight="30.0" prefWidth="209.0" promptText="username" />
-                        <PasswordField fx:id="signupPassword" layoutX="114.0" layoutY="208.0" prefHeight="30.0" prefWidth="209.0" promptText="password" />
-                        <PasswordField fx:id="signupConfirm" layoutX="114.0" layoutY="258.0" prefHeight="30.0" prefWidth="209.0" promptText="confirm password" />
-                        <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="77.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+                        <TextField fx:id="signUpEmail" layoutX="114.0" layoutY="140.0" prefHeight="30.0" prefWidth="209.0" promptText="Email" />
+                        <PasswordField fx:id="signupPassword" layoutX="114.0" layoutY="240.0" prefHeight="30.0" prefWidth="209.0" promptText="Password" />
+                        <PasswordField fx:id="signupConfirm" layoutX="114.0" layoutY="290.0" prefHeight="30.0" prefWidth="209.0" promptText="Confirm Password" />
+                        <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="77.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/user.png" />
+                              <Image url="@../image/email.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="79.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../image/password.jpg" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="79.0" layoutY="258.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="79.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/password.jpg" />
                            </image>
                         </ImageView>
-                        <Button fx:id="signupButton" layoutX="55.0" layoutY="331.0" mnemonicParsing="false" onAction="#signup" prefHeight="30.0" prefWidth="290.0" text="Sign Up" textFill="WHITE">
+                        <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="79.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/password.jpg" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="signupButton" layoutX="55.0" layoutY="350.0" mnemonicParsing="false" onAction="#signup" prefHeight="30.0" prefWidth="290.0" text="Sign Up" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Label fx:id="signupError" layoutX="56.0" layoutY="303.0" prefHeight="15.0" prefWidth="290.0" text=" " textFill="#797979">
+                        <Label fx:id="signupError" layoutX="56.0" layoutY="327.0" prefHeight="15.0" prefWidth="290.0" text=" " textFill="#797979">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font>
                         </Label>
+                        <ImageView fitHeight="61.0" fitWidth="31.0" layoutX="77.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/verification_code.png" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="signUpVerification" layoutX="114.0" layoutY="190.0" prefHeight="30.0" prefWidth="118.0" promptText="Varification Code" />
+                        <Button fx:id="sendButton" layoutX="252.0" layoutY="190.0" mnemonicParsing="false" onAction="#sendVerificationCode" prefHeight="30.0" prefWidth="71.0" stylesheets="@../css/login.css" text="Send">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
                   <Pane fx:id="slidePane" layoutX="1.0" layoutY="4.0" prefHeight="400.0" prefWidth="400.0" stylesheets="@../css/login.css">
                      <children>
-                        <Button fx:id="slideButton" layoutX="150.0" layoutY="328.0" mnemonicParsing="false" onAction="#slide" prefHeight="30.0" prefWidth="100.0" stylesheets="@../css/login.css" text="Sign Up" textFill="WHITE">
+                        <Button fx:id="slideButton" layoutX="150.0" layoutY="328.0" mnemonicParsing="false" onAction="#slide" prefHeight="30.0" prefWidth="100.0" stylesheets="@../css/login.css" text="Sign Up" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Label alignment="CENTER" layoutX="91.0" layoutY="57.0" prefHeight="61.0" prefWidth="217.0" text="WELCOME" textFill="WHITE">
+                        <Label alignment="CENTER" layoutX="91.0" layoutY="57.0" prefHeight="61.0" prefWidth="217.0" text="WELCOME" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="36.0" />
                            </font>
                         </Label>
-                        <Label layoutX="150.0" layoutY="138.0" text="JOIN US" textFill="WHITE">
+                        <Label layoutX="150.0" layoutY="138.0" text="JOIN US" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>

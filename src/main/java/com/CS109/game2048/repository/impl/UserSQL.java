@@ -7,14 +7,14 @@ import com.CS109.game2048.util.ConnectionUtil;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserDAOImpl implements UserDAO {
+public class UserSQL implements UserDAO {
 
 
     @Override
     public void createUser(User user) {
 
-        String sql = "INSERT INTO new_table (username, password, highestScore) VALUES (?, ?, ?)";
-        Object[] params = {user.getUsername(), user.getPassword(), 0};
+        String sql = "INSERT INTO users (username, password, highestScore, email) VALUES (?, ?, ?, ?)";
+        Object[] params = {user.getUsername(), user.getPassword(), 0, user.getEmail()};
 
         try {
             ConnectionUtil.executeUpdate(sql, params);
@@ -24,14 +24,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean ifUsernameExist(String username) {
+    public boolean ifEmailExist(String email) {
 
-        String sql = "SELECT username FROM new_table WHERE username = ?";
-        Object[] params = {username};
+        String sql = "SELECT email FROM users WHERE email = ?";
+        Object[] params = {email};
 
         try {
-            List<String> usernames = ConnectionUtil.executeQuery(sql, params, "username");
-            return !usernames.isEmpty();
+            List<String> emails = ConnectionUtil.executeQuery(sql, params, "email");
+            return !emails.isEmpty();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -39,10 +39,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean ifPasswordCorrect(String username, String password) {
+    public boolean ifPasswordCorrect(String email, String password) {
 
-        String sql = "SELECT password FROM new_table WHERE username = ?";
-        Object[] params = {username};
+        String sql = "SELECT password FROM users WHERE email = ?";
+        Object[] params = {email};
         try {
             List<String> passwords = ConnectionUtil.executeQuery(sql, params, "password");
             if (!passwords.isEmpty()) {
@@ -57,10 +57,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateHighestScore(String username, int highestScore) {
+    public void updateHighestScore(String email, int highestScore) {
 
-        String sql = "UPDATE new_table SET highestScore = ? WHERE username = ?";
-        Object[] params = {highestScore, username};
+        String sql = "UPDATE users SET highestScore = ? WHERE email = ?";
+        Object[] params = {highestScore, email};
         try {
             ConnectionUtil.executeUpdate(sql, params);
         } catch (SQLException | ClassNotFoundException e) {
@@ -69,10 +69,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int getHighestScoreByUsername(String username) {
+    public int getHighestScoreByEmail(String email) {
 
-        String sql = "SELECT highestScore FROM new_table WHERE username = ?";
-        Object[] params = {username};
+        String sql = "SELECT highestScore FROM users WHERE email = ?";
+        Object[] params = {email};
         try {
             List<String> highestScores = ConnectionUtil.executeQuery(sql, params, "highestScore");
             if (!highestScores.isEmpty()) {
@@ -86,10 +86,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void changePassword(String username, String newPassword) {
+    public void changePassword(String email, String newPassword) {
 
-        String sql = "UPDATE new_table SET password = ? WHERE username = ?";
-        Object[] params = {newPassword, username};
+        String sql = "UPDATE users SET password = ? WHERE email = ?";
+        Object[] params = {newPassword, email};
         try {
             ConnectionUtil.executeUpdate(sql, params);
         } catch (SQLException | ClassNotFoundException e) {
@@ -99,11 +99,11 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<String> getAllUsernames() {
+    public List<String> getAllEmails() {
 
-        String sql = "SELECT username FROM new_table";
+        String sql = "SELECT email FROM users";
         try {
-            return ConnectionUtil.executeQuery(sql, null, "username");
+            return ConnectionUtil.executeQuery(sql, null, "email");
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -113,7 +113,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<Integer> getAllHighestScores() {
 
-        String sql = "SELECT highestScore FROM new_table";
+        String sql = "SELECT highestScore FROM users";
         try {
             List<String> strings = ConnectionUtil.executeQuery(sql, null, "highestScore");
             return strings.stream().map(Integer::parseInt).toList();

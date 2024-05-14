@@ -350,7 +350,7 @@ public class AI {
                 break;
         }
 
-        if (!ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+        if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
             moved = true;
             playerTurn = false;
         }
@@ -409,8 +409,6 @@ public class AI {
                 }
             }
         } else {
-            //System.out.println("world");
-            //this.playerTurn=true;
             bestScore = beta;
             List<Candidate> candidates = new ArrayList<>();
             List<int[]> cells = getAvailableCells();

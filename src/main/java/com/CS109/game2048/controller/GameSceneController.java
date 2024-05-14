@@ -1,14 +1,13 @@
 package com.CS109.game2048.controller;
 
 import com.CS109.game2048.main.Main;
-import com.CS109.game2048.repository.impl.UserDAOImpl;
+import com.CS109.game2048.repository.dao.UserDAO;
+import com.CS109.game2048.repository.impl.UserSQL;
 import com.CS109.game2048.service.AI.AI;
 import com.CS109.game2048.service.Grid;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,13 +22,20 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.sql.Time;
+
+/**
+ * @author Ruizhe Pang
+ */
 
 public class GameSceneController {
+
+    /**
+     * The components of FXML.
+     */
     @FXML
     private GridPane gridPane;
     @FXML
-    private Label stepLabel, scoreLabel, endLabel, goal, usernameLabel, highestScoreLabel, modeLabel;
+    private Label stepLabel, scoreLabel, endLabel, goal, emailLabel, highestScoreLabel, modeLabel;
     @FXML
     private AnchorPane endPane;
     @FXML
@@ -49,21 +55,42 @@ public class GameSceneController {
     @FXML
     private MenuBar menuBar;
     @FXML
-    private Button AIButton;
+    private Button AIButton,up,right,left,down;
 
-    private final UserDAOImpl userDAO = new UserDAOImpl();
+    /**
+     * Create the connection to MySQL.
+     */
+    private final UserDAO userDAO = new UserSQL();
 
+    /**
+     * Init the 4*4 matrix to fill in the game numbers.
+     */
     private static final int GRID_SIZE = 4;
     private Grid grid = new Grid();
 
+    /**
+     * The media player to play the background music.
+     */
     private MediaPlayer mediaPlayer;
     private Media media;
 
+    /**
+     * The timeline is timing for the limit time mode.
+     * The AITimeline is for controlling the time AI takes to take each step.
+     * The ifTheTimelineRunning is for determining whether the timeline is running.
+     */
     private Timeline timeline, AITimeline;
     private int timeSeconds;
-    private boolean ifRunning = false;
+    private boolean ifTheTimelineRunning = false;
+
+    /**
+     * The game provides ten modes totally, and the initial mode is NORMAL_GOAL mode which is 2048 goal.
+     */
     private Mode mode = Mode.NORMAL_GOAL;
 
+    /**
+     * Add the listeners for buttons and menuItems.
+     */
     public void initialize() {
 
         vBox.minHeightProperty().bind(pane.heightProperty());
@@ -71,14 +98,18 @@ public class GameSceneController {
         menuBar.minWidthProperty().bind(vBox.widthProperty());
     }
 
-    public void initGridPane() {
+    /**
+     *Start or restart a game.
+     * Choose the mode depend on current mode.
+     */
+    public void newStart() {
 
-        if (usernameLabel.getText().equals("AI")){
+        if (emailLabel.getText().equals("AI@AI.com")){
             AIButton.setVisible(true);
         }
 
         this.grid = new Grid();
-        grid.initGridNumbers();
+        this.grid.initGridNumbers();
         fillNumbersIntoGridPane();
 
         stepLabel.setText(String.valueOf(grid.getStep()));
@@ -133,6 +164,9 @@ public class GameSceneController {
 
     }
 
+    /**
+     * Fill the numbers into the labels of grid pane.
+     */
     public void fillNumbersIntoGridPane() {
 
         int[][] numbers = this.grid.getMatrix();
@@ -144,15 +178,17 @@ public class GameSceneController {
 
                 Label label = (Label) gridPane.getChildren().get(row * 4 + col);
                 label.setText(s);
-                label.setStyle("-fx-font-size:36px;-fx-text-fill:white;");
 
             }
         }
-        formatColor();
+        formatStyle();
 
     }
 
-    public void formatColor() {
+    /**
+     * Format the background color, font size, font color of the labels depend on the numbers in them.
+     */
+    public void formatStyle() {
 
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
@@ -204,53 +240,73 @@ public class GameSceneController {
         }
     }
 
-    public void rightStep() {
+    /**
+     * Execute action of right.
+     */
+    public void moveRight() {
         grid.right();
-        afterStep();
+        afterMove();
     }
 
-    public void leftStep() {
+    /**
+     * Execute action of left.
+     */
+    public void moveLeft() {
         grid.left();
-        afterStep();
+        afterMove();
     }
 
-    public void downStep() {
+    /**
+     * Execute action of down.
+     */
+    public void moveDown() {
         grid.down();
-        afterStep();
+        afterMove();
     }
 
-    public void upStep() {
+    /**
+     * Execute action of up.
+     */
+    public void moveUp() {
         grid.up();
-        afterStep();
+        afterMove();
     }
 
-    public void afterStep() {
+    /**
+     * Determine whether lose the game or win.
+     * Update the highest score of current user.
+     */
+    public void afterMove() {
         fillNumbersIntoGridPane();
         stepLabel.setText(String.valueOf(grid.getStep()));
         scoreLabel.setText(String.valueOf(grid.getScore()));
         setHighestScoreLabel();
-        if (grid.loseTheGame()) {
-            loseTheGame();
+        if (grid.lose()) {
+            lose();
         }
         if (grid.win()) {
             win();
         }
     }
 
+    /**
+     * Control moving by keyboard.
+     * @param event W,A,S,D or UP,LEFT,DOWN,RIGHT
+     */
     public void onKeyPressed(KeyEvent event) {
 
         switch (event.getCode()) {
             case RIGHT, D:
-                rightStep();
+                moveRight();
                 break;
             case LEFT, A:
-                leftStep();
+                moveLeft();
                 break;
             case DOWN, S:
-                downStep();
+                moveDown();
                 break;
             case UP, W:
-                upStep();
+                moveUp();
                 break;
             default:
                 break;
@@ -258,13 +314,19 @@ public class GameSceneController {
 
     }
 
-    public void loseTheGame() {
+    /**
+     * If lose the game, show the endPane with context "Game Over!".
+     */
+    public void lose() {
         endLabel.setText("Game Over!");
         endPane.setVisible(true);
         endPane.setOpacity(1);
         gridPane.setOpacity(0.2);
     }
 
+    /**
+     * If win the game, show the endPane with the context "You Win!".
+     */
     public void win() {
         endLabel.setText("You Win!");
         endPane.setVisible(true);
@@ -272,6 +334,9 @@ public class GameSceneController {
         gridPane.setOpacity(0.2);
     }
 
+    /**
+     * Set the background of the game scene.
+     */
     public void setBackground() {
 
         Image brother = new Image(String.valueOf(getClass().getResource("/image/brother.jpg")));
@@ -286,6 +351,9 @@ public class GameSceneController {
 
     }
 
+    /**
+     * Set the background music.
+     */
     public void setMusic() {
 
 
@@ -326,9 +394,12 @@ public class GameSceneController {
 
     }
 
+    /**
+     *Initialize the goal mode.
+     */
     public void goalMode() {
 
-        if (ifRunning) {
+        if (ifTheTimelineRunning) {
             timeline.stop();
         }
         modeLabel.setText("GOAL");
@@ -336,35 +407,41 @@ public class GameSceneController {
 
     }
 
+    /**
+     * Switch the game mode to specified goal mode.
+     */
     public void setGoal() {
 
         easyButton.setOnAction(event -> {
             mode = Mode.EASY_GOAL;
-            initGridPane();
+            newStart();
         });
         normalButton.setOnAction(event -> {
             mode = Mode.NORMAL_GOAL;
-            initGridPane();
-            initGridPane();
+            newStart();
+            newStart();
         });
         hardButton.setOnAction(event -> {
             mode = Mode.HARD_GOAL;
-            initGridPane();
+            newStart();
         });
         hellButton.setOnAction(event -> {
             mode = Mode.HARD_GOAL;
-            initGridPane();
+            newStart();
         });
         insaneButton.setOnAction(event -> {
             mode = Mode.INSANE_GOAL;
-            initGridPane();
+            newStart();
         });
 
     }
 
+    /**
+     * Initialize the time mode.
+     */
     public void timeMode() {
 
-        if (ifRunning) {
+        if (ifTheTimelineRunning) {
             timeline.stop();
         }
         modeLabel.setText("TIME");
@@ -372,45 +449,51 @@ public class GameSceneController {
                 new KeyFrame(Duration.seconds(1), e -> {
                     timeSeconds--;
                     goal.setText(String.valueOf(timeSeconds));
-                    if (timeSeconds <= 0 || grid.loseTheGame()) {
+                    if (timeSeconds <= 0 || grid.lose()) {
                         timeline.stop();
-                        ifRunning = false;
-                        loseTheGame();
+                        ifTheTimelineRunning = false;
+                        lose();
                         grid.setIfGameEnd(true);
                     }
                 })
         );
-        ifRunning = true;
+        ifTheTimelineRunning = true;
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
+    /**
+     * Switch the game mode to specified time mode.
+     */
     public void setTime() {
 
         easyTime.setOnAction(event -> {
             mode = Mode.EASY_TIME;
-            initGridPane();
+            newStart();
         });
         normalTime.setOnAction(event -> {
             mode = Mode.NORMAL_TIME;
-            initGridPane();
+            newStart();
         });
         hardTime.setOnAction(event -> {
             mode = Mode.HARD_TIME;
-            initGridPane();
+            newStart();
         });
         hellTime.setOnAction(event -> {
             mode = Mode.HELL_TIME;
-            initGridPane();
+            newStart();
         });
         insaneTime.setOnAction(event -> {
             mode = Mode.INSANE_TIME;
-            initGridPane();
+            newStart();
         });
 
     }
 
+    /**
+     * Exit the game scene and turn to login scene.
+     */
     public void logOut() throws IOException {
 
         Main.changeView("/FXML/login.fxml");
@@ -418,52 +501,57 @@ public class GameSceneController {
 
     }
 
+    /**
+     * Pop up the about-us interface.
+     */
     public void aboutUs() throws IOException {
         Main.addView("/FXML/aboutUs.fxml", "About Us");
     }
 
+    /**
+     * Update the highest score of current user.
+     */
     public void setHighestScoreLabel() {
 
-        String username = usernameLabel.getText();
-        int higherScore = Integer.parseInt(scoreLabel.getText()) > userDAO.getHighestScoreByUsername(username)
-                ? Integer.parseInt(scoreLabel.getText()) : userDAO.getHighestScoreByUsername(username);
+        String username = emailLabel.getText();
+        int higherScore = Math.max(Integer.parseInt(scoreLabel.getText()), userDAO.getHighestScoreByEmail(username));
         userDAO.updateHighestScore(username, higherScore);
-        highestScoreLabel.setText(String.valueOf(userDAO.getHighestScoreByUsername(username)));
+        highestScoreLabel.setText(String.valueOf(userDAO.getHighestScoreByEmail(username)));
 
     }
 
+    /**
+     * Pop up the ranking-list interface.
+     */
     public void rankingList() throws IOException {
         Main.addView("/FXML/rankingList.fxml", "Ranking List");
     }
 
-    public void AI() {
-        AI ai = new AI(grid);
-        int move = ai.getBestMove(5);
-        switch (move) {
-            case 0:
-                upStep();
-                break;
-            case 1:
-                rightStep();
-                break;
-            case 2:
-                downStep();
-                break;
-            case 3:
-                leftStep();
-                break;
-        }
-    }
-
+    /**
+     * Press to start the AI mode.
+     * Repress to end the AI mode.
+     */
     public void AIMode() {
         if (AITimeline != null && AITimeline.getStatus() == Animation.Status.RUNNING) {
             AITimeline.pause();
             return;
         }
-        AITimeline = new Timeline(new KeyFrame(Duration.seconds(0.05), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                AI();
+        AITimeline = new Timeline(new KeyFrame(Duration.seconds(0.05), event -> {
+            AI ai = new AI(grid);
+            int move = ai.getBestMove(5);
+            switch (move) {
+                case 0:
+                    moveUp();
+                    break;
+                case 1:
+                    moveRight();
+                    break;
+                case 2:
+                    moveDown();
+                    break;
+                case 3:
+                    moveLeft();
+                    break;
             }
         }));
         AITimeline.setCycleCount(Animation.INDEFINITE);

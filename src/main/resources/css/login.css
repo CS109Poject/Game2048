@@ -1,50 +1,67 @@
 #loginButton{
-    -fx-background-color:skyblue;
+    -fx-background-color:#F3F31B;
 }
 #guestButton{
-    -fx-background-color:#7FFFD4;
+    -fx-background-color:yellow;
 }
 
 #signupButton{
-    -fx-background-color:#FFF5EE;
+    -fx-background-color:#F3F3B5;
 }
 
 #slideButton{
-    -fx-background-color: #B5D9EA;
+    -fx-background-color:#ECC400;
 }
 
 #loginButton:hover{
-    -fx-background-color:#797979;
+    -fx-background-color:orange;
 }
 
 #guestButton:hover{
-    -fx-background-color:#797979;
+    -fx-background-color:orange;
 }
 
 #signupButton:hover{
-    -fx-background-color:#797979;
+    -fx-background-color:orange;
 }
 
 #slideButton:hover{
-    -fx-background-color:#797979;
+    -fx-background-color:orange;
 }
 
 #pane{
-    -fx-background-color:linear-gradient(to right,#fff1eb,#ace0f9);
+    -fx-background-color:linear-gradient(to right,yellow, lightyellow);
 }
 
 #loginPane{
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 3, 0);
-    -fx-background-color: #B5D9EA;
+    -fx-background-color: #F3F3B5;
 }
 
 #signupPane{
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 3, 0);
-    -fx-background-color: #E6E3E2;
+    -fx-background-color: #F3F31B;
 
 }
 
 #slidePane{
-    -fx-background-color:#E6E3E2;
+    -fx-background-color:#F3F31B;
      -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 3, 0);
+}
+
+#changePasswordButton{
+    -fx-background-color:transparent;
+    -fx-text-fill:grey;
+}
+#changePasswordButton:hover{
+    -fx-text-fill:orange;
+}
+
+#sendButton{
+    -fx-background-color:#F3F3B5;
+    -fx-border-color:grey;
+    -fx-border-radius:5px;
+}
+#sendButton:hover{
+    -fx-background-color:orange;
 }

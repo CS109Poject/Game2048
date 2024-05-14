@@ -5,6 +5,15 @@ public class User {
     private String username;
     private String password;
     private int highestScore;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public int getId() {
         return id;
@@ -38,11 +47,12 @@ public class User {
         this.highestScore = highestScore;
     }
 
-    public User(int id, String username, String password, int highestScore) {
+    public User(int id, String username, String password, int highestScore,String email) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.highestScore = highestScore;
+        this.email=email;
     }
 
     public User() {

@@ -61,11 +61,13 @@ public class Grid {
     }
 
     public void initGridNumbers() {
-        generateANumber(this.matrix);
+        generateRandomNumber();
     }
 
-
-    public static void generateANumber(int[][] numbers) {
+    /**
+     * Randomly generate a 2 or 4 on the matrix's blanket area.
+     */
+    public void generateRandomNumber() {
 
         Random random = new Random();
         int num = random.nextInt(1, 3) * 2;
@@ -75,14 +77,17 @@ public class Grid {
             int row = random.nextInt(4);
             int col = random.nextInt(4);
 
-            if (numbers[row][col] == 0) {
-                numbers[row][col] = num;
+            if (this.matrix[row][col] == 0) {
+                this.matrix[row][col] = num;
                 break;
 
             }
         }
     }
 
+    /**
+     * Move right.
+     */
     public void right() {
 
         if (!ifGameEnd) {
@@ -123,13 +128,16 @@ public class Grid {
                 }
             }
 
-            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
-                generateANumber(this.matrix);
+            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+                generateRandomNumber();
                 this.step++;
             }
         }
     }
 
+    /**
+     * Move left.
+     */
     public void left() {
 
         if (!ifGameEnd) {
@@ -170,13 +178,16 @@ public class Grid {
                 }
             }
 
-            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
-                generateANumber(this.matrix);
+            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+                generateRandomNumber();
                 this.step++;
             }
         }
     }
 
+    /**
+     * Move down.
+     */
     public void down() {
 
         if (!ifGameEnd) {
@@ -217,13 +228,16 @@ public class Grid {
                 }
             }
 
-            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
-                generateANumber(this.matrix);
+            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+                generateRandomNumber();
                 this.step++;
             }
         }
     }
 
+    /**
+     * Move up.
+     */
     public void up() {
 
         if (!ifGameEnd) {
@@ -264,16 +278,19 @@ public class Grid {
                 }
             }
 
-            if (!ArrayUtil.isMatrixEquals(preMatrix,this.matrix)) {
-                generateANumber(this.matrix);
+            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+                generateRandomNumber();
                 this.step++;
             }
         }
 
     }
 
-
-    public boolean loseTheGame() {
+    /**
+     * Determine whether losing the game.
+     * @return
+     */
+    public boolean lose() {
 
         boolean result = true;
 
@@ -305,18 +322,17 @@ public class Grid {
 
     }
 
+    /**
+     * Determine whether winning the game.
+     * @return
+     */
     public boolean win() {
-
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                if (this.matrix[row][col] >= this.goal) {
-                    this.ifGameEnd = true;
-                    return true;
-                }
-            }
+        if(ArrayUtil.getMax(this.matrix)>=this.goal){
+            this.ifGameEnd=true;
+            return true;
+        }else {
+            return false;
         }
-        return false;
-
     }
 
 }

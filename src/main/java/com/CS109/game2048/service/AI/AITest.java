@@ -5,7 +5,7 @@ import com.CS109.game2048.service.Grid;
 public class AITest {
     public static void main(String[] args) {
         Grid grid=new Grid();
-        Grid.generateANumber(grid.getMatrix());
+        grid.generateRandomNumber();
         for (int i = 0; i <8; i++) {
             grid.up();
         }

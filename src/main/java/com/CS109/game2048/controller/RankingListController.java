@@ -1,6 +1,7 @@
 package com.CS109.game2048.controller;
 
-import com.CS109.game2048.repository.impl.UserDAOImpl;
+import com.CS109.game2048.repository.dao.UserDAO;
+import com.CS109.game2048.repository.impl.UserSQL;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 public class RankingListController {
 
-    private final UserDAOImpl userDAO = new UserDAOImpl();
+    private final UserDAO userDAO = new UserSQL();
 
     @FXML
     private Label firstUsernameLabel, secondUsernameLabel, thirdUsernameLabel, firstScoreLabel, secondScoreLabel, thirdScoreLabel;
@@ -33,7 +34,7 @@ public class RankingListController {
     public void initializeScores() {
 
         allHighestScores = userDAO.getAllHighestScores();
-        allUsernames = userDAO.getAllUsernames();
+        allUsernames = userDAO.getAllEmails();
 
     }
 

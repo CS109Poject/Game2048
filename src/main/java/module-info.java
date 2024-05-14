@@ -13,6 +13,7 @@ module com.CS.game.main {
     requires java.sql;
     requires javafx.media;
     requires mysql.connector.j;
+    requires javax.mail.api;
 
     exports com.CS109.game2048.main;
     opens com.CS109.game2048.main to javafx.fxml;
