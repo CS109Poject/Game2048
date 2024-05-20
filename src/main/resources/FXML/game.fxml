@@ -16,13 +16,228 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.GameSceneController">
-   <VBox fx:id="vBox" alignment="TOP_CENTER">
-      <MenuBar fx:id="menuBar" maxHeight="30.0" maxWidth="800.0" prefHeight="30.0" prefWidth="800.0" style="-fx-background-color: transparent; -fx-border-color: black;">
+<Pane fx:id="pane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.GameSceneController">
+   <children>
+      <Pane fx:id="mainPane">
+         <ImageView fx:id="background" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+         <GridPane fx:id="gridPane" alignment="TOP_CENTER" layoutX="350.0" layoutY="300.0" style="-fx-background-color: #B8ADA0; -fx-background-radius: 5px;">
+            <columnConstraints>
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+         </GridPane>
+         <Label fx:id="emailLabel" alignment="CENTER" focusTraversable="false" layoutX="70.0" layoutY="48.0" prefWidth="110.0" style="-fx-background-color: green;" text="Guest" textAlignment="CENTER" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Label>
+         <Circle fill="#44ff21" layoutX="48.0" layoutY="60.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+         <Button fx:id="start" alignment="CENTER" focusTraversable="false" layoutX="40.0" layoutY="300.0" mnemonicParsing="false" onAction="#newStart" onKeyPressed="#onKeyPressed" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="New Game" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+         </Button>
+         <Button fx:id="right" layoutX="167.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveRight" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="right" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="left" layoutX="20.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveLeft" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="left" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="down" layoutX="95.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveDown" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="down" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="up" layoutX="95.0" layoutY="640.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveUp" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="up" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Button>
+         <AnchorPane fx:id="endPane" layoutX="350.0" layoutY="300.0" visible="false">
+            <children>
+               <Label fx:id="endLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="200.0" prefWidth="400.0" style="-fx-text-fill: red;" text="Game Over!">
+                  <font>
+                     <Font size="48.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <VBox layoutX="325.0" layoutY="50.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+            <children>
+               <Label alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="SCORE" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+               <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+            </children>
+         </VBox>
+         <VBox layoutX="625.0" layoutY="50.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+            <children>
+               <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="STEP" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+               <Label fx:id="stepLabel" alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+            </children>
+         </VBox>
+         <VBox layoutX="475.0" layoutY="50.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+            <children>
+               <Label alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="BEST" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+               <Label fx:id="highestScoreLabel" alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+            </children>
+         </VBox>
+         <VBox layoutX="48.0" layoutY="100.0" style="-fx-background-radius: 100px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+            <children>
+               <Label fx:id="modeLabel" alignment="CENTER" focusTraversable="false" prefHeight="75.0" prefWidth="150.0" style="-fx-text-fill: #ECE4DA;" text="GOAL" textFill="WHITE">
+                  <font>
+                     <Font name="System Bold" size="36.0" />
+                  </font>
+               </Label>
+               <Label fx:id="goalLabel" alignment="CENTER" focusTraversable="false" prefHeight="75.0" prefWidth="150.0" style="-fx-text-fill: #FFFFFF;" text="2048">
+                  <font>
+                     <Font name="System Bold" size="36.0" />
+                  </font>
+               </Label>
+            </children>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </VBox>
+         <Button fx:id="AIButton" focusTraversable="false" layoutX="40.0" layoutY="450.0" mnemonicParsing="false" onAction="#AIMode" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="AI RUN" textFill="WHITE" visible="false">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+         </Button>
+         <Button fx:id="stepBackButton" alignment="CENTER" focusTraversable="false" layoutX="40.0" layoutY="375.0" mnemonicParsing="false" onAction="#stepBack" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="Step Back" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font></Button>
+         <Button fx:id="saveButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="40.0" layoutY="450.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="Save" textFill="WHITE" visible="false">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+         </Button>
+         <Button fx:id="loadButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="40.0" layoutY="525.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="Load" textFill="WHITE" visible="false">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+         </Button>
+      </Pane>
+      <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="800.0" style="-fx-background-color: transparent; -fx-border-color: black;">
          <Menu mnemonicParsing="false" text="User">
             <MenuItem mnemonicParsing="false" text="Profile" />
             <MenuItem mnemonicParsing="false" onAction="#rankingList" text="Ranking List" />
-            <MenuItem mnemonicParsing="false" text="Change Password" />
+            <MenuItem mnemonicParsing="false" onAction="#changePassword" text="Change Password" />
             <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log Out" />
          </Menu>
          <Menu mnemonicParsing="false" text="Mode">
@@ -56,219 +271,5 @@
             <MenuItem mnemonicParsing="false" onAction="#aboutUs" text="About Us" />
          </Menu>
       </MenuBar>
-      <Pane maxHeight="800.0" maxWidth="800.0" prefHeight="800.0" prefWidth="800.0">
-         <ImageView fx:id="background" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
-         <GridPane fx:id="gridPane" alignment="TOP_CENTER" layoutX="350.0" layoutY="300.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #B8ADA0; -fx-background-radius: 5px;">
-            <columnConstraints>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.rowIndex="2">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.rowIndex="3">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="85.0" prefWidth="85.0" text=" " textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-         </GridPane>
-         <Label fx:id="emailLabel" layoutX="113.0" layoutY="34.0" text="Guest">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-         <Circle fill="#44ff21" layoutX="80.0" layoutY="50.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-         <Button fx:id="start" alignment="CENTER" layoutX="570.0" layoutY="181.0" mnemonicParsing="false" onAction="#newStart" onKeyPressed="#onKeyPressed" prefHeight="48.0" prefWidth="180.0" style="-fx-background-color: #8B7A66;" text="New Game" textFill="WHITE">
-            <font>
-               <Font name="System Bold" size="24.0" />
-            </font>
-         </Button>
-         <GridPane layoutX="89.0" layoutY="410.0">
-            <columnConstraints>
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-               <Button fx:id="right" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveRight" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #FFFAF0; -fx-border-color: black;" text="right" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                  <font>
-                     <Font size="16.0" />
-                  </font>
-               </Button>
-               <Button fx:id="left" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveLeft" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #FFFAF0; -fx-border-color: black;" text="left" GridPane.rowIndex="1">
-                  <font>
-                     <Font size="18.0" />
-                  </font>
-               </Button>
-               <Button fx:id="down" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveDown" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #FFFAF0; -fx-border-color: black;" text="down" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                  <font>
-                     <Font size="14.0" />
-                  </font>
-               </Button>
-               <Button fx:id="up" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveUp" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #FFFAF0; -fx-border-color: black;" text="up" GridPane.columnIndex="1">
-                  <font>
-                     <Font size="18.0" />
-                  </font>
-               </Button>
-            </children>
-         </GridPane>
-         <AnchorPane fx:id="endPane" layoutX="350.0" layoutY="300.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" visible="false">
-            <children>
-               <Label fx:id="endLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="200.0" prefWidth="400.0" style="-fx-text-fill: red;" text="Game Over!">
-                  <font>
-                     <Font size="48.0" />
-                  </font>
-               </Label>
-            </children>
-         </AnchorPane>
-         <VBox layoutX="325.0" layoutY="50.0" prefHeight="80.0" prefWidth="125.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
-            <children>
-               <Label alignment="CENTER" prefHeight="50.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="SCORE" textFill="WHITE">
-                  <font>
-                     <Font name="System Bold" size="24.0" />
-                  </font>
-               </Label>
-               <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
-                  <font>
-                     <Font name="System Bold" size="24.0" />
-                  </font>
-               </Label>
-            </children>
-         </VBox>
-         <VBox layoutX="625.0" layoutY="50.0" prefHeight="80.0" prefWidth="125.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
-            <children>
-               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="STEP" textFill="WHITE">
-                  <font>
-                     <Font name="System Bold" size="24.0" />
-                  </font>
-               </Label>
-               <Label fx:id="stepLabel" alignment="CENTER" prefHeight="45.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
-                  <font>
-                     <Font name="System Bold" size="24.0" />
-                  </font>
-               </Label>
-            </children>
-         </VBox>
-         <VBox layoutX="475.0" layoutY="50.0" prefHeight="80.0" prefWidth="125.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
-            <children>
-               <Label alignment="CENTER" prefHeight="50.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="BEST" textFill="WHITE">
-                  <font>
-                     <Font name="System Bold" size="24.0" />
-                  </font>
-               </Label>
-               <Label fx:id="highestScoreLabel" alignment="CENTER" prefHeight="50.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
-                  <font>
-                     <Font name="System Bold" size="24.0" />
-                  </font>
-               </Label>
-            </children>
-         </VBox>
-         <VBox layoutX="43.0" layoutY="73.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 100px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
-            <children>
-               <Label fx:id="modeLabel" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-text-fill: #ECE4DA;" text="GOAL" textFill="WHITE">
-                  <font>
-                     <Font name="System Bold" size="48.0" />
-                  </font>
-               </Label>
-               <Label fx:id="goal" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-text-fill: #FFFFFF;" text="2048">
-                  <font>
-                     <Font name="System Bold" size="36.0" />
-                  </font>
-               </Label>
-            </children>
-            <opaqueInsets>
-               <Insets />
-            </opaqueInsets>
-         </VBox>
-         <Button fx:id="AIButton" layoutX="680.0" layoutY="250.0" mnemonicParsing="false" onAction="#AIMode" style="-fx-background-color: #8B7A66;" text="AI RUN" textFill="WHITE" visible="false">
-            <font>
-               <Font name="System Bold" size="12.0" />
-            </font></Button>
-      </Pane>
-   </VBox>
+   </children>
 </Pane>

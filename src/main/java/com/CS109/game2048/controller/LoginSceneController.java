@@ -5,7 +5,6 @@ import com.CS109.game2048.model.Email;
 import com.CS109.game2048.model.User;
 import com.CS109.game2048.repository.dao.UserDAO;
 import com.CS109.game2048.repository.impl.UserSQL;
-import com.CS109.game2048.util.ArrayUtil;
 import com.CS109.game2048.util.EmailUtil;
 import com.CS109.game2048.util.StringUtil;
 import javafx.animation.TranslateTransition;
@@ -15,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -27,32 +27,74 @@ public class LoginSceneController {
 
     private final UserDAO userDAO = new UserSQL();
     private final Stage stage = Main.stage;
-
     private boolean ifLoginScene = true;
-
     private Email email;
 
+    @FXML
+    private Button changePasswordButton;
 
     @FXML
-    private PasswordField loginPassword, signupPassword, signupConfirm;
+    private Button guestButton;
+
     @FXML
-    private TextField loginEmail, signUpEmail, signUpVerification;
+    private Button loginButton;
+
     @FXML
-    private Label loginError, signupError;
+    private TextField loginEmail;
+
+    @FXML
+    private Label loginError;
+
+    @FXML
+    private AnchorPane loginPane;
+
+    @FXML
+    private PasswordField loginPassword;
+
+    @FXML
+    private Pane pane;
+
+    @FXML
+    private Button sendButton;
+
+    @FXML
+    private TextField signUpEmail;
+
+    @FXML
+    private TextField signUpVerification;
+
+    @FXML
+    private Button signupButton;
+
+    @FXML
+    private PasswordField signupConfirm;
+
+    @FXML
+    private Label signupError;
+
+    @FXML
+    private AnchorPane signupPane;
+
+    @FXML
+    private PasswordField signupPassword;
+
     @FXML
     private Button slideButton;
+
     @FXML
-    private Pane slidePane, pane;
+    private Pane slidePane;
+
     @FXML
     private VBox vbox;
 
-
-    public void initialize() {
+    @FXML
+    void initialize() {
         vbox.prefHeightProperty().bind(pane.heightProperty());
         vbox.prefWidthProperty().bind(pane.widthProperty());
     }
 
-    public void switchToGameScene() throws IOException {
+    @FXML
+    void switchToGameScene() throws IOException {
 
         String email = loginEmail.getText();
         String password = loginPassword.getText();
@@ -69,7 +111,8 @@ public class LoginSceneController {
         }
     }
 
-    public void guestMode() throws IOException {
+    @FXML
+    void guestMode() throws IOException {
 
         Main.changeView("/FXML/game.fxml");
 
@@ -77,28 +120,8 @@ public class LoginSceneController {
 
     }
 
-    public boolean ifLogin(String email, String password) {
-
-        if (StringUtil.ifEmpty(email) || StringUtil.ifEmpty(password)) {
-            loginError.setText("The fields can't be empty!");
-        }
-        if (!userDAO.ifEmailExist(email)) {
-            loginError.setText("Email doesn't exist!");
-            loginEmail.setText("");
-            loginPassword.setText("");
-            return false;
-        }
-        if (userDAO.ifPasswordCorrect(email, password)) {
-            return true;
-        } else {
-            loginError.setText("Password Error!");
-            loginPassword.setText("");
-            return false;
-        }
-
-    }
-
-    public void slide() {
+    @FXML
+    void slide() {
 
         TranslateTransition transition = new TranslateTransition(Duration.seconds(1), slidePane);
 
@@ -125,7 +148,8 @@ public class LoginSceneController {
         }
     }
 
-    public void signup() {
+    @FXML
+    void signup() {
 
         String password = signupPassword.getText();
         String confirm = signupConfirm.getText();
@@ -166,18 +190,20 @@ public class LoginSceneController {
 
     }
 
-    public void switchToChangePasswordScene() throws IOException {
+    @FXML
+    void switchToChangePasswordScene() throws IOException {
         Main.addView("/FXML/changePassword.fxml", "Change Password");
     }
 
-    public void sendVerificationCode() {
+    @FXML
+    void sendVerificationCode() {
 
         String email = signUpEmail.getText();
         if (userDAO.ifEmailExist(email)) {
             signUpEmail.setText("");
             signupPassword.setText("");
             signupConfirm.setText("");
-            signupError.setText("The email existed!");
+            signupError.setText("The email has been registered!");
             return;
         }
 
@@ -192,6 +218,27 @@ public class LoginSceneController {
         }
         signupError.setText("Send successfully!");
         this.email = new Email(email, verification);
+    }
+
+    private boolean ifLogin(String email, String password) {
+
+        if (StringUtil.ifEmpty(email) || StringUtil.ifEmpty(password)) {
+            loginError.setText("The fields can't be empty!");
+        }
+        if (!userDAO.ifEmailExist(email)) {
+            loginError.setText("Email doesn't exist!");
+            loginEmail.setText("");
+            loginPassword.setText("");
+            return false;
+        }
+        if (userDAO.ifPasswordCorrect(email, password)) {
+            return true;
+        } else {
+            loginError.setText("Password Error!");
+            loginPassword.setText("");
+            return false;
+        }
+
     }
 
 }

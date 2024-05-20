@@ -36,6 +36,7 @@ public class Main extends Application {
 
         Main.stage.setScene(scene);
         Main.stage.getIcons().add(logo);
+        Main.stage.centerOnScreen();
 
         stage.show();
 

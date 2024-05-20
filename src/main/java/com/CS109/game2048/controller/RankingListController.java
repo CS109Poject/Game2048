@@ -13,14 +13,15 @@ import java.util.Objects;
 public class RankingListController {
 
     private final UserDAO userDAO = new UserSQL();
+    private List<Integer> allHighestScores;
+    private List<String> allUsernames;
 
     @FXML
     private Label firstUsernameLabel, secondUsernameLabel, thirdUsernameLabel, firstScoreLabel, secondScoreLabel, thirdScoreLabel;
 
-    private List<Integer> allHighestScores;
-    private List<String> allUsernames;
 
-    public void initialize() {
+    @FXML
+    void initialize() {
         initializeScores();
         rank();
         firstUsernameLabel.setText(allUsernames.get(0));
@@ -31,14 +32,14 @@ public class RankingListController {
         thirdScoreLabel.setText(String.valueOf(allHighestScores.get(2)));
     }
 
-    public void initializeScores() {
+    private void initializeScores() {
 
         allHighestScores = userDAO.getAllHighestScores();
         allUsernames = userDAO.getAllEmails();
 
     }
 
-    public void rank() {
+    private void rank() {
 
         List<String> rankedUsername = new ArrayList<>();
         List<Integer> rankedScores = new ArrayList<>(allHighestScores);

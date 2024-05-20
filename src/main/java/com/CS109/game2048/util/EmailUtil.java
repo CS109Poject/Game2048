@@ -2,7 +2,6 @@ package com.CS109.game2048.util;
 
 import java.security.SecureRandom;
 import java.util.Properties;
-import java.util.Random;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -19,7 +18,7 @@ public class EmailUtil {
         properties.put("mail.smtp.port", "465");
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
-        properties.put("mail.debug", "true");
+        //properties.put("mail.debug", "true");
 
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             public PasswordAuthentication getPasswordAuthentication() {
@@ -42,11 +41,10 @@ public class EmailUtil {
     }
 
     public static String generateVerificationCode() {
-        final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         final SecureRandom RANDOM = new SecureRandom();
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
-        Random r = new Random();
         for (int i = 0; i < 6; i++) {
             int randomIndex = RANDOM.nextInt(CHARACTERS.length());
             char randomChar = CHARACTERS.charAt(randomIndex);

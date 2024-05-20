@@ -5,14 +5,15 @@ import com.CS109.game2048.repository.dao.UserDAO;
 import com.CS109.game2048.repository.impl.UserSQL;
 import com.CS109.game2048.service.AI.AI;
 import com.CS109.game2048.service.Grid;
+import com.CS109.game2048.util.SaveGameUtil;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -22,40 +23,13 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * @author Ruizhe Pang
  */
 
 public class GameSceneController {
-
-    /**
-     * The components of FXML.
-     */
-    @FXML
-    private GridPane gridPane;
-    @FXML
-    private Label stepLabel, scoreLabel, endLabel, goal, emailLabel, highestScoreLabel, modeLabel;
-    @FXML
-    private AnchorPane endPane;
-    @FXML
-    private Pane pane;
-    @FXML
-    private ImageView background;
-    @FXML
-    private MenuItem emptyBackground, brotherBackground, windowsXPBackground, seaBackground;
-    @FXML
-    private MenuItem easyButton, normalButton, hardButton, hellButton, insaneButton;
-    @FXML
-    private MenuItem easyTime, normalTime, hardTime, hellTime, insaneTime;
-    @FXML
-    private MenuItem turnOff, mirage, touchedByTheSky;
-    @FXML
-    private VBox vBox;
-    @FXML
-    private MenuBar menuBar;
-    @FXML
-    private Button AIButton,up,right,left,down;
 
     /**
      * Create the connection to MySQL.
@@ -88,53 +62,182 @@ public class GameSceneController {
      */
     private Mode mode = Mode.NORMAL_GOAL;
 
+    private boolean ifStepBack = false;
+
+    /**
+     * The components of FXML.
+     */
+    @FXML
+    private Button AIButton;
+
+    @FXML
+    private ImageView background;
+
+    @FXML
+    private MenuItem brotherBackground;
+
+    @FXML
+    private Button down;
+
+    @FXML
+    private MenuItem easyButton;
+
+    @FXML
+    private MenuItem easyTime;
+
+    @FXML
+    private Label emailLabel;
+
+    @FXML
+    private MenuItem emptyBackground;
+
+    @FXML
+    private Label endLabel;
+
+    @FXML
+    private AnchorPane endPane;
+
+    @FXML
+    private Label goalLabel;
+
+    @FXML
+    private GridPane gridPane;
+
+    @FXML
+    private MenuItem hardButton;
+
+    @FXML
+    private MenuItem hardTime;
+
+    @FXML
+    private MenuItem hellButton;
+
+    @FXML
+    private MenuItem hellTime;
+
+    @FXML
+    private Label highestScoreLabel;
+
+    @FXML
+    private MenuItem insaneButton;
+
+    @FXML
+    private MenuItem insaneTime;
+
+    @FXML
+    private Button left;
+
+    @FXML
+    private MenuBar menuBar;
+
+    @FXML
+    private MenuItem mirage;
+
+    @FXML
+    private Label modeLabel;
+
+    @FXML
+    private MenuItem normalButton;
+
+    @FXML
+    private MenuItem normalTime;
+
+    @FXML
+    private Pane pane;
+
+    @FXML
+    private Pane mainPane;
+
+    @FXML
+    private Button right;
+
+    @FXML
+    private Label scoreLabel;
+
+    @FXML
+    private MenuItem seaBackground;
+
+    @FXML
+    private Button start;
+
+    @FXML
+    private Label stepLabel;
+
+    @FXML
+    private MenuItem touchedByTheSky;
+
+    @FXML
+    private MenuItem turnOff;
+
+    @FXML
+    private Button up;
+
+    @FXML
+    private MenuItem windowsXPBackground;
+
+    @FXML
+    private Button stepBackButton;
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    private Button loadButton;
+
     /**
      * Add the listeners for buttons and menuItems.
      */
-    public void initialize() {
+    @FXML
+    void initialize() {
 
-        vBox.minHeightProperty().bind(pane.heightProperty());
-        vBox.minWidthProperty().bind(pane.widthProperty());
-        menuBar.minWidthProperty().bind(vBox.widthProperty());
+        menuBar.minWidthProperty().bind(pane.widthProperty());
+        mainPane.layoutXProperty().bind(pane.widthProperty().subtract(mainPane.widthProperty()).divide(2));
+        mainPane.layoutYProperty().bind(pane.heightProperty().subtract(mainPane.heightProperty()).divide(2));
+        //stepBackButton.setFocusTraversable(false);
     }
 
     /**
-     *Start or restart a game.
+     * Start or restart a game.
      * Choose the mode depend on current mode.
      */
-    public void newStart() {
+    @FXML
+    void newStart() {
 
-        if (emailLabel.getText().equals("AI@AI.com")){
+        if (emailLabel.getText().equals("AI@AI.com")) {
             AIButton.setVisible(true);
+        }
+        if (emailLabel.getText().equals("Guest")) {
+            saveButton.setVisible(true);
+            loadButton.setVisible(true);
         }
 
         this.grid = new Grid();
         this.grid.initGridNumbers();
         fillNumbersIntoGridPane();
 
-        stepLabel.setText(String.valueOf(grid.getStep()));
-        scoreLabel.setText(String.valueOf(grid.getScore()));
+        stepLabel.setText(String.valueOf(this.grid.getStep()));
+        scoreLabel.setText(String.valueOf(this.grid.getScore()));
         setHighestScoreLabel();
 
         switch (mode) {
             case EASY_GOAL:
-                grid.setGoal(1024);
+                this.grid.setGoal(1024);
                 goalMode();
                 break;
             case NORMAL_GOAL:
-                grid.setGoal(2048);
+                this.grid.setGoal(2048);
                 goalMode();
                 break;
             case HARD_GOAL:
-                grid.setGoal(4096);
+                this.grid.setGoal(4096);
                 goalMode();
                 break;
             case HELL_GOAL:
-                grid.setGoal(8192);
+                this.grid.setGoal(8192);
                 goalMode();
                 break;
             case INSANE_GOAL:
-                grid.setGoal(16384);
+                this.grid.setGoal(16384);
                 goalMode();
                 break;
             case EASY_TIME:
@@ -165,9 +268,295 @@ public class GameSceneController {
     }
 
     /**
+     * Execute action of right.
+     */
+    @FXML
+    void moveRight() {
+        this.grid.right();
+        afterMove();
+    }
+
+    /**
+     * Execute action of left.
+     */
+    @FXML
+    void moveLeft() {
+        this.grid.left();
+        afterMove();
+    }
+
+    /**
+     * Execute action of down.
+     */
+    @FXML
+    void moveDown() {
+        this.grid.down();
+        afterMove();
+    }
+
+    /**
+     * Execute action of up.
+     */
+    @FXML
+    void moveUp() {
+        this.grid.up();
+        afterMove();
+    }
+
+    @FXML
+    void stepBack() {
+        if (this.grid.getParentGrid() != null) {
+            this.grid = this.grid.getParentGrid();
+            afterMove();
+            this.ifStepBack = true;
+        }
+    }
+
+    /**
+     * Control moving by keyboard.
+     *
+     * @param event W,A,S,D or UP,LEFT,DOWN,RIGHT
+     */
+    @FXML
+    void onKeyPressed(KeyEvent event) {
+
+        switch (event.getCode()) {
+            case RIGHT, D:
+                moveRight();
+                event.consume();
+                break;
+            case LEFT, A:
+                moveLeft();
+                event.consume();
+                break;
+            case DOWN, S:
+                moveDown();
+                event.consume();
+                break;
+            case UP, W:
+                moveUp();
+                event.consume();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    /**
+     * Set the background of the game scene.
+     */
+    @FXML
+    void setBackground() {
+
+        Image brother = new Image(String.valueOf(getClass().getResource("/image/brother.jpg")));
+        Image windowsXP = new Image(String.valueOf(getClass().getResource("/image/windowsXP.png")));
+        Image sea = new Image(String.valueOf(getClass().getResource("/image/sea.png")));
+
+        emptyBackground.setOnAction(event -> background.setImage(null));
+        brotherBackground.setOnAction(event -> background.setImage(brother));
+        windowsXPBackground.setOnAction(event -> background.setImage(windowsXP));
+        seaBackground.setOnAction(event -> background.setImage(sea));
+
+
+    }
+
+    /**
+     * Set the background music.
+     */
+    @FXML
+    void setMusic() {
+
+
+        String mirageFile = String.valueOf(getClass().getResource("/music/Mirage.mp3"));
+        String touchedByTheSkyFile = String.valueOf(getClass().getResource("/music/Touched by the Sky.mp3"));
+
+        turnOff.setOnAction(event -> {
+            if (media != null) {
+                mediaPlayer.stop();
+            }
+        });
+        mirage.setOnAction(event -> {
+
+            if (media != null) {
+                mediaPlayer.stop();
+            }
+
+            media = new Media(mirageFile);
+            mediaPlayer = new MediaPlayer(media);
+
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+
+        });
+        touchedByTheSky.setOnAction(event -> {
+
+            if (media != null) {
+                mediaPlayer.stop();
+            }
+
+            media = new Media(touchedByTheSkyFile);
+            mediaPlayer = new MediaPlayer(media);
+
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+
+        });
+
+    }
+
+    /**
+     * Switch the game mode to specified goal mode.
+     */
+    @FXML
+    void setGoal() {
+
+        easyButton.setOnAction(event -> {
+            mode = Mode.EASY_GOAL;
+            newStart();
+        });
+        normalButton.setOnAction(event -> {
+            mode = Mode.NORMAL_GOAL;
+            newStart();
+            newStart();
+        });
+        hardButton.setOnAction(event -> {
+            mode = Mode.HARD_GOAL;
+            newStart();
+        });
+        hellButton.setOnAction(event -> {
+            mode = Mode.HARD_GOAL;
+            newStart();
+        });
+        insaneButton.setOnAction(event -> {
+            mode = Mode.INSANE_GOAL;
+            newStart();
+        });
+
+    }
+
+    /**
+     * Switch the game mode to specified time mode.
+     */
+    @FXML
+    void setTime() {
+
+        easyTime.setOnAction(event -> {
+            mode = Mode.EASY_TIME;
+            newStart();
+        });
+        normalTime.setOnAction(event -> {
+            mode = Mode.NORMAL_TIME;
+            newStart();
+        });
+        hardTime.setOnAction(event -> {
+            mode = Mode.HARD_TIME;
+            newStart();
+        });
+        hellTime.setOnAction(event -> {
+            mode = Mode.HELL_TIME;
+            newStart();
+        });
+        insaneTime.setOnAction(event -> {
+            mode = Mode.INSANE_TIME;
+            newStart();
+        });
+
+    }
+
+    /**
+     * Exit the game scene and turn to login scene.
+     */
+    @FXML
+    void logOut() throws IOException {
+        Main.changeView("/FXML/login.fxml");
+        Main.stage.setTitle("2048/login");
+    }
+
+    /**
+     * Pop up the about-us interface.
+     */
+    @FXML
+    void aboutUs() throws IOException {
+        Main.addView("/FXML/aboutUs.fxml", "About Us");
+    }
+
+
+    /**
+     * Pop up the ranking-list interface.
+     */
+    @FXML
+    void rankingList() throws IOException {
+        Main.addView("/FXML/rankingList.fxml", "Ranking List");
+    }
+
+    /**
+     * Press to start the AI mode.
+     * Repress to end the AI mode.
+     */
+    @FXML
+    void AIMode() {
+        if (AITimeline != null && AITimeline.getStatus() == Animation.Status.RUNNING) {
+            AITimeline.pause();
+            return;
+        }
+        AITimeline = new Timeline(new KeyFrame(Duration.seconds(0.05), event -> {
+            AI ai = new AI(grid);
+            int move = ai.getBestMove(5);
+            switch (move) {
+                case 0:
+                    moveUp();
+                    break;
+                case 1:
+                    moveRight();
+                    break;
+                case 2:
+                    moveDown();
+                    break;
+                case 3:
+                    moveLeft();
+                    break;
+            }
+        }));
+        AITimeline.setCycleCount(Animation.INDEFINITE);
+        //AITimeline.setCycleCount(1);
+        AITimeline.play();
+    }
+
+    @FXML
+    void saveGame() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Save Game");
+        dialog.setHeaderText("Please enter the file name you want to save.");
+        dialog.setContentText("File Name:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(fileName -> {
+            SaveGameUtil.saveGame(this.grid, fileName);
+        });
+    }
+
+    @FXML
+    void loadGame() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Load Game");
+        dialog.setHeaderText("Please enter the file name you want to load.");
+        dialog.setContentText("File Name:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(fileName -> {
+            this.grid = SaveGameUtil.loadGame(fileName);
+            afterMove();
+        });
+    }
+
+    @FXML
+    void changePassword() throws IOException {
+        Main.addView("/FXML/changePassword.fxml", "Change Password");
+    }
+
+    /**
      * Fill the numbers into the labels of grid pane.
      */
-    public void fillNumbersIntoGridPane() {
+    private void fillNumbersIntoGridPane() {
 
         int[][] numbers = this.grid.getMatrix();
 
@@ -188,7 +577,7 @@ public class GameSceneController {
     /**
      * Format the background color, font size, font color of the labels depend on the numbers in them.
      */
-    public void formatStyle() {
+    private void formatStyle() {
 
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
@@ -241,75 +630,22 @@ public class GameSceneController {
     }
 
     /**
-     * Execute action of right.
-     */
-    public void moveRight() {
-        grid.right();
-        afterMove();
-    }
-
-    /**
-     * Execute action of left.
-     */
-    public void moveLeft() {
-        grid.left();
-        afterMove();
-    }
-
-    /**
-     * Execute action of down.
-     */
-    public void moveDown() {
-        grid.down();
-        afterMove();
-    }
-
-    /**
-     * Execute action of up.
-     */
-    public void moveUp() {
-        grid.up();
-        afterMove();
-    }
-
-    /**
      * Determine whether lose the game or win.
      * Update the highest score of current user.
      */
-    public void afterMove() {
+    private void afterMove() {
         fillNumbersIntoGridPane();
-        stepLabel.setText(String.valueOf(grid.getStep()));
-        scoreLabel.setText(String.valueOf(grid.getScore()));
+        stepLabel.setText(String.valueOf(this.grid.getStep()));
+        scoreLabel.setText(String.valueOf(this.grid.getScore()));
         setHighestScoreLabel();
-        if (grid.lose()) {
+        if (this.grid.lose()) {
             lose();
-        }
-        if (grid.win()) {
+        } else if (this.grid.win()) {
             win();
-        }
-    }
-
-    /**
-     * Control moving by keyboard.
-     * @param event W,A,S,D or UP,LEFT,DOWN,RIGHT
-     */
-    public void onKeyPressed(KeyEvent event) {
-
-        switch (event.getCode()) {
-            case RIGHT, D:
-                moveRight();
-                break;
-            case LEFT, A:
-                moveLeft();
-                break;
-            case DOWN, S:
-                moveDown();
-                break;
-            case UP, W:
-                moveUp();
-                break;
-            default:
-                break;
+        } else {
+            endPane.setVisible(false);
+            endLabel.setText("");
+            gridPane.setOpacity(1);
         }
 
     }
@@ -317,7 +653,7 @@ public class GameSceneController {
     /**
      * If lose the game, show the endPane with context "Game Over!".
      */
-    public void lose() {
+    private void lose() {
         endLabel.setText("Game Over!");
         endPane.setVisible(true);
         endPane.setOpacity(1);
@@ -327,7 +663,7 @@ public class GameSceneController {
     /**
      * If win the game, show the endPane with the context "You Win!".
      */
-    public void win() {
+    private void win() {
         endLabel.setText("You Win!");
         endPane.setVisible(true);
         endPane.setOpacity(1);
@@ -335,111 +671,22 @@ public class GameSceneController {
     }
 
     /**
-     * Set the background of the game scene.
+     * Initialize the goal mode.
      */
-    public void setBackground() {
-
-        Image brother = new Image(String.valueOf(getClass().getResource("/image/brother.jpg")));
-        Image windowsXP = new Image(String.valueOf(getClass().getResource("/image/windowsXP.png")));
-        Image sea = new Image(String.valueOf(getClass().getResource("/image/sea.png")));
-
-        emptyBackground.setOnAction(event -> background.setImage(null));
-        brotherBackground.setOnAction(event -> background.setImage(brother));
-        windowsXPBackground.setOnAction(event -> background.setImage(windowsXP));
-        seaBackground.setOnAction(event -> background.setImage(sea));
-
-
-    }
-
-    /**
-     * Set the background music.
-     */
-    public void setMusic() {
-
-
-        String mirageFile = String.valueOf(getClass().getResource("/music/Mirage.mp3"));
-        String touchedByTheSkyFile = String.valueOf(getClass().getResource("/music/Touched by the Sky.mp3"));
-
-        turnOff.setOnAction(event -> {
-            if (media != null) {
-                mediaPlayer.stop();
-            }
-        });
-        mirage.setOnAction(event -> {
-
-            if (media != null) {
-                mediaPlayer.stop();
-            }
-
-            media = new Media(mirageFile);
-            mediaPlayer = new MediaPlayer(media);
-
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.play();
-
-        });
-        touchedByTheSky.setOnAction(event -> {
-
-            if (media != null) {
-                mediaPlayer.stop();
-            }
-
-            media = new Media(touchedByTheSkyFile);
-            mediaPlayer = new MediaPlayer(media);
-
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.play();
-
-        });
-
-    }
-
-    /**
-     *Initialize the goal mode.
-     */
-    public void goalMode() {
+    private void goalMode() {
 
         if (ifTheTimelineRunning) {
             timeline.stop();
         }
         modeLabel.setText("GOAL");
-        goal.setText(String.valueOf(grid.getGoal()));
-
-    }
-
-    /**
-     * Switch the game mode to specified goal mode.
-     */
-    public void setGoal() {
-
-        easyButton.setOnAction(event -> {
-            mode = Mode.EASY_GOAL;
-            newStart();
-        });
-        normalButton.setOnAction(event -> {
-            mode = Mode.NORMAL_GOAL;
-            newStart();
-            newStart();
-        });
-        hardButton.setOnAction(event -> {
-            mode = Mode.HARD_GOAL;
-            newStart();
-        });
-        hellButton.setOnAction(event -> {
-            mode = Mode.HARD_GOAL;
-            newStart();
-        });
-        insaneButton.setOnAction(event -> {
-            mode = Mode.INSANE_GOAL;
-            newStart();
-        });
+        goalLabel.setText(String.valueOf(grid.getGoal()));
 
     }
 
     /**
      * Initialize the time mode.
      */
-    public void timeMode() {
+    private void timeMode() {
 
         if (ifTheTimelineRunning) {
             timeline.stop();
@@ -448,7 +695,7 @@ public class GameSceneController {
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
                     timeSeconds--;
-                    goal.setText(String.valueOf(timeSeconds));
+                    goalLabel.setText(String.valueOf(timeSeconds));
                     if (timeSeconds <= 0 || grid.lose()) {
                         timeline.stop();
                         ifTheTimelineRunning = false;
@@ -464,100 +711,18 @@ public class GameSceneController {
     }
 
     /**
-     * Switch the game mode to specified time mode.
-     */
-    public void setTime() {
-
-        easyTime.setOnAction(event -> {
-            mode = Mode.EASY_TIME;
-            newStart();
-        });
-        normalTime.setOnAction(event -> {
-            mode = Mode.NORMAL_TIME;
-            newStart();
-        });
-        hardTime.setOnAction(event -> {
-            mode = Mode.HARD_TIME;
-            newStart();
-        });
-        hellTime.setOnAction(event -> {
-            mode = Mode.HELL_TIME;
-            newStart();
-        });
-        insaneTime.setOnAction(event -> {
-            mode = Mode.INSANE_TIME;
-            newStart();
-        });
-
-    }
-
-    /**
-     * Exit the game scene and turn to login scene.
-     */
-    public void logOut() throws IOException {
-
-        Main.changeView("/FXML/login.fxml");
-        Main.stage.setTitle("2048/login");
-
-    }
-
-    /**
-     * Pop up the about-us interface.
-     */
-    public void aboutUs() throws IOException {
-        Main.addView("/FXML/aboutUs.fxml", "About Us");
-    }
-
-    /**
      * Update the highest score of current user.
      */
-    public void setHighestScoreLabel() {
-
-        String username = emailLabel.getText();
-        int higherScore = Math.max(Integer.parseInt(scoreLabel.getText()), userDAO.getHighestScoreByEmail(username));
-        userDAO.updateHighestScore(username, higherScore);
-        highestScoreLabel.setText(String.valueOf(userDAO.getHighestScoreByEmail(username)));
-
-    }
-
-    /**
-     * Pop up the ranking-list interface.
-     */
-    public void rankingList() throws IOException {
-        Main.addView("/FXML/rankingList.fxml", "Ranking List");
-    }
-
-    /**
-     * Press to start the AI mode.
-     * Repress to end the AI mode.
-     */
-    public void AIMode() {
-        if (AITimeline != null && AITimeline.getStatus() == Animation.Status.RUNNING) {
-            AITimeline.pause();
-            return;
+    private void setHighestScoreLabel() {
+        if (!ifStepBack) {
+            String email = emailLabel.getText();
+            int higherScore = Math.max(Integer.parseInt(scoreLabel.getText()), userDAO.getHighestScoreByEmail(email));
+            userDAO.updateHighestScore(email, higherScore);
+            highestScoreLabel.setText(String.valueOf(userDAO.getHighestScoreByEmail(email)));
         }
-        AITimeline = new Timeline(new KeyFrame(Duration.seconds(0.05), event -> {
-            AI ai = new AI(grid);
-            int move = ai.getBestMove(5);
-            switch (move) {
-                case 0:
-                    moveUp();
-                    break;
-                case 1:
-                    moveRight();
-                    break;
-                case 2:
-                    moveDown();
-                    break;
-                case 3:
-                    moveLeft();
-                    break;
-            }
-        }));
-        AITimeline.setCycleCount(Animation.INDEFINITE);
-        //AITimeline.setCycleCount(1);
-        AITimeline.play();
     }
+
+
 
 }
 

@@ -2,21 +2,44 @@ package com.CS109.game2048.service;
 
 import com.CS109.game2048.util.ArrayUtil;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Grid {
+public class Grid implements Serializable {
     private int[][] matrix = new int[4][4];
     private int step = 0;
     private int score = 0;
     private int goal = 2048;
     private boolean ifGameEnd = false;
+    private Grid parentGrid = null;
+
+    public boolean isIfGameEnd() {
+        return ifGameEnd;
+    }
+
+    public Grid getParentGrid() {
+        return parentGrid;
+    }
+
+    public void setParentGrid(Grid parentGrid) {
+        this.parentGrid = parentGrid;
+    }
 
     public Grid() {
     }
 
-    public Grid(int[][] matrix){
+    public Grid(int[][] matrix) {
         this.matrix = new int[4][4];
-        ArrayUtil.copyMatrix(matrix,this.matrix,4,4);
+        ArrayUtil.copyMatrix(matrix, this.matrix, 4, 4);
+    }
+
+    public Grid(Grid origin) {
+        this.parentGrid = origin.parentGrid;
+        ArrayUtil.copyMatrix(origin.matrix, this.matrix, 4, 4);
+        this.score = origin.score;
+        this.goal = origin.goal;
+        this.step = origin.step;
+        this.ifGameEnd = origin.ifGameEnd;
     }
 
     public int[][] getMatrix() {
@@ -39,11 +62,11 @@ public class Grid {
         return score;
     }
 
-    public void setScore(int score){
-        this.score=score;
+    public void setScore(int score) {
+        this.score = score;
     }
 
-    public int getGoal(){
+    public int getGoal() {
         return this.goal;
     }
 
@@ -51,7 +74,7 @@ public class Grid {
         return this.ifGameEnd;
     }
 
-    public void setIfGameEnd(boolean ifGameEnd){
+    public void setIfGameEnd(boolean ifGameEnd) {
         this.ifGameEnd = ifGameEnd;
 
     }
@@ -92,8 +115,9 @@ public class Grid {
 
         if (!ifGameEnd) {
 
-            int[][] preMatrix = new int[4][4];
-            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
+            Grid parentGrid = new Grid(this);
+//            int[][] preMatrix = new int[4][4];
+//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 3; col >= 0; col--) {
@@ -128,7 +152,8 @@ public class Grid {
                 }
             }
 
-            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+            if (ArrayUtil.isMatrixEquals(parentGrid.matrix, this.matrix)) {
+                this.setParentGrid(parentGrid);
                 generateRandomNumber();
                 this.step++;
             }
@@ -142,8 +167,9 @@ public class Grid {
 
         if (!ifGameEnd) {
 
-            int[][] preMatrix = new int[4][4];
-            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
+            Grid parentGrid = new Grid(this);
+//            int[][] preMatrix = new int[4][4];
+//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 0; col < 4; col++) {
@@ -178,7 +204,8 @@ public class Grid {
                 }
             }
 
-            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+            if (ArrayUtil.isMatrixEquals(parentGrid.matrix, this.matrix)) {
+                this.setParentGrid(parentGrid);
                 generateRandomNumber();
                 this.step++;
             }
@@ -192,8 +219,9 @@ public class Grid {
 
         if (!ifGameEnd) {
 
-            int[][] preMatrix = new int[4][4];
-            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
+            Grid parentGrid = new Grid(this);
+//            int[][] preMatrix = new int[4][4];
+//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 3; row >= 0; row--) {
@@ -228,7 +256,8 @@ public class Grid {
                 }
             }
 
-            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+            if (ArrayUtil.isMatrixEquals(parentGrid.matrix, this.matrix)) {
+                this.setParentGrid(parentGrid);
                 generateRandomNumber();
                 this.step++;
             }
@@ -242,8 +271,9 @@ public class Grid {
 
         if (!ifGameEnd) {
 
-            int[][] preMatrix = new int[4][4];
-            ArrayUtil.copyMatrix(this.matrix,preMatrix,4,4);
+            Grid parentGrid = new Grid(this);
+//            int[][] preMatrix = new int[4][4];
+//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 0; row < 4; row++) {
@@ -278,7 +308,8 @@ public class Grid {
                 }
             }
 
-            if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
+            if (ArrayUtil.isMatrixEquals(parentGrid.matrix, this.matrix)) {
+                this.setParentGrid(parentGrid);
                 generateRandomNumber();
                 this.step++;
             }
@@ -288,6 +319,7 @@ public class Grid {
 
     /**
      * Determine whether losing the game.
+     *
      * @return
      */
     public boolean lose() {
@@ -324,13 +356,14 @@ public class Grid {
 
     /**
      * Determine whether winning the game.
+     *
      * @return
      */
     public boolean win() {
-        if(ArrayUtil.getMax(this.matrix)>=this.goal){
-            this.ifGameEnd=true;
+        if (ArrayUtil.getMax(this.matrix) >= this.goal) {
+            this.ifGameEnd = true;
             return true;
-        }else {
+        } else {
             return false;
         }
     }
