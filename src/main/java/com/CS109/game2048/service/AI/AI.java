@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AI {
-    private boolean playerTurn = true;
+    private boolean ifPlayerTurn = true;
     private final Grid grid;
     private final int[][] matrix;
     private boolean[][] marked;
@@ -26,12 +26,12 @@ public class AI {
         this.matrix = this.grid.getMatrix();
     }
 
-    public boolean isCellAvailable(int cnt_x, int cnt_y) {
-        return matrix[cnt_x][cnt_y] == 0;
+    public boolean isCellAvailable(int x, int y) {
+        return matrix[x][y] == 0;
     }
 
-    public boolean isInBounds(int cnt_x, int cnt_y) {
-        return cnt_x >= 0 && cnt_x < 4 && cnt_y >= 0 && cnt_y < 4;
+    public boolean isInBounds(int x, int y) {
+        return x >= 0 && x < 4 && y >= 0 && y < 4;
     }
 
     public List<int[]> getAvailableCells() {
@@ -55,7 +55,7 @@ public class AI {
         this.matrix[x][y] = 0;
     }
 
-    public int getEmptyNum(int[][] matrix) {
+    public int getZeroNumbers(int[][] matrix) {
         int sum = 0;
         for (int[] ints : matrix) {
             for (int j = 0; j < matrix[0].length; j++) {
@@ -75,14 +75,14 @@ public class AI {
                     double value = Math.log(matrix[i][j]) / Math.log(2);
                     for (int direction = 1; direction <= 2; direction++) {
                         int[] vector = this.vectors[direction];
-                        int cnt_x = i, cnt_y = j;
+                        int x = i, y = j;
                         do {
-                            cnt_x += vector[0];
-                            cnt_y += vector[1];
-                        } while (isInBounds(cnt_x, cnt_y) && isCellAvailable(cnt_x, cnt_y));
-                        if (isInBounds(cnt_x, cnt_y)) {
-                            if (matrix[cnt_x][cnt_y] != 0) {
-                                double targetValue = Math.log(matrix[cnt_x][cnt_y]) / Math.log(2);
+                            x += vector[0];
+                            y += vector[1];
+                        } while (isInBounds(x, y) && isCellAvailable(x, y));
+                        if (isInBounds(x, y)) {
+                            if (matrix[x][y] != 0) {
+                                double targetValue = Math.log(matrix[x][y]) / Math.log(2);
                                 smoothness -= Math.abs(value - targetValue);
                             }
                         }
@@ -152,7 +152,7 @@ public class AI {
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (matrix[i][j] != 0 && marked[i][j]) {
+                if (matrix[i][j] != 0 && !marked[i][j]) {
                     islands++;
                     mark(i, j, matrix[i][j]);
                 }
@@ -352,7 +352,7 @@ public class AI {
 
         if (ArrayUtil.isMatrixEquals(preMatrix, this.matrix)) {
             moved = true;
-            playerTurn = false;
+            ifPlayerTurn = false;
         }
 
         return moved;
@@ -365,7 +365,7 @@ public class AI {
                 maxWeight = 1;
         return smoothness() * smoothWeight
                 + monotonicity() * monoWeight
-                + Math.log(getEmptyNum(matrix) + 0.000001) * emptyWeight
+                + Math.log(getZeroNumbers(matrix) + 0.000001) * emptyWeight
                 + maxValue() * maxWeight;
     }
 
@@ -375,17 +375,15 @@ public class AI {
         SearchResult result = new SearchResult();
         int[] directions = {0, 1, 2, 3};
 
-        if (playerTurn) {
-            // System.out.println("hello");
+        if (this.ifPlayerTurn) {
             bestScore = alpha;
             for (int direction : directions) {
                 AI newAI = new AI(grid);
-                //Grid newGrid = new Grid(this.matrix);
                 if (newAI.move(direction)) {
-                    playerTurn = true;
+                    this.ifPlayerTurn = true;
                     positions++;
-                    //AI newAI = new AI(newGrid);
-                    newAI.playerTurn = false;
+                    newAI.ifPlayerTurn = false;
+
                     if (depth == 0) {
                         result.move = direction;
                         result.score = newAI.evaluate();
@@ -460,7 +458,7 @@ public class AI {
                 AI newAI = new AI(this.grid);
                 newAI.insertTitle(pos_x, pos_y, value);
                 positions++;
-                newAI.playerTurn = true;
+                newAI.ifPlayerTurn = true;
                 result = newAI.search(depth, alpha, bestScore, positions, cutoffs);
                 positions = result.position;
                 cutoffs = result.cutoffs;

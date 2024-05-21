@@ -97,9 +97,9 @@ public class ChangePassword {
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Dialog");
-        alert.setHeaderText("Are you sure to change your password?");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Change Successfully!");
         alert.showAndWait();
 
         userDAO.changePassword(email, password);

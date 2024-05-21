@@ -13,9 +13,15 @@ public class Grid implements Serializable {
     private boolean ifGameEnd = false;
     private Grid parentGrid = null;
 
-    public boolean isIfGameEnd() {
-        return ifGameEnd;
+    public boolean isIfStepBack() {
+        return ifStepBack;
     }
+
+    public void setIfStepBack(boolean ifStepBack) {
+        this.ifStepBack = ifStepBack;
+    }
+
+    private boolean ifStepBack = false;
 
     public Grid getParentGrid() {
         return parentGrid;
@@ -116,8 +122,6 @@ public class Grid implements Serializable {
         if (!ifGameEnd) {
 
             Grid parentGrid = new Grid(this);
-//            int[][] preMatrix = new int[4][4];
-//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 3; col >= 0; col--) {
@@ -168,8 +172,6 @@ public class Grid implements Serializable {
         if (!ifGameEnd) {
 
             Grid parentGrid = new Grid(this);
-//            int[][] preMatrix = new int[4][4];
-//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int row = 0; row < 4; row++) {
                 for (int col = 0; col < 4; col++) {
@@ -220,8 +222,6 @@ public class Grid implements Serializable {
         if (!ifGameEnd) {
 
             Grid parentGrid = new Grid(this);
-//            int[][] preMatrix = new int[4][4];
-//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 3; row >= 0; row--) {
@@ -272,8 +272,6 @@ public class Grid implements Serializable {
         if (!ifGameEnd) {
 
             Grid parentGrid = new Grid(this);
-//            int[][] preMatrix = new int[4][4];
-//            ArrayUtil.copyMatrix(this.matrix, preMatrix, 4, 4);
 
             for (int col = 0; col < 4; col++) {
                 for (int row = 0; row < 4; row++) {
@@ -319,8 +317,6 @@ public class Grid implements Serializable {
 
     /**
      * Determine whether losing the game.
-     *
-     * @return
      */
     public boolean lose() {
 
@@ -356,8 +352,6 @@ public class Grid implements Serializable {
 
     /**
      * Determine whether winning the game.
-     *
-     * @return
      */
     public boolean win() {
         if (ArrayUtil.getMax(this.matrix) >= this.goal) {

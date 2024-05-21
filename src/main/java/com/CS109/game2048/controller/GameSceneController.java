@@ -62,8 +62,6 @@ public class GameSceneController {
      */
     private Mode mode = Mode.NORMAL_GOAL;
 
-    private boolean ifStepBack = false;
-
     /**
      * The components of FXML.
      */
@@ -206,7 +204,7 @@ public class GameSceneController {
         if (emailLabel.getText().equals("AI@AI.com")) {
             AIButton.setVisible(true);
         }
-        if (emailLabel.getText().equals("Guest")) {
+        if (!emailLabel.getText().equals("Guest")) {
             saveButton.setVisible(true);
             loadButton.setVisible(true);
         }
@@ -214,6 +212,7 @@ public class GameSceneController {
         this.grid = new Grid();
         this.grid.initGridNumbers();
         fillNumbersIntoGridPane();
+        this.grid.setIfStepBack(true);
 
         stepLabel.setText(String.valueOf(this.grid.getStep()));
         scoreLabel.setText(String.valueOf(this.grid.getScore()));
@@ -308,7 +307,7 @@ public class GameSceneController {
         if (this.grid.getParentGrid() != null) {
             this.grid = this.grid.getParentGrid();
             afterMove();
-            this.ifStepBack = true;
+            this.grid.setIfStepBack(true);
         }
     }
 
@@ -323,19 +322,15 @@ public class GameSceneController {
         switch (event.getCode()) {
             case RIGHT, D:
                 moveRight();
-                event.consume();
                 break;
             case LEFT, A:
                 moveLeft();
-                event.consume();
                 break;
             case DOWN, S:
                 moveDown();
-                event.consume();
                 break;
             case UP, W:
                 moveUp();
-                event.consume();
                 break;
             default:
                 break;
@@ -531,7 +526,7 @@ public class GameSceneController {
         dialog.setContentText("File Name:");
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(fileName -> {
-            SaveGameUtil.saveGame(this.grid, fileName);
+            SaveGameUtil.saveGame(this.grid, fileName, emailLabel.getText());
         });
     }
 
@@ -543,8 +538,16 @@ public class GameSceneController {
         dialog.setContentText("File Name:");
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(fileName -> {
-            this.grid = SaveGameUtil.loadGame(fileName);
-            afterMove();
+
+            if (SaveGameUtil.loadGame(fileName, emailLabel.getText()) != null) {
+                this.grid = SaveGameUtil.loadGame(fileName, emailLabel.getText());
+                afterMove();
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("The file doesn't exist");
+                alert.showAndWait();
+            }
         });
     }
 
@@ -714,14 +717,13 @@ public class GameSceneController {
      * Update the highest score of current user.
      */
     private void setHighestScoreLabel() {
-        if (!ifStepBack) {
+        if (!this.grid.isIfStepBack()) {
             String email = emailLabel.getText();
             int higherScore = Math.max(Integer.parseInt(scoreLabel.getText()), userDAO.getHighestScoreByEmail(email));
             userDAO.updateHighestScore(email, higherScore);
             highestScoreLabel.setText(String.valueOf(userDAO.getHighestScoreByEmail(email)));
         }
     }
-
 
 
 }
