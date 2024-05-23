@@ -5,14 +5,12 @@ import com.CS109.game2048.repository.dao.UserDAO;
 import com.CS109.game2048.repository.impl.UserSQL;
 import com.CS109.game2048.service.AI.AI;
 import com.CS109.game2048.service.Grid;
+import com.CS109.game2048.util.Mode;
 import com.CS109.game2048.util.SaveGameUtil;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -54,13 +52,7 @@ public class GameSceneController {
      * The ifTheTimelineRunning is for determining whether the timeline is running.
      */
     private Timeline timeline, AITimeline;
-    private int timeSeconds;
     private boolean ifTheTimelineRunning = false;
-
-    /**
-     * The game provides ten modes totally, and the initial mode is NORMAL_GOAL mode which is 2048 goal.
-     */
-    private Mode mode = Mode.NORMAL_GOAL;
 
     /**
      * The components of FXML.
@@ -209,16 +201,16 @@ public class GameSceneController {
             loadButton.setVisible(true);
         }
 
+        Mode mode = this.grid.mode;
+
         this.grid = new Grid();
+        this.grid.mode = mode;
+        this.grid.setIfStepBack(false);
+
         this.grid.initGridNumbers();
-        fillNumbersIntoGridPane();
-        this.grid.setIfStepBack(true);
+        afterOperate();
 
-        stepLabel.setText(String.valueOf(this.grid.getStep()));
-        scoreLabel.setText(String.valueOf(this.grid.getScore()));
-        setHighestScoreLabel();
-
-        switch (mode) {
+        switch (this.grid.mode) {
             case EASY_GOAL:
                 this.grid.setGoal(1024);
                 goalMode();
@@ -240,23 +232,23 @@ public class GameSceneController {
                 goalMode();
                 break;
             case EASY_TIME:
-                timeSeconds = 600;
+                this.grid.timeSeconds = 600;
                 timeMode();
                 break;
             case NORMAL_TIME:
-                timeSeconds = 300;
+                this.grid.timeSeconds = 300;
                 timeMode();
                 break;
             case HARD_TIME:
-                timeSeconds = 180;
+                this.grid.timeSeconds = 180;
                 timeMode();
                 break;
             case HELL_TIME:
-                timeSeconds = 60;
+                this.grid.timeSeconds = 60;
                 timeMode();
                 break;
             case INSANE_TIME:
-                timeSeconds = 30;
+                this.grid.timeSeconds = 30;
                 timeMode();
                 break;
         }
@@ -272,7 +264,7 @@ public class GameSceneController {
     @FXML
     void moveRight() {
         this.grid.right();
-        afterMove();
+        afterOperate();
     }
 
     /**
@@ -281,7 +273,7 @@ public class GameSceneController {
     @FXML
     void moveLeft() {
         this.grid.left();
-        afterMove();
+        afterOperate();
     }
 
     /**
@@ -290,7 +282,7 @@ public class GameSceneController {
     @FXML
     void moveDown() {
         this.grid.down();
-        afterMove();
+        afterOperate();
     }
 
     /**
@@ -299,14 +291,14 @@ public class GameSceneController {
     @FXML
     void moveUp() {
         this.grid.up();
-        afterMove();
+        afterOperate();
     }
 
     @FXML
     void stepBack() {
         if (this.grid.getParentGrid() != null) {
             this.grid = this.grid.getParentGrid();
-            afterMove();
+            afterOperate();
             this.grid.setIfStepBack(true);
         }
     }
@@ -407,24 +399,24 @@ public class GameSceneController {
     void setGoal() {
 
         easyButton.setOnAction(event -> {
-            mode = Mode.EASY_GOAL;
+            this.grid.mode = Mode.EASY_GOAL;
             newStart();
         });
         normalButton.setOnAction(event -> {
-            mode = Mode.NORMAL_GOAL;
+            this.grid.mode = Mode.NORMAL_GOAL;
             newStart();
             newStart();
         });
         hardButton.setOnAction(event -> {
-            mode = Mode.HARD_GOAL;
+            this.grid.mode = Mode.HARD_GOAL;
             newStart();
         });
         hellButton.setOnAction(event -> {
-            mode = Mode.HARD_GOAL;
+            this.grid.mode = Mode.HARD_GOAL;
             newStart();
         });
         insaneButton.setOnAction(event -> {
-            mode = Mode.INSANE_GOAL;
+            this.grid.mode = Mode.INSANE_GOAL;
             newStart();
         });
 
@@ -437,23 +429,23 @@ public class GameSceneController {
     void setTime() {
 
         easyTime.setOnAction(event -> {
-            mode = Mode.EASY_TIME;
+            this.grid.mode = Mode.EASY_TIME;
             newStart();
         });
         normalTime.setOnAction(event -> {
-            mode = Mode.NORMAL_TIME;
+            this.grid.mode = Mode.NORMAL_TIME;
             newStart();
         });
         hardTime.setOnAction(event -> {
-            mode = Mode.HARD_TIME;
+            this.grid.mode = Mode.HARD_TIME;
             newStart();
         });
         hellTime.setOnAction(event -> {
-            mode = Mode.HELL_TIME;
+            this.grid.mode = Mode.HELL_TIME;
             newStart();
         });
         insaneTime.setOnAction(event -> {
-            mode = Mode.INSANE_TIME;
+            this.grid.mode = Mode.INSANE_TIME;
             newStart();
         });
 
@@ -541,11 +533,11 @@ public class GameSceneController {
 
             if (SaveGameUtil.loadGame(fileName, emailLabel.getText()) != null) {
                 this.grid = SaveGameUtil.loadGame(fileName, emailLabel.getText());
-                afterMove();
-            }else{
+                afterOperate();
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setHeaderText("The file doesn't exist");
+                alert.setHeaderText("The file is invalid!");
                 alert.showAndWait();
             }
         });
@@ -636,7 +628,7 @@ public class GameSceneController {
      * Determine whether lose the game or win.
      * Update the highest score of current user.
      */
-    private void afterMove() {
+    private void afterOperate() {
         fillNumbersIntoGridPane();
         stepLabel.setText(String.valueOf(this.grid.getStep()));
         scoreLabel.setText(String.valueOf(this.grid.getScore()));
@@ -697,9 +689,9 @@ public class GameSceneController {
         modeLabel.setText("TIME");
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
-                    timeSeconds--;
-                    goalLabel.setText(String.valueOf(timeSeconds));
-                    if (timeSeconds <= 0 || grid.lose()) {
+                    this.grid.timeSeconds--;
+                    goalLabel.setText(String.valueOf(this.grid.timeSeconds));
+                    if (this.grid.timeSeconds <= 0 || grid.lose()) {
                         timeline.stop();
                         ifTheTimelineRunning = false;
                         lose();
@@ -725,10 +717,4 @@ public class GameSceneController {
         }
     }
 
-
 }
-
-enum Mode {
-    EASY_GOAL, NORMAL_GOAL, HARD_GOAL, HELL_GOAL, INSANE_GOAL, EASY_TIME, NORMAL_TIME, HARD_TIME, HELL_TIME, INSANE_TIME
-}
-

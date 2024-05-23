@@ -13,14 +13,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="pane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.GameSceneController">
    <children>
       <Pane fx:id="mainPane">
          <ImageView fx:id="background" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
-         <GridPane fx:id="gridPane" alignment="TOP_CENTER" layoutX="350.0" layoutY="300.0" style="-fx-background-color: #B8ADA0; -fx-background-radius: 5px;">
+         <GridPane fx:id="gridPane" alignment="TOP_CENTER" layoutX="350.0" layoutY="386.0" style="-fx-background-color: #B8ADA0; -fx-background-radius: 5px;">
             <columnConstraints>
                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
@@ -114,33 +113,32 @@
                </font>
             </Label>
          </GridPane>
-         <Label fx:id="emailLabel" alignment="CENTER" focusTraversable="false" layoutX="41.0" layoutY="48.0" prefHeight="24.0" prefWidth="229.0" style="-fx-background-color: green;" text="Guest" textAlignment="CENTER" textFill="WHITE">
+         <Label fx:id="emailLabel" alignment="CENTER" focusTraversable="false" layoutX="20.0" layoutY="66.0" prefHeight="32.0" prefWidth="229.0" style="-fx-background-color: #B8ADA0;" text="Guest" textAlignment="CENTER" textFill="WHITE">
             <font>
                <Font name="System Bold" size="18.0" />
             </font>
          </Label>
-         <Circle fill="#44ff21" layoutX="20.0" layoutY="60.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-         <Button fx:id="start" alignment="CENTER" focusTraversable="false" layoutX="40.0" layoutY="300.0" mnemonicParsing="false" onAction="#newStart" onKeyPressed="#onKeyPressed" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="New Game" textFill="WHITE">
+         <Button fx:id="start" alignment="CENTER" focusTraversable="false" layoutX="40.0" layoutY="200.0" mnemonicParsing="false" onAction="#newStart" onKeyPressed="#onKeyPressed" prefHeight="50.0" prefWidth="165.0" stylesheets="@../css/game.css" text="New Game" textFill="WHITE">
             <font>
                <Font name="System Bold" size="24.0" />
             </font>
          </Button>
-         <Button fx:id="right" layoutX="167.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveRight" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="right" textFill="WHITE">
+         <Button fx:id="right" layoutX="167.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveRight" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" stylesheets="@../css/game.css" text="right" textFill="WHITE">
             <font>
                <Font name="System Bold" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="left" layoutX="20.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveLeft" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="left" textFill="WHITE">
+         <Button fx:id="left" layoutX="20.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveLeft" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" stylesheets="@../css/game.css" text="left" textFill="WHITE">
             <font>
                <Font name="System Bold" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="down" layoutX="95.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveDown" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="down" textFill="WHITE">
+         <Button fx:id="down" layoutX="95.0" layoutY="726.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveDown" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" stylesheets="@../css/game.css" text="down" textFill="WHITE">
             <font>
                <Font name="System Bold" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="up" layoutX="95.0" layoutY="640.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveUp" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #8B7A66;" text="up" textFill="WHITE">
+         <Button fx:id="up" layoutX="95.0" layoutY="640.0" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#moveUp" onKeyPressed="#onKeyPressed" prefHeight="60.0" prefWidth="60.0" stylesheets="@../css/game.css" text="up" textFill="WHITE">
             <font>
                <Font name="System Bold" size="18.0" />
             </font>
@@ -196,7 +194,7 @@
                </Label>
             </children>
          </VBox>
-         <VBox layoutX="48.0" layoutY="100.0" style="-fx-background-radius: 100px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+         <VBox layoutX="613.0" layoutY="150.0" style="-fx-background-radius: 100px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
             <children>
                <Label fx:id="modeLabel" alignment="CENTER" focusTraversable="false" prefHeight="75.0" prefWidth="150.0" style="-fx-text-fill: #ECE4DA;" text="GOAL" textFill="WHITE">
                   <font>
@@ -213,21 +211,21 @@
                <Insets />
             </opaqueInsets>
          </VBox>
-         <Button fx:id="AIButton" focusTraversable="false" layoutX="585.0" layoutY="200.0" mnemonicParsing="false" onAction="#AIMode" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="AI RUN" textFill="WHITE" visible="false">
+         <Button fx:id="AIButton" focusTraversable="false" layoutX="40.0" layoutY="500.0" mnemonicParsing="false" onAction="#AIMode" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" stylesheets="@../css/game.css" text="AI RUN" textFill="WHITE" visible="false">
             <font>
                <Font name="System Bold" size="24.0" />
             </font>
          </Button>
-         <Button fx:id="stepBackButton" alignment="CENTER" focusTraversable="false" layoutX="40.0" layoutY="375.0" mnemonicParsing="false" onAction="#stepBack" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="Step Back" textFill="WHITE">
+         <Button fx:id="stepBackButton" alignment="CENTER" focusTraversable="false" layoutX="40.0" layoutY="275.0" mnemonicParsing="false" onAction="#stepBack" prefHeight="50.0" prefWidth="165.0" stylesheets="@../css/game.css" text="Step Back" textFill="WHITE">
             <font>
                <Font name="System Bold" size="24.0" />
             </font></Button>
-         <Button fx:id="saveButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="40.0" layoutY="450.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="Save" textFill="WHITE" visible="false">
+         <Button fx:id="saveButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="40.0" layoutY="350.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="50.0" prefWidth="165.0" stylesheets="@../css/game.css" text="Save" textFill="WHITE" visible="false">
             <font>
                <Font name="System Bold" size="24.0" />
             </font>
          </Button>
-         <Button fx:id="loadButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="40.0" layoutY="525.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" text="Load" textFill="WHITE" visible="false">
+         <Button fx:id="loadButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="40.0" layoutY="425.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="50.0" prefWidth="165.0" stylesheets="@../css/game.css" text="Load" textFill="WHITE" visible="false">
             <font>
                <Font name="System Bold" size="24.0" />
             </font>

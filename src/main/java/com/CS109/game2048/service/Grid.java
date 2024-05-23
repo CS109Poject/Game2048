@@ -1,6 +1,7 @@
 package com.CS109.game2048.service;
 
 import com.CS109.game2048.util.ArrayUtil;
+import com.CS109.game2048.util.Mode;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -12,6 +13,9 @@ public class Grid implements Serializable {
     private int goal = 2048;
     private boolean ifGameEnd = false;
     private Grid parentGrid = null;
+    public Mode mode = Mode.NORMAL_GOAL;
+    public int timeSeconds;
+    private boolean ifStepBack = false;
 
     public boolean isIfStepBack() {
         return ifStepBack;
@@ -20,8 +24,6 @@ public class Grid implements Serializable {
     public void setIfStepBack(boolean ifStepBack) {
         this.ifStepBack = ifStepBack;
     }
-
-    private boolean ifStepBack = false;
 
     public Grid getParentGrid() {
         return parentGrid;
@@ -46,6 +48,9 @@ public class Grid implements Serializable {
         this.goal = origin.goal;
         this.step = origin.step;
         this.ifGameEnd = origin.ifGameEnd;
+        this.mode = origin.mode;
+        this.timeSeconds = origin.timeSeconds;
+        this.ifStepBack = origin.ifStepBack;
     }
 
     public int[][] getMatrix() {

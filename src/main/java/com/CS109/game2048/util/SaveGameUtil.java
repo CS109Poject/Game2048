@@ -39,7 +39,7 @@ public class SaveGameUtil {
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             return (Grid) objectIn.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            return null;
         }
     }
 }
