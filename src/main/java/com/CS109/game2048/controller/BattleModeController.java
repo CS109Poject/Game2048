@@ -2,6 +2,7 @@ package com.CS109.game2048.controller;
 
 import com.CS109.game2048.net.Client;
 import com.CS109.game2048.net.Server;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,31 +30,43 @@ public class BattleModeController {
 
     @FXML
     void issueChallenge(ActionEvent event) {
-        this.server = new Server();
+        Thread serverThread = new Thread(() -> {
+            this.server = new Server();
+        });
+        serverThread.start();
+
     }
 
     @FXML
     void searchChallenge(ActionEvent event) {
-        this.client = new Client(this);
+       Thread clientThread = new Thread(()->{
+            this.client=new Client(this);
+       });
+       clientThread.start();
     }
 
     @FXML
     void move(KeyEvent event) {
+            String message = null;
 
-        String message = null;
+            switch (event.getCode()) {
+                case RIGHT -> message = "right";
+                case LEFT -> message = "left";
+                case UP -> message = "up";
+                case DOWN -> message = "down";
+            }
 
-        switch (event.getCode()) {
-            case RIGHT -> message = "right";
-            case LEFT -> message = "left";
-            case UP -> message = "up";
-            case DOWN -> message = "down";
+            if (message != null && this.client.isConnectionState()) {
+                this.client.sendMessage(message);
+
+            //afterOperate();
         }
+    }
 
-        if (message != null && this.client.isConnectionState()) {
-            this.client.sendMessage(message);
-        }
-
-        //afterOperate();
+    @FXML
+    void disconnect(){
+        this.client.disconnect();
+        this.server.closeServer();
     }
 
     private void afterOperate() {

@@ -16,6 +16,7 @@ public class Server {
     private Grid grid1 = new Grid();
     private Grid grid2 = new Grid();
     private List<ClientHandler> clients = new ArrayList<>();
+    private ServerSocket serverSocket;
 
     public Server() {
         try {
@@ -24,16 +25,16 @@ public class Server {
             this.grid2.initGridNumbers();
 
             System.out.println("Server begins to work!");
-            ServerSocket serverSocket = new ServerSocket(9999);
+            serverSocket = new ServerSocket(9999);
 
             Socket socket1 = serverSocket.accept();
-            ClientHandler client1 = new ClientHandler(socket1,grid1,grid2,this);
+            ClientHandler client1 = new ClientHandler(socket1, grid1, grid2, this);
             new Thread(client1).start();
             clients.add(client1);
             System.out.println("Player1 ready");
 
             Socket socket2 = serverSocket.accept();
-            ClientHandler client2 = new ClientHandler(socket2,grid2,grid1,this);
+            ClientHandler client2 = new ClientHandler(socket2, grid2, grid1, this);
             new Thread(client2).start();
             clients.add(client2);
             System.out.println("Player2 ready");
@@ -43,23 +44,40 @@ public class Server {
         }
     }
 
-    public void sendGrids(){
-        for (ClientHandler clientHandler:clients){
+    public void sendGrids() {
+        for (ClientHandler clientHandler : clients) {
             clientHandler.sendGrids();
+        }
+    }
+
+    public void closeServer() {
+        try {
+            for (ClientHandler client : clients) {
+                client.socket.close();
+            }
+
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+
+            clients.clear();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
 }
 
 class ClientHandler implements Runnable {
-    private Socket socket;
+    public Socket socket;
     private Server server;
     private ObjectOutputStream oss;
     private ObjectInputStream ois;
     private final Grid myGrid;
     private final Grid enemyGrid;
 
-    ClientHandler(Socket socket, Grid myGrid, Grid enemyGrid,Server server) {
+    ClientHandler(Socket socket, Grid myGrid, Grid enemyGrid, Server server) {
         this.socket = socket;
         this.myGrid = myGrid;
         this.enemyGrid = enemyGrid;
@@ -90,12 +108,10 @@ class ClientHandler implements Runnable {
                             break;
                     }
 
-                    System.out.println(Arrays.deepToString(myGrid.getMatrix()));
-
                     this.server.sendGrids();
 
-                } catch (SocketException e) {
-                    System.out.println("Client leave.");
+                } catch (EOFException | SocketException e) {
+                    System.out.println("Client Disconnected.");
                     break;
                 }
 
@@ -104,7 +120,15 @@ class ClientHandler implements Runnable {
             e.printStackTrace();
         } finally {
             try {
-                socket.close();
+                if (oss != null) {
+                    oss.close();
+                }
+                if (ois != null) {
+                    ois.close();
+                }
+                if (socket != null && !socket.isClosed()) {
+                    socket.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -115,7 +139,7 @@ class ClientHandler implements Runnable {
         try {
             Grid myGrid = FileUtil.deepCopy(this.myGrid);
             Grid enemyGrid = FileUtil.deepCopy(this.enemyGrid);
-            Grid[] grids = {myGrid,enemyGrid};
+            Grid[] grids = {myGrid, enemyGrid};
             oss.writeObject(grids);
             oss.flush();
         } catch (IOException e) {

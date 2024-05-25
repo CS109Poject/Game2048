@@ -204,5 +204,6 @@
             </Label>
          </children>
       </GridPane>
+      <Button focusTraversable="false" layoutX="36.0" layoutY="161.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
    </children>
 </AnchorPane>

@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -20,8 +21,8 @@ public class Client {
     public Client(BattleModeController battleModeController) {
         connect();
         if (connectionState) {
-            new Thread(new ClientListen(socket, this,battleModeController)).start();
-            new Thread(new ClientSend(socket)).start();
+            new Thread(new ClientListen(socket, this, battleModeController)).start();
+            //new Thread(new ClientSend(socket)).start();
         }
     }
 
@@ -73,6 +74,22 @@ public class Client {
             e.printStackTrace();
         }
     }
+
+    public void disconnect() {
+        connectionState = false;
+        try {
+            if (oss != null) {
+                oss.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 class ClientListen implements Runnable {
@@ -84,66 +101,48 @@ class ClientListen implements Runnable {
     private final BattleModeController battleModeController;
     private Client client;
 
-    ClientListen(Socket socket, Client client,BattleModeController battleModeController) {
+    ClientListen(Socket socket, Client client, BattleModeController battleModeController) {
         this.socket = socket;
         this.battleModeController = battleModeController;
-        this.client=client;
+        this.client = client;
     }
 
     @Override
     public void run() {
         try {
             this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            while (true) {
-                Object obj = this.ois.readObject();
-                if (obj instanceof Grid[]) {
-                    Grid[] grids = (Grid[]) obj;
-                    myGrid.copy(grids[0]);
-                    enemyGrid.copy(grids[1]);
-                    this.client.setMyGrid(myGrid);
-                    this.client.setEnemyGrid(enemyGrid);
-                    System.out.println(Arrays.deepToString(myGrid.getMatrix()));
-                    System.out.println(Arrays.deepToString(enemyGrid.getMatrix()));
-                    Platform.runLater(battleModeController::fillNumbersIntoGridPane);
-                    //battleModeController.fillNumbersIntoGridPane();
+            while (client.isConnectionState()) {
+                try {
+                    Object obj = this.ois.readObject();
+                    if (obj instanceof Grid[]) {
+                        Grid[] grids = (Grid[]) obj;
+                        myGrid.copy(grids[0]);
+                        enemyGrid.copy(grids[1]);
+                        this.client.setMyGrid(myGrid);
+                        this.client.setEnemyGrid(enemyGrid);
+                        if (!this.client.getMyGrid().getIfGameEnd() || !this.client.getEnemyGrid().getIfGameEnd()) {
+                            Platform.runLater(battleModeController::fillNumbersIntoGridPane);
+                        }
+                    }
+                }catch (EOFException|SocketException e){
+                    System.out.println("Connection closed.");
+                    break;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-class ClientSend implements Runnable {
-
-    private Socket socket;
-    private ObjectOutputStream oss;
-
-    ClientSend(Socket socket) {
-        this.socket = socket;
-    }
-
-    @Override
-    public void run() {
-        try {
-            //this.oss = new ObjectOutputStream(socket.getOutputStream());
-            //Scanner sc = new Scanner(System.in);
-            while (true) {
-                //sengMessage();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+                if (socket != null) {
+                    socket.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
-
-    public void sendMessage(String message) {
-        try {
-            oss.writeObject(message);
-            oss.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
 }
