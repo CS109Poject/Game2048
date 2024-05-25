@@ -253,6 +253,7 @@
                <MenuItem fx:id="hellTime" mnemonicParsing="false" onAction="#setTime" text="HELL: 1min" />
                <MenuItem fx:id="insaneTime" mnemonicParsing="false" onAction="#setTime" text="INSANE: 30s" />
             </Menu>
+            <MenuItem mnemonicParsing="false" onAction="#twoPlayerMode" text="Two Player Battle" />
          </Menu>
          <Menu mnemonicParsing="false" onAction="#setBackground" text="Background">
             <MenuItem fx:id="emptyBackground" mnemonicParsing="false" onAction="#setBackground" text="Empty" />

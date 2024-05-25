@@ -1,6 +1,6 @@
 package com.CS109.game2048.util;
 
-import com.CS109.game2048.service.Grid;
+import com.CS109.game2048.engine.Grid;
 
 import java.io.*;
 import java.nio.file.Files;

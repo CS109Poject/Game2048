@@ -3,8 +3,8 @@ package com.CS109.game2048.controller;
 import com.CS109.game2048.main.Main;
 import com.CS109.game2048.repository.dao.UserDAO;
 import com.CS109.game2048.repository.impl.UserSQL;
-import com.CS109.game2048.service.AI.AI;
-import com.CS109.game2048.service.Grid;
+import com.CS109.game2048.engine.AI.AI;
+import com.CS109.game2048.engine.Grid;
 import com.CS109.game2048.util.Mode;
 import com.CS109.game2048.util.SaveGameUtil;
 import javafx.animation.Animation;
@@ -567,6 +567,11 @@ public class GameSceneController {
         }
         formatStyle();
 
+    }
+
+    @FXML
+    void twoPlayerMode() throws IOException {
+        Main.changeView("/FXML/battleMode.fxml");
     }
 
     /**

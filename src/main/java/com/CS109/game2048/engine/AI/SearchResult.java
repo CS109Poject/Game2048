@@ -1,4 +1,4 @@
-package com.CS109.game2048.service.AI;
+package com.CS109.game2048.engine.AI;
 
 public class SearchResult {
     public int move;

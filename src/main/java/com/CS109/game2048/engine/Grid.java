@@ -1,4 +1,4 @@
-package com.CS109.game2048.service;
+package com.CS109.game2048.engine;
 
 import com.CS109.game2048.util.ArrayUtil;
 import com.CS109.game2048.util.Mode;
@@ -16,6 +16,17 @@ public class Grid implements Serializable {
     public Mode mode = Mode.NORMAL_GOAL;
     public int timeSeconds;
     private boolean ifStepBack = false;
+
+    public void copy(Grid grid){
+        this.matrix = grid.getMatrix();
+        this.step=grid.step;
+        this.score=grid.getScore();
+        this.ifGameEnd=grid.ifGameEnd;
+        this.parentGrid=grid.parentGrid;
+        this.ifStepBack=grid.isIfStepBack();
+        this.mode = grid.mode;
+        this.timeSeconds= grid.timeSeconds;;
+    }
 
     public boolean isIfStepBack() {
         return ifStepBack;

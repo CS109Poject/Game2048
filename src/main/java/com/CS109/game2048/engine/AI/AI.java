@@ -1,6 +1,6 @@
-package com.CS109.game2048.service.AI;
+package com.CS109.game2048.engine.AI;
 
-import com.CS109.game2048.service.Grid;
+import com.CS109.game2048.engine.Grid;
 import com.CS109.game2048.util.ArrayUtil;
 
 import java.util.ArrayList;
