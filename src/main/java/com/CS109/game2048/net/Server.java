@@ -7,12 +7,15 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Server {
     //private int clientCount = 0;
     private Grid grid1 = new Grid();
     private Grid grid2 = new Grid();
+    private List<ClientHandler> clients = new ArrayList<>();
 
     public Server() {
         try {
@@ -24,31 +27,43 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(9999);
 
             Socket socket1 = serverSocket.accept();
-            new Thread(new ServerListen(socket1, grid1, grid2)).start();
+            ClientHandler client1 = new ClientHandler(socket1,grid1,grid2,this);
+            new Thread(client1).start();
+            clients.add(client1);
             System.out.println("Player1 ready");
 
             Socket socket2 = serverSocket.accept();
-            new Thread(new ServerListen(socket2, grid2, grid1)).start();
+            ClientHandler client2 = new ClientHandler(socket2,grid2,grid1,this);
+            new Thread(client2).start();
+            clients.add(client2);
             System.out.println("Player2 ready");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public void sendGrids(){
+        for (ClientHandler clientHandler:clients){
+            clientHandler.sendGrids();
+        }
+    }
+
 }
 
-class ServerListen implements Runnable {
+class ClientHandler implements Runnable {
     private Socket socket;
+    private Server server;
     private ObjectOutputStream oss;
     private ObjectInputStream ois;
     private final Grid myGrid;
     private final Grid enemyGrid;
 
-    ServerListen(Socket socket, Grid myGrid, Grid enemyGrid) {
+    ClientHandler(Socket socket, Grid myGrid, Grid enemyGrid,Server server) {
         this.socket = socket;
         this.myGrid = myGrid;
         this.enemyGrid = enemyGrid;
-
+        this.server = server;
     }
 
     @Override
@@ -77,7 +92,7 @@ class ServerListen implements Runnable {
 
                     System.out.println(Arrays.deepToString(myGrid.getMatrix()));
 
-                    sendGrids();
+                    this.server.sendGrids();
 
                 } catch (SocketException e) {
                     System.out.println("Client leave.");
