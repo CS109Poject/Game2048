@@ -24,6 +24,7 @@ public class Client {
             new Thread(new ClientListen(socket, this, battleModeController)).start();
             //new Thread(new ClientSend(socket)).start();
         }
+        sendMessage("null");
     }
 
     public boolean isConnectionState() {
@@ -121,8 +122,10 @@ class ClientListen implements Runnable {
                         this.client.setMyGrid(myGrid);
                         this.client.setEnemyGrid(enemyGrid);
                         if (!this.client.getMyGrid().getIfGameEnd() || !this.client.getEnemyGrid().getIfGameEnd()) {
-                            Platform.runLater(battleModeController::fillNumbersIntoGridPane);
+                            Platform.runLater(battleModeController::afterOperate);
                         }
+
+
                     }
                 }catch (EOFException|SocketException e){
                     System.out.println("Connection closed.");

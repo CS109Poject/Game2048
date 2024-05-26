@@ -5,16 +5,21 @@ import com.CS109.game2048.net.Server;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+
+import java.net.BindException;
 
 public class BattleModeController {
 
     private Client client;
     private Server server;
     private final int GRID_SIZE = 4;
+    private boolean ifGameStart = false;
 
     @FXML
     private GridPane gridPane1;
@@ -29,26 +34,72 @@ public class BattleModeController {
     private Button searchChallengeButton;
 
     @FXML
+    private Label enemyScoreLabel;
+
+    @FXML
+    private Label enemyStepLabel;
+
+    @FXML
+    private Label myScoreLabel;
+
+    @FXML
+    private Label myStepLabel;
+
+    @FXML
+    private Pane myLosePane;
+
+    @FXML
+    private Pane enemyLosePane;
+
+    @FXML
     void issueChallenge(ActionEvent event) {
         Thread serverThread = new Thread(() -> {
-            this.server = new Server();
+            try {
+                this.server = new Server();
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Server startup failed.");
+                    alert.showAndWait();
+                });
+            }
         });
         serverThread.setDaemon(true);
         serverThread.start();
 
+        Thread clientThread = new Thread(() -> {
+            try {
+                this.client = new Client(this);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Client startup failed.");
+                alert.showAndWait();
+            }
+        });
+        clientThread.setDaemon(true);
+        clientThread.start();
     }
 
     @FXML
     void searchChallenge(ActionEvent event) {
-       Thread clientThread = new Thread(()->{
-            this.client=new Client(this);
-       });
-       clientThread.setDaemon(true);
-       clientThread.start();
+        Thread clientThread = new Thread(() -> {
+            try {
+                this.client = new Client(this);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Client startup failed.");
+                alert.showAndWait();
+            }
+        });
+        clientThread.setDaemon(true);
+        clientThread.start();
+    }
+
+    @FXML
+    void start() {
+        this.client.sendMessage("start");
     }
 
     @FXML
     void move(KeyEvent event) {
+        if (this.client.getMyGrid().isIfGameBegin()&&this.client.getMyGrid().isIfGameBegin()) {
             String message = null;
 
             switch (event.getCode()) {
@@ -61,31 +112,48 @@ public class BattleModeController {
             if (message != null && this.client.isConnectionState()) {
                 this.client.sendMessage(message);
 
-            //afterOperate();
+                //afterOperate();
+            }
         }
     }
 
     @FXML
-    void disconnect(){
+    void disconnect() {
         this.client.disconnect();
         this.server.closeServer();
     }
 
-    private void afterOperate() {
-        //fillNumbersIntoGridPane();
-        //stepLabel.setText(String.valueOf(this.grid.getStep()));
-        //scoreLabel.setText(String.valueOf(this.grid.getScore()));
-        //setHighestScoreLabel();
+    public void afterOperate() {
+
+        fillNumbersIntoGridPane();
+
+        myStepLabel.setText(String.valueOf(this.client.getMyGrid().getStep()));
+        myScoreLabel.setText(String.valueOf(this.client.getMyGrid().getScore()));
+
+        enemyStepLabel.setText(String.valueOf(this.client.getEnemyGrid().getStep()));
+        enemyScoreLabel.setText(String.valueOf(this.client.getEnemyGrid().getScore()));
+
         if (this.client.getMyGrid().lose()) {
-            //lose();
-        } else if (this.client.getMyGrid().win()) {
-            //win();
+            myLose();
+        } else if (this.client.getEnemyGrid().lose()) {
+            enemyLose();
         } else {
-            ///endPane.setVisible(false);
-            //endLabel.setText("");
-            //gridPane.setOpacity(1);
+            myLosePane.setVisible(false);
+            enemyLosePane.setVisible(false);
+            gridPane1.setOpacity(1);
+            gridPane2.setOpacity(1);
         }
 
+    }
+
+    public void myLose() {
+        myLosePane.setVisible(true);
+        gridPane1.setOpacity(0.2);
+    }
+
+    public void enemyLose() {
+        enemyLosePane.setVisible(true);
+        gridPane2.setOpacity(0.2);
     }
 
     public void fillNumbersIntoGridPane() {

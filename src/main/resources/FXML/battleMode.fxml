@@ -5,13 +5,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.BattleModeController">
    <children>
-      <Button fx:id="issueChallengeButton" focusTraversable="false" layoutX="36.0" layoutY="63.0" mnemonicParsing="false" onAction="#issueChallenge" text="Issue a challenge" />
-      <Button fx:id="searchChallengeButton" focusTraversable="false" layoutX="36.0" layoutY="108.0" mnemonicParsing="false" onAction="#searchChallenge" text="Search for a challenge" />
+      <Button fx:id="issueChallengeButton" alignment="CENTER" focusTraversable="false" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" onAction="#issueChallenge" prefHeight="48.0" prefWidth="299.0" stylesheets="@../css/game.css" text="Issue a challenge" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Button>
+      <Button fx:id="searchChallengeButton" alignment="CENTER" focusTraversable="false" layoutX="328.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchChallenge" stylesheets="@../css/game.css" text="Search for a challenge" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Button>
       <GridPane fx:id="gridPane1" alignment="TOP_CENTER" focusTraversable="true" layoutX="36.0" layoutY="369.0" onKeyPressed="#move" style="-fx-background-color: #B8ADA0; -fx-background-radius: 5px;">
          <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
@@ -204,6 +212,88 @@
             </Label>
          </children>
       </GridPane>
-      <Button focusTraversable="false" layoutX="36.0" layoutY="161.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
+      <Button alignment="CENTER" focusTraversable="false" layoutX="643.0" layoutY="14.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="48.0" prefWidth="299.0" stylesheets="@../css/game.css" text="Disconnect" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Button>
+      <VBox layoutX="529.0" layoutY="221.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+         <children>
+            <Label alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="SCORE" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="enemyScoreLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="667.0" layoutY="221.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="STEP" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="enemyStepLabel" alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="36.0" layoutY="221.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+         <children>
+            <Label alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="SCORE" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="myScoreLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="174.0" layoutY="221.0" style="-fx-background-radius: 5px; -fx-background-color: #B8ADA0; -fx-effect: dropshadow(gaussian, #333, 0, 0, 0,0 );">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #ECE4DA;" text="STEP" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="myStepLabel" alignment="CENTER" focusTraversable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-text-fill: #FFFFFF;" text="0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Pane fx:id="myLosePane" layoutX="37.0" layoutY="369.0" prefHeight="400.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label alignment="CENTER" prefHeight="207.0" prefWidth="400.0" text="You lose" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="enemyLosePane" layoutX="530.0" layoutY="369.0" prefHeight="400.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label alignment="CENTER" prefHeight="207.0" prefWidth="400.0" text="Enemy lose" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button fx:id="startButton" alignment="CENTER" focusTraversable="false" layoutX="36.0" layoutY="107.0" mnemonicParsing="false" onAction="#start" prefHeight="48.0" prefWidth="125.0" stylesheets="@../css/game.css" text="Start" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

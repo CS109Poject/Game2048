@@ -12,20 +12,30 @@ public class Grid implements Serializable {
     private int score = 0;
     private int goal = 2048;
     private boolean ifGameEnd = false;
+    private boolean ifGameBegin = false;
     private Grid parentGrid = null;
     public Mode mode = Mode.NORMAL_GOAL;
     public int timeSeconds;
     private boolean ifStepBack = false;
 
-    public void copy(Grid grid){
+    public void copy(Grid grid) {
         this.matrix = grid.getMatrix();
-        this.step=grid.step;
-        this.score=grid.getScore();
-        this.ifGameEnd=grid.ifGameEnd;
-        this.parentGrid=grid.parentGrid;
-        this.ifStepBack=grid.isIfStepBack();
+        this.step = grid.step;
+        this.score = grid.getScore();
+        this.ifGameEnd = grid.ifGameEnd;
+        this.parentGrid = grid.parentGrid;
+        this.ifStepBack = grid.isIfStepBack();
         this.mode = grid.mode;
-        this.timeSeconds= grid.timeSeconds;;
+        this.timeSeconds = grid.timeSeconds;
+        ;
+    }
+
+    public boolean isIfGameBegin() {
+        return ifGameBegin;
+    }
+
+    public void setIfGameBegin(boolean ifGameBegin) {
+        this.ifGameBegin = ifGameBegin;
     }
 
     public boolean isIfStepBack() {

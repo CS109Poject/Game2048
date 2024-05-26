@@ -2,8 +2,11 @@ package com.CS109.game2048.net;
 
 import com.CS109.game2048.engine.Grid;
 import com.CS109.game2048.util.FileUtil;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 import java.io.*;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -24,20 +27,36 @@ public class Server {
             this.grid1.initGridNumbers();
             this.grid2.initGridNumbers();
 
-            System.out.println("Server begins to work!");
-            serverSocket = new ServerSocket(9999);
 
-            Socket socket1 = serverSocket.accept();
-            ClientHandler client1 = new ClientHandler(socket1, grid1, grid2, this);
-            new Thread(client1).start();
-            clients.add(client1);
-            System.out.println("Player1 ready");
+            try {
+                System.out.println("Server begins to work!");
+                serverSocket = new ServerSocket(9999);
 
-            Socket socket2 = serverSocket.accept();
-            ClientHandler client2 = new ClientHandler(socket2, grid2, grid1, this);
-            new Thread(client2).start();
-            clients.add(client2);
-            System.out.println("Player2 ready");
+
+                Socket socket1 = serverSocket.accept();
+                ClientHandler client1 = new ClientHandler(socket1, grid1, grid2, this);
+                new Thread(client1).start();
+                clients.add(client1);
+                System.out.println("Player1 ready");
+
+                Socket socket2 = serverSocket.accept();
+                ClientHandler client2 = new ClientHandler(socket2, grid2, grid1, this);
+                new Thread(client2).start();
+                clients.add(client2);
+                System.out.println("Player2 ready");
+
+                Platform.runLater(()->{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION,"All players are ready!");
+                    alert.showAndWait();
+                });
+
+            }catch (BindException e){
+                Platform.runLater(()->{
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"You have already issue a challenge.");
+                    alert.showAndWait();
+                });
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +104,7 @@ class ClientHandler implements Runnable {
         try {
             this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             this.oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -95,7 +114,7 @@ class ClientHandler implements Runnable {
         try {
 //            this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 //            this.oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            System.out.println("aaa");
+            //System.out.println("aaa");
             this.oss.flush();
             while (true) {
                 try {
@@ -113,6 +132,9 @@ class ClientHandler implements Runnable {
                             break;
                         case "left":
                             myGrid.left();
+                            break;
+                        case "start":
+                            myGrid.setIfGameBegin(true);
                             break;
                     }
 
