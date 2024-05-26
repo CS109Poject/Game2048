@@ -19,7 +19,7 @@ public class Grid implements Serializable {
     private boolean ifStepBack = false;
 
     public void copy(Grid grid) {
-        this.ifGameBegin=grid.isIfGameBegin();
+        this.ifGameBegin = grid.isIfGameBegin();
         this.matrix = grid.getMatrix();
         this.step = grid.step;
         this.score = grid.getScore();
@@ -117,8 +117,25 @@ public class Grid implements Serializable {
     }
 
     public void initGridNumbers() {
-        generateRandomNumber();
+
+        Random random = new Random();
+
+        while (true) {
+
+            int row1 = random.nextInt(4);
+            int col1 = random.nextInt(4);
+            int row2 = random.nextInt(4);
+            int col2 = random.nextInt(4);
+
+            if (row1 != row2 || col1 != col2) {
+                this.matrix[row1][col1] = 2;
+                this.matrix[row2][col2] = 4;
+                break;
+            }
+
+        }
     }
+
 
     /**
      * Randomly generate a 2 or 4 on the matrix's blanket area.
