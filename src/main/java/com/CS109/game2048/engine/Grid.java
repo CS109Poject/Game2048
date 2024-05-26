@@ -19,6 +19,7 @@ public class Grid implements Serializable {
     private boolean ifStepBack = false;
 
     public void copy(Grid grid) {
+        this.ifGameBegin=grid.isIfGameBegin();
         this.matrix = grid.getMatrix();
         this.step = grid.step;
         this.score = grid.getScore();

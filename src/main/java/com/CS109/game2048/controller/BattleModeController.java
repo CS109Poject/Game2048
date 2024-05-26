@@ -2,20 +2,30 @@ package com.CS109.game2048.controller;
 
 import com.CS109.game2048.net.Client;
 import com.CS109.game2048.net.Server;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 import java.net.BindException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Optional;
 
 public class BattleModeController {
 
+    private Timeline timeline;
+    private int timeSeconds = 300;
     private Client client;
     private Server server;
     private final int GRID_SIZE = 4;
@@ -52,6 +62,9 @@ public class BattleModeController {
     private Pane enemyLosePane;
 
     @FXML
+    private Label myReadyLabel, enemyReadyLabel, beginLabel, timeLabel, endLabel;
+
+    @FXML
     void issueChallenge(ActionEvent event) {
         Thread serverThread = new Thread(() -> {
             try {
@@ -66,9 +79,19 @@ public class BattleModeController {
         serverThread.setDaemon(true);
         serverThread.start();
 
+        String ipAddress = null;
+
+        try {
+            ipAddress = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        String finalIpAddress = ipAddress;
         Thread clientThread = new Thread(() -> {
             try {
-                this.client = new Client(this);
+                this.client = new Client(this, finalIpAddress);
+
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Client startup failed.");
                 alert.showAndWait();
@@ -82,10 +105,24 @@ public class BattleModeController {
     void searchChallenge(ActionEvent event) {
         Thread clientThread = new Thread(() -> {
             try {
-                this.client = new Client(this);
+
+                Platform.runLater(() -> {
+                    TextInputDialog textInputDialog = new TextInputDialog();
+                    textInputDialog.setTitle("Search for the host");
+                    textInputDialog.setHeaderText("Host");
+
+                    Optional<String> result = textInputDialog.showAndWait();
+                    result.ifPresent(host -> {
+                        this.client = new Client(this, host);
+                    });
+                });
+
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Client startup failed.");
-                alert.showAndWait();
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Client startup failed.");
+                    alert.showAndWait();
+                });
+                e.printStackTrace();
             }
         });
         clientThread.setDaemon(true);
@@ -99,7 +136,7 @@ public class BattleModeController {
 
     @FXML
     void move(KeyEvent event) {
-        if (this.client.getMyGrid().isIfGameBegin()&&this.client.getMyGrid().isIfGameBegin()) {
+        if (ifGameStart) {
             String message = null;
 
             switch (event.getCode()) {
@@ -126,6 +163,35 @@ public class BattleModeController {
     public void afterOperate() {
 
         fillNumbersIntoGridPane();
+
+        if (this.client.getMyGrid().isIfGameBegin()) {
+            myReadyLabel.setVisible(true);
+        }
+
+        if (this.client.getEnemyGrid().isIfGameBegin()) {
+            enemyReadyLabel.setVisible(true);
+        }
+
+        if (this.client.getMyGrid().isIfGameBegin() && this.client.getEnemyGrid().isIfGameBegin()) {
+            beginLabel.setVisible(true);
+            ifGameStart = true;
+
+            if (timeline == null) {
+                timeline = new Timeline(
+                        new KeyFrame(Duration.seconds(1), event -> {
+                            timeSeconds--;
+                            timeLabel.setText(String.valueOf(timeSeconds));
+                            if (timeSeconds <= 0 || (this.client.getMyGrid().lose() && this.client.getEnemyGrid().lose())) {
+                                timeline.stop();
+                                this.client.getMyGrid().setIfGameEnd(true);
+                                this.client.getEnemyGrid().setIfGameEnd(true);
+                                end();
+                            }
+                        }));
+            }
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+        }
 
         myStepLabel.setText(String.valueOf(this.client.getMyGrid().getStep()));
         myScoreLabel.setText(String.valueOf(this.client.getMyGrid().getScore()));
@@ -154,6 +220,19 @@ public class BattleModeController {
     public void enemyLose() {
         enemyLosePane.setVisible(true);
         gridPane2.setOpacity(0.2);
+    }
+
+    public void end() {
+        int myScore = Integer.parseInt(myScoreLabel.getText());
+        int enemyScore = Integer.parseInt(enemyScoreLabel.getText());
+        if (myScore > enemyScore) {
+            endLabel.setText("You Win!");
+        } else if (myScore < enemyScore) {
+            endLabel.setText("You lose!");
+        } else {
+            endLabel.setText("draw");
+        }
+        endLabel.setVisible(true);
     }
 
     public void fillNumbersIntoGridPane() {

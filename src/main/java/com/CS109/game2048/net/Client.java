@@ -18,8 +18,8 @@ public class Client {
     private boolean connectionState = false;
     private ObjectOutputStream oss;
 
-    public Client(BattleModeController battleModeController) {
-        connect();
+    public Client(BattleModeController battleModeController,String host) {
+        connect(host);
         if (connectionState) {
             new Thread(new ClientListen(socket, this, battleModeController)).start();
             //new Thread(new ClientSend(socket)).start();
@@ -51,9 +51,9 @@ public class Client {
         this.enemyGrid = enemyGrid;
     }
 
-    public void connect() {
+    public void connect(String host) {
         try {
-            socket = new Socket("10.32.54.253", 9999);
+            socket = new Socket(host, 9999);
             oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             connectionState = true;
         } catch (ConnectException ce) {
