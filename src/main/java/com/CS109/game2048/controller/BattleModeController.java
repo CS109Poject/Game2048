@@ -33,6 +33,7 @@ public class BattleModeController {
         Thread serverThread = new Thread(() -> {
             this.server = new Server();
         });
+        serverThread.setDaemon(true);
         serverThread.start();
 
     }
@@ -42,6 +43,7 @@ public class BattleModeController {
        Thread clientThread = new Thread(()->{
             this.client=new Client(this);
        });
+       clientThread.setDaemon(true);
        clientThread.start();
     }
 

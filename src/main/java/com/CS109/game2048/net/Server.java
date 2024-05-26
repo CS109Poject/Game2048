@@ -82,13 +82,21 @@ class ClientHandler implements Runnable {
         this.myGrid = myGrid;
         this.enemyGrid = enemyGrid;
         this.server = server;
+        try {
+            this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+            this.oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void run() {
         try {
-            this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            this.oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//            this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+//            this.oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            System.out.println("aaa");
+            this.oss.flush();
             while (true) {
                 try {
                     String receive = (String) ois.readObject();
@@ -119,19 +127,6 @@ class ClientHandler implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (oss != null) {
-                    oss.close();
-                }
-                if (ois != null) {
-                    ois.close();
-                }
-                if (socket != null && !socket.isClosed()) {
-                    socket.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
