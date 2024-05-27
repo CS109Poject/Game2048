@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.BattleModeController">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.BattleModeController">
    <children>
       <Button fx:id="issueChallengeButton" alignment="CENTER" focusTraversable="false" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" onAction="#issueChallenge" prefHeight="48.0" prefWidth="299.0" stylesheets="@../css/game.css" text="Issue a challenge" textFill="WHITE">
          <font>
@@ -212,7 +212,7 @@
             </Label>
          </children>
       </GridPane>
-      <Button alignment="CENTER" focusTraversable="false" layoutX="643.0" layoutY="14.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="48.0" prefWidth="299.0" stylesheets="@../css/game.css" text="Disconnect" textFill="WHITE">
+      <Button alignment="CENTER" focusTraversable="false" layoutX="643.0" layoutY="14.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="48.0" prefWidth="299.0" stylesheets="@../css/game.css" text="Disconnect" textFill="WHITE" visible="false">
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Button>

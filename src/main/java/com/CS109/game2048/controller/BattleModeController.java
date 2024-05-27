@@ -16,8 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-
-import java.net.BindException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Optional;
@@ -99,6 +97,9 @@ public class BattleModeController {
         });
         clientThread.setDaemon(true);
         clientThread.start();
+
+        issueChallengeButton.setVisible(false);
+        searchChallengeButton.setVisible(false);
     }
 
     @FXML
@@ -127,6 +128,9 @@ public class BattleModeController {
         });
         clientThread.setDaemon(true);
         clientThread.start();
+
+        issueChallengeButton.setVisible(false);
+        searchChallengeButton.setVisible(false);
     }
 
     @FXML
@@ -148,8 +152,6 @@ public class BattleModeController {
 
             if (message != null && this.client.isConnectionState()) {
                 this.client.sendMessage(message);
-
-                //afterOperate();
             }
         }
     }

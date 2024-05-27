@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.GameSceneController">
+<Pane fx:id="pane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS109.game2048.controller.GameSceneController">
    <children>
       <Pane fx:id="mainPane">
          <ImageView fx:id="background" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
@@ -211,7 +211,7 @@
                <Insets />
             </opaqueInsets>
          </VBox>
-         <Button fx:id="AIButton" focusTraversable="false" layoutX="40.0" layoutY="500.0" mnemonicParsing="false" onAction="#AIMode" prefHeight="50.0" prefWidth="165.0" style="-fx-background-color: #8B7A66;" stylesheets="@../css/game.css" text="AI RUN" textFill="WHITE" visible="false">
+         <Button fx:id="AIButton" focusTraversable="false" layoutX="40.0" layoutY="500.0" mnemonicParsing="false" onAction="#AIMode" prefHeight="50.0" prefWidth="165.0" stylesheets="@../css/game.css" text="AI RUN" textFill="WHITE" visible="false">
             <font>
                <Font name="System Bold" size="24.0" />
             </font>

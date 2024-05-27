@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Server {
-    //private int clientCount = 0;
     private Grid grid1 = new Grid();
     private Grid grid2 = new Grid();
     private List<ClientHandler> clients = new ArrayList<>();
@@ -27,9 +26,7 @@ public class Server {
             this.grid1.initGridNumbers();
             this.grid2.initGridNumbers();
 
-
             try {
-                System.out.println("Server begins to work!");
                 serverSocket = new ServerSocket(9999);
 
 
@@ -37,13 +34,11 @@ public class Server {
                 ClientHandler client1 = new ClientHandler(socket1, grid1, grid2, this);
                 new Thread(client1).start();
                 clients.add(client1);
-                System.out.println("Player1 ready");
 
                 Socket socket2 = serverSocket.accept();
                 ClientHandler client2 = new ClientHandler(socket2, grid2, grid1, this);
                 new Thread(client2).start();
                 clients.add(client2);
-                System.out.println("Player2 ready");
 
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "All players are ready!");
@@ -112,9 +107,6 @@ class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-//            this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-//            this.oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            //System.out.println("aaa");
             this.oss.flush();
             while (true) {
                 try {
@@ -141,7 +133,10 @@ class ClientHandler implements Runnable {
                     this.server.sendGrids();
 
                 } catch (EOFException | SocketException e) {
-                    System.out.println("Client Disconnected.");
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Player exit.");
+                        alert.showAndWait();
+                    });
                     break;
                 }
 

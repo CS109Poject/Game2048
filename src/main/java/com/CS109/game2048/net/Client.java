@@ -22,7 +22,6 @@ public class Client {
         connect(host);
         if (connectionState) {
             new Thread(new ClientListen(socket, this, battleModeController)).start();
-            //new Thread(new ClientSend(socket)).start();
         }
         sendMessage("null");
     }
@@ -56,11 +55,7 @@ public class Client {
             socket = new Socket(host, 9999);
             oss = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             connectionState = true;
-        } catch (ConnectException ce) {
-            System.out.println("connect false");
-            connectionState = false;
         } catch (Exception e) {
-            e.printStackTrace();
             connectionState = false;
         }
     }

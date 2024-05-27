@@ -47,11 +47,11 @@ public class AI {
         return cells;
     }
 
-    public void insertTitle(int x, int y, int value) {
+    public void insertTile(int x, int y, int value) {
         this.matrix[x][y] = value;
     }
 
-    public void removeTitle(int x, int y) {
+    public void removeTile(int x, int y) {
         this.matrix[x][y] = 0;
     }
 
@@ -380,7 +380,6 @@ public class AI {
             for (int direction : directions) {
                 AI newAI = new AI(grid);
                 if (newAI.move(direction)) {
-                    this.ifPlayerTurn = true;
                     positions++;
                     newAI.ifPlayerTurn = false;
 
@@ -415,10 +414,15 @@ public class AI {
             List<Double> scores_4 = new ArrayList<>();
             for (int value : fill) {
                 for (int i = 0; i < cells.size(); i++) {
-                    insertTitle(cells.get(i)[0], cells.get(i)[1], value);
-                    if (value == 2) scores_2.add(i, -smoothness() + islands());
-                    if (value == 4) scores_4.add(i, -smoothness() + islands());
-                    removeTitle(cells.get(i)[0], cells.get(i)[1]);
+                    insertTile(cells.get(i)[0], cells.get(i)[1], value);
+                    if (value == 2) {
+                        scores_2.add(i, -smoothness() + islands());
+                    }
+
+                    if (value == 4) {
+                        scores_4.add(i, -smoothness() + islands());
+                    }
+                    removeTile(cells.get(i)[0], cells.get(i)[1]);
                 }
             }
             double maxScore = 0;
@@ -456,7 +460,7 @@ public class AI {
                 int pos_y = candidate.y;
                 int value = candidate.value;
                 AI newAI = new AI(this.grid);
-                newAI.insertTitle(pos_x, pos_y, value);
+                newAI.insertTile(pos_x, pos_y, value);
                 positions++;
                 newAI.ifPlayerTurn = true;
                 result = newAI.search(depth, alpha, bestScore, positions, cutoffs);

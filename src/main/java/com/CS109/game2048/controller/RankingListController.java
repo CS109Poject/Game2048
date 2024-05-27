@@ -24,12 +24,16 @@ public class RankingListController {
     void initialize() {
         initializeScores();
         rank();
-        firstUsernameLabel.setText(allUsernames.get(0));
-        secondUsernameLabel.setText(allUsernames.get(1));
-        thirdUsernameLabel.setText(allUsernames.get(2));
-        firstScoreLabel.setText(String.valueOf(allHighestScores.get(0)));
-        secondScoreLabel.setText(String.valueOf(allHighestScores.get(1)));
-        thirdScoreLabel.setText(String.valueOf(allHighestScores.get(2)));
+        try {
+            firstUsernameLabel.setText(allUsernames.get(0));
+            secondUsernameLabel.setText(allUsernames.get(1));
+            thirdUsernameLabel.setText(allUsernames.get(2));
+            firstScoreLabel.setText(String.valueOf(allHighestScores.get(0)));
+            secondScoreLabel.setText(String.valueOf(allHighestScores.get(1)));
+            thirdScoreLabel.setText(String.valueOf(allHighestScores.get(2)));
+        }catch (ArrayIndexOutOfBoundsException e){
+
+        }
     }
 
     private void initializeScores() {

@@ -183,7 +183,6 @@ public class GameSceneController {
         menuBar.minWidthProperty().bind(pane.widthProperty());
         mainPane.layoutXProperty().bind(pane.widthProperty().subtract(mainPane.widthProperty()).divide(2));
         mainPane.layoutYProperty().bind(pane.heightProperty().subtract(mainPane.heightProperty()).divide(2));
-        //stepBackButton.setFocusTraversable(false);
     }
 
     /**

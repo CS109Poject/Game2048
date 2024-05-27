@@ -136,7 +136,6 @@ public class Grid implements Serializable {
         }
     }
 
-
     /**
      * Randomly generate a 2 or 4 on the matrix's blanket area.
      */
