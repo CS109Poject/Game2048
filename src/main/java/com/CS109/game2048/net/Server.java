@@ -45,14 +45,14 @@ public class Server {
                 clients.add(client2);
                 System.out.println("Player2 ready");
 
-                Platform.runLater(()->{
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION,"All players are ready!");
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "All players are ready!");
                     alert.showAndWait();
                 });
 
-            }catch (BindException e){
-                Platform.runLater(()->{
-                    Alert alert = new Alert(Alert.AlertType.ERROR,"You have already issue a challenge.");
+            } catch (BindException e) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "You have already issue a challenge.");
                     alert.showAndWait();
                 });
 
@@ -148,7 +148,6 @@ class ClientHandler implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
         }
     }
 
